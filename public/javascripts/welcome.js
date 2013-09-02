@@ -1,7 +1,7 @@
 $(function() {
     getUserID();
-    getTeamList();
-    showDialog();
+    // getTeamList();
+    // showDialog();
     $('#btnLogout').button().click(btnLogoutAction);
 });
 

@@ -15,7 +15,7 @@ var pool = generic_pool.Pool({
         var client = mysql.createConnection(config);
         client.connect(function (error) {
         	if (error) {
-        		console.log(error);
+        		console.log("Err" + error);
         	}
               
             callback(error, client);
