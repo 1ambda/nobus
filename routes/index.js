@@ -9,11 +9,11 @@ var fs = require("fs");
  //database관련
 var mysql = require('mysql');
 var config = {
-    host: process.env.IP,
+    host: '54.250.195.214',
     port: '3306',
-    user: "leeeunjae",
-    password: "",
-    database: "NoBus"
+    user: "root",
+    password: "youth",
+    database: "youth"
 };
 var conn = mysql.createConnection(config);
 
@@ -32,12 +32,15 @@ exports.register = function(req,res) {
     console.log("register");
     
     var id = req.body.user_id;
-    var id = req.body.user_pwd;
+    var pwd = req.body.user_pwd;
     
     // Query
-    conn.query("SELECT count(user_id) as count FROM User WHERE user_id=? and user_pwd=?", [id, pwd], function(err, rows){
-        if ( rows[0].count == "0" ) {
-            conn.query("INSERT INTO User(user_id, user_pwd) VALUES (?,?)", [id, pwd], function(){      	 
+    conn.query("SELECT user_Id FROM user WHERE user_Id=? and user_Pwd=?", [id, pwd], function(err, rows){
+    	
+    	console.log(rows.length);
+    	
+        if ( rows.length === 0  ) {
+            conn.query("INSERT INTO user(user_Id, user_Pwd) VALUES (?,?)", [id, pwd], function(){      	 
             });
             res.send({ "status": "Registerd" });
         } else {
@@ -54,9 +57,10 @@ exports.login = function(req, res) {
     var pwd = req.body.user_pwd;
     
     // Query
-    conn.query("SELECT count(user_id) as count FROM User WHERE user_id=? and user_pwd=?", [id, pwd], function(err, rows){
+    conn.query("SELECT user_Id count FROM user WHERE user_Id=? and user_Pwd=?", [id, pwd], function(err, rows){
 
-        if ( rows[0].count == "0" ) {
+        if ( rows.length === 0 ) {
+        	
             res.send({ "status": "FAIL"});
         } else {
             req.session.user_id = id;
