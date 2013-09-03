@@ -13,7 +13,6 @@
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <link href="/stylesheets/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
-    
     <script src="/javascripts/bootstrap/bootstrap-transition.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-alert.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-modal.js" type="text/javascript" ></script>
@@ -22,8 +21,8 @@
     <script src="/javascripts/bootstrap/bootstrap-tab.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-tooltip.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-popover.js" type="text/javascript" ></script>
-    <!-- <script src="/javascripts/bootstrap/bootstrap-button.js" type="text/javascript" ></script> -->
-	<script src="/javascripts/bootstrap/bootstrap-collapse.js" type="text/javascript" ></script>
+    <script src="/javascripts/bootstrap/bootstrap-button.js" type="text/javascript" ></script>
+    <script src="/javascripts/bootstrap/bootstrap-collapse.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-carousel.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-typeahead.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-affix.js" type="text/javascript" ></script>
@@ -32,13 +31,9 @@
     <script src="/javascripts/jquery-chosen.js" type="text/javascript" ></script>
     <script src="/javascripts/virtual-tour.js" type="text/javascript" ></script>
     <script src="/javascripts/welcome.js"></script>
-    <link href="/stylesheets/welcome.css" type="text/css"/>
-    
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
 </head>
     <body>
-    	
         <div class="navbar navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
@@ -104,37 +99,21 @@
                 </div>
             </div>
             <div id="body-container">
-                <div id="body-content">
-                    <div class="span16" align="middle">
-                    	<div class="span5"></div>
-                    	<div class="span6">
-							<legend>
-								<font size="8">My Projects / </font>
-								<font size="5">
-                	            	<a href="javascript:openDialog();">New Project</a>
-                    	        </font>
-                       		</legend>
-						</div>
-						<div>
-							<ul id="projectList"></ul>
-						</div>
-						<!-- dialog form -->
-						
-						<div id="dialogCreateTeam" title="Create Team">
-							<p class="validateTips">All form fields are required.</p>
-							<form>
-								<fieldset>
-									<label for="teamName">Team Name</label>
-									<input type="text" name="teamName" id="teamName" class="text ui-widget-content ui-corner-all" />
-									<!-- <button id="submitTeamName">Add Team</button>
-									<button id="cancelTeamName">Cancel</button> -->
-								</fieldset>
-							</form>
-						</div>
-						
-					</div>
-				</div>
-			</div>
-		</div>
+                <div id="body-content">					
+                    <div class=span16>
+                        <div class=span5></div>
+                        <div class=span6>
+                            <div id="dialog" title="Basic Dialog" style="display:none;">
+                                <p>Dialog Open</p>
+                            </div>
+                            <legend><font size=8>My Projects / </font><font size=5><a href="javascript:void(null);" onclick="showDialog();">New Project</a></font></legend>
+                            <div>
+                                View Projects
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</body>
 </html>

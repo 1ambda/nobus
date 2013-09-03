@@ -1,8 +1,9 @@
 $(function() {
+	$('#dialogCreateTeam').hide();
     getUserID();
-    getTeamList();
-    showDialog();
     $('#btnLogout').button().click(btnLogoutAction);
+    $('#dialogCreatTeam').dialog();
+    createDialog();
 });
 
 var btnLogoutAction = function() {
@@ -34,22 +35,27 @@ function getTeamList() {
         }
     });
 };
-function showDialog(){
-    $("#dialog").dialog(
-        {
-            width: 600,
-            height: 400,
-            open: function(event, ui)
-        {
-            var textarea = $('<textarea style="height: 276px;">');
-            $(textarea).redactor({
-                focus: true,
-                autoresize: false,
-                initCallback: function()
-                {
-                    this.set('<p>Lorem...</p>');
-                }
-            });
-        }
-     });
+function openDialog(){
+	$('#dialogCreateTeam').dialog("open");
+    
+};
+function createDialog(){
+	$("#dialogCreateTeam").dialog({
+    	autoOpen: false,
+    	height: 300,
+    	width: 350,
+    	modal: true,
+    	buttons: {
+    		"Create" : function(){
+    			console.log("hi");	
+    		},
+    		
+    		"Cancel" : function(){
+    			$(this).dialog("close");
+    		}
+    	},
+    	close: function(){
+    		$(this).dialog("close");
+    	}
+    });
 };
