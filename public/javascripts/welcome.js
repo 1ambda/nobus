@@ -39,7 +39,7 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-	        		li[i++] = '<li>' + v.team_name + '</li>';
+	        		li[i++] = '<li><a href="javascript:selectProject();">' + v.team_name + '</a></li>';
 	        	});
 	        	
 	        	$('#ulProjectList').append(li.join(''));
@@ -71,3 +71,16 @@ function createDialog(){
     	}
     });
 };
+
+function selectProject() {
+	$(location).attr('href', '/welcome/selectProject');
+};
+
+
+
+
+
+
+
+
+
