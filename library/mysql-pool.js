@@ -15,7 +15,7 @@ var pool = generic_pool.Pool({
         var client = mysql.createConnection(config);
         client.connect(function (error) {
         	if (error) {
-        		console.log(error);
+        		console.log("Err" + error);
         	}
               
             callback(error, client);
@@ -27,7 +27,7 @@ var pool = generic_pool.Pool({
     min: 7,
     max: 10,
     idleTimeoutMillis: 300000,
-    log: true
+    log: false
 });
 
 process.on('exit', function() {

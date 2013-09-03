@@ -1,8 +1,8 @@
 $(function() {
-	$('#dialogCreateTeam').hide();
     getUserID();
+    getTeamList();
     $('#btnLogout').button().click(btnLogoutAction);
-    $('#dialogCreatTeam').dialog();
+    $('#dialogCreateTeam').hide();
     createDialog();
 });
 
@@ -17,6 +17,7 @@ var btnLogoutAction = function() {
 };
 
 function getUserID() {
+	console.log("1231");
     $.ajax({
         type:   'get',
         url:    '/welcome/getUserID',
@@ -27,11 +28,22 @@ function getUserID() {
 };
 
 function getTeamList() {
+	console.log("123");
     $.ajax({
         type:   'get',
         url:    '/welcome/getTeamList',
         success:    function(teams) {
-            alert("Response: getTeamList");
+        	console.log("getTeamList");
+        	if ( teams.length > 0 ) {
+	        	var li = [];
+	        	var i = 0;
+	        	
+	        	$.each(teams, function(k, v) {
+	        		li[i++] = '<li>' + v.team_name + '</li>';
+	        	});
+	        	
+	        	$('#ulProjectList').append(li.join(''));
+        	}
         }
     });
 };
