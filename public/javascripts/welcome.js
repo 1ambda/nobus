@@ -1,6 +1,6 @@
 $(function() {
     getUserID();
-    // getTeamList();
+    getTeamList();
     // showDialog();
     $('#btnLogout').button().click(btnLogoutAction);
 });
@@ -30,7 +30,17 @@ function getTeamList() {
         type:   'get',
         url:    '/welcome/getTeamList',
         success:    function(teams) {
-            alert("Response: getTeamList");
+        	
+        	if ( teams.length > 0 ) {
+	        	var li = [];
+	        	var i = 0;
+	        	
+	        	$.each(teams, function(k, v) {
+	        		li[i++] = '<li>' + v.team_name + '</li>';
+	        	});
+	        	
+	        	$('#ulProjectList').append(li.join(''));
+        	}
         }
     });
 };

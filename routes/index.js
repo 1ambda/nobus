@@ -7,18 +7,6 @@ var pool = require('../library/mysql-pool');
 
 var fs = require("fs");
 
- //database관련
-var mysql = require('mysql');
-var config = {
-    host: '54.250.195.214',
-    port: '3306',
-    user: "root",
-    password: "youth",
-    database: "youth"
-};
-var conn = mysql.createConnection(config);
-
-
 exports.index = function(req, res){
     if (req.session.user_id) {
         console.log(req.session.user_id);
