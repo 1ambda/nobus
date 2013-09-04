@@ -29,14 +29,15 @@ exports.register = function(req,res) {
 	    	console.log(rows.length);
 	    	
 	        if ( rows.length === 0  ) {
+	    		pool.release(conn);
 	            conn.query("INSERT INTO user(user_Id, user_Pwd) VALUES (?,?)", [id, pwd], function(){      	 
 	            });
 	            res.send({ "status": "Registerd" });
 	        } else {
+	    		pool.release(conn);
 	            res.send({ "status": "Already Registered"});
 	        }
 
-	    	pool.release(conn);
 	    });
 	});
 };
@@ -73,3 +74,4 @@ exports.welcome = function(req, res) {
         res.redirect('back');
     }
 };
+

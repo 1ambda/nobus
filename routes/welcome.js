@@ -72,10 +72,10 @@ exports.selectProject = function(req, res) {
 
 	id = req.session.user_id;
 
+
 	if (id) {
 		res.render('project.html');
 	} else {
 		res.redirect('/');
 	}
 };
-
