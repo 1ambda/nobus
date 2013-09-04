@@ -39,11 +39,7 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-<<<<<<< HEAD
 	        		li[i++] = '<li>' + v.name + '</li>';
-=======
-	        		li[i++] = '<li><a href="javascript:selectProject();">' + v.team_name + '</a></li>';
->>>>>>> 9d8354878d7025ceb510f70d8e3de4c0cd1c010c
 	        	});
 	        	
 	        	$('#ulProjectList').append(li.join(''));

@@ -45,12 +45,9 @@ app.post('/login', routes.login);
 app.get('/welcome', routes.welcome);
 app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
-<<<<<<< HEAD
 app.get('/welcome/getTeamList', welcome.getTeamList);
 app.get('/welcome/createTeamList', welcome.createTeam);
-
-=======
 app.get('/welcome/selectProject', welcome.selectProject);
->>>>>>> 9d8354878d7025ceb510f70d8e3de4c0cd1c010c
+
 
 
