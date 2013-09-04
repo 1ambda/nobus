@@ -44,7 +44,9 @@ app.post('/register', routes.register);
 app.post('/login', routes.login);
 app.get('/welcome', routes.welcome);
 app.get('/welcome/logout', welcome.logout);
-app.get('/welcome/getTeamList', welcome.getTeamList);
 app.get('/welcome/getUserID', welcome.getUserID);
+app.get('/welcome/getTeamList', welcome.getTeamList);
+app.get('/welcome/createTeamList', welcome.createTeam);
+
 
 

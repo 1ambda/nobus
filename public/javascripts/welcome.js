@@ -39,7 +39,7 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-	        		li[i++] = '<li>' + v.team_name + '</li>';
+	        		li[i++] = '<li>' + v.name + '</li>';
 	        	});
 	        	
 	        	$('#ulProjectList').append(li.join(''));
