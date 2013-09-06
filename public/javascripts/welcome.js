@@ -48,8 +48,7 @@ function getTeamList() {
     });
 };
 function openDialog(){
-	$('#dialogCreateTeam').dialog("open");
-    
+	$('#dialogCreateTeam').dialog('open');
 };
 function createDialog(){
 	$("#dialogCreateTeam").dialog({

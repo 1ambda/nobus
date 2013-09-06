@@ -8,11 +8,15 @@
     
     <meta name="layout" content="main"/>
     
+    <link href="/stylesheets/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
+    <link href="/stylesheets/welcome.css" type="text/css"/>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <!--<script src="/javascripts/jquery-1.8.2.min.js" type="text/javascript" ></script>-->
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link href="/stylesheets/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
     
     <script src="/javascripts/bootstrap/bootstrap-transition.js" type="text/javascript" ></script>
     <script src="/javascripts/bootstrap/bootstrap-alert.js" type="text/javascript" ></script>
@@ -32,9 +36,6 @@
     <script src="/javascripts/jquery-chosen.js" type="text/javascript" ></script>
     <script src="/javascripts/virtual-tour.js" type="text/javascript" ></script>
     <script src="/javascripts/welcome.js"></script>
-    <link href="/stylesheets/welcome.css" type="text/css"/>
-    
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
 </head>
     <body>
@@ -103,6 +104,18 @@
                     </div>
                 </div>
             </div>
+			<!-- dialog form -->
+			
+			<div id="dialogCreateTeam" title="Create Team">
+				<p class="validateTips">All form fields are required.</p>
+				<form>
+					<fieldset>
+						<label for="teamName">Team Name</label>
+						<input type="text" name="teamName" id="teamName" class="ui-widget-content ui-widget" />
+					</fieldset>
+				</form>
+			</div>
+			
             <div id="body-container">
                 <div id="body-content">
                     <div class="span16" align="middle">
@@ -116,22 +129,11 @@
                        		</legend>
                        		<ul id="ulProjectList"></ul>
 						</div>
-			
-						<!-- dialog form -->
-						
-						<div id="dialogCreateTeam" title="Create Team">
-							<p class="validateTips">All form fields are required.</p>
-							<form>
-								<fieldset>
-									<label for="teamName">Team Name</label>
-									<input type="text" name="teamName" id="teamName" class="text ui-widget-content ui-corner-all" />
-								</fieldset>
-							</form>
-						</div>
-						
 					</div>
 				</div>
 			</div>
+			
+			
 		</div>
 	</body>
 </html>
