@@ -1,5 +1,13 @@
 var pool = require('../library/mysql-pool');
 
+exports.index = function(req, res) {
+    if (req.session.user_id) {
+        res.render('welcome');
+    } else {
+        res.redirect('back');
+    }
+};
+
 exports.logout = function(req, res) {
 	req.session.destroy(function() {
 		console.log("Route: Logout");
@@ -73,16 +81,16 @@ exports.createTeam = function(req, res) {
 	}
 };
 
-exports.selectProject = function(req, res) {
-	console.log("Route : selectProject");
-
+exports.projectSelected = function(req, res) {
+	console.log("Route : projectSelected");
+	
 	id = req.session.user_id;
 	
-
 	if (id) {
 		req.session.project_name = req.body.project_name;
-		res.render('project.html');
+		res.send();
 	} else {
 		res.redirect('/');
 	}
 };
+
