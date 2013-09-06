@@ -89,6 +89,9 @@ function projectSelected() {
 	});
 };
 
+function deleteProjcet() {
+	$(location).attr('href', '/welcome/deleteProject');
+};
 
 
 

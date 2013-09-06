@@ -29,7 +29,9 @@ exports.getTeamList = function(req, res) {
 
 		 pool.acquire(function(err, conn) {
 
-		 var query = "select team.name from user_team join team on user_team.team_id = team.id join user on user.user_id = ?;";
+		 var query = "SELECT name " +
+		  			 "FROM (user_team B JOIN team C ON team_id=id) JOIN user A on B.user_id = A.id " +
+		  			 "WHERE A.user_id = ?;";
 
 		 conn.query(query, [id], function(err, rows, cols) {
 		 pool.release(conn);
@@ -67,15 +69,20 @@ exports.createTeam = function(req, res) {
 	console.log("Route : createTeam");
 
 	id = req.session.user_id;
-
+	name = req.body.team_name;
 	if (id) {
-		
-		
-		// Query
-		
-		
-		// if query succeed, then
-		res.send( { "status" : "success"} );
+		pool.acquire(function(err, conn) {
+	        conn.query("SELECT max(id) as max from team;", function(err, rows){
+	            var num = rows[0].max+1;
+	            conn.query("INSERT INTO team(name) VALUES (?);", [name], function(){
+	                conn.query("INSERT INTO user_team(user_id, team_id) VALUES(?, ?);", [id, num], 
+	                function(err, rows2){
+	                	pool.release(conn);
+						res.send({"status": "success"});
+					});
+				});
+			});
+		});
 	} else {
 		res.redirect('/');
 	}
@@ -92,5 +99,25 @@ exports.projectSelected = function(req, res) {
 	} else {
 		res.redirect('/');
 	}
+};
+
+exports.deleteProject = function(req, res){
+	console.log("Route : deleteProject");
+	
+	id = req.session.user_id;
+	name = req.body.name;
+	
+	if(id){
+		pool.acquire(function(err, conn) {
+        conn.query("DELETE FROM team WHERE name=(?)",[name], function(err, rows){
+            pool.release(conn);
+            res.send({"status": "sucess"});
+            res.render('project.html');
+			});
+		});		
+	} else {
+		res.redirect('/');
+	}
+	
 };
 
