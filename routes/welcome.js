@@ -61,7 +61,18 @@ exports.createTeam = function(req, res) {
 	id = req.session.user_id;
 
 	if (id) {
-
+		pool.acquire(function(err, conn) {
+	        conn.query("SELECT max(id) as max from team;", function(err, rows){
+	            var num = rows[0].max+1;
+	            conn.query("INSERT INTO team(name) VALUES (?);", [name], function(){
+	                conn.query("INSERT INTO user_team(user_id, team_id) VALUES(?, ?);", [id, num], 
+	                function(err, rows2){
+	                	pool.release(conn);
+						res.send({"status": "success"});
+					});
+				});
+			});
+		});
 	} else {
 		res.redirect('/');
 	}
