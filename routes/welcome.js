@@ -70,6 +70,8 @@ exports.createTeam = function(req, res) {
 
 	id = req.session.user_id;
 	name = req.body.team_name;
+	
+	console.log("team_name" + name);
 	if (id) {
 		pool.acquire(function(err, conn) {
 	        conn.query("SELECT max(id) as max from team;", function(err, rows){
