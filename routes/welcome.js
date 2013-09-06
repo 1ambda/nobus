@@ -61,7 +61,13 @@ exports.createTeam = function(req, res) {
 	id = req.session.user_id;
 
 	if (id) {
-
+		
+		
+		// Query
+		
+		
+		// if query succeed, then
+		res.send( { "status" : "success"} );
 	} else {
 		res.redirect('/');
 	}

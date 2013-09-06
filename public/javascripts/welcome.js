@@ -59,7 +59,38 @@ function createDialog(){
     	modal: true,
     	buttons: {
     		"Create" : function(){
-    			console.log("hi");	
+    			
+    			var json = {};
+    			json["team_name"] = $('#teamName').val();
+    			
+    			if ( json["team_name"] == "" ) {
+    				alert("Insert Team Name!");
+    				return;
+    			}
+    				
+    			$.ajax({
+    				type: "post",
+    				url: "/welcome/createTeam",
+    				data: json,
+    				success: function(result) {
+    					if ( result.status === "success" ) {
+
+    						var li = '<li><a href="javascript:selectProject();">' 
+    						+ json["team_name"] + '</a></li>';
+    						
+    						$('#ulProjectList').append(li);
+    						
+    						// or you can getTeamList();
+    						
+    						// websocket!!!!
+    						
+    					} else if ( result.status === "error"){
+    						alert("'POST : createTeam' return error");		
+    					}
+    				}
+    			});
+    			
+    			$(this).dialog("close");
     		},
     		
     		"Cancel" : function(){
