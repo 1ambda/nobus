@@ -77,9 +77,10 @@ exports.selectProject = function(req, res) {
 	console.log("Route : selectProject");
 
 	id = req.session.user_id;
-
+	
 
 	if (id) {
+		req.session.project_name = req.body.project_name;
 		res.render('project.html');
 	} else {
 		res.redirect('/');
