@@ -48,6 +48,6 @@ app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);
 app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/welcome/selectProject', welcome.selectProject);
-
+app.get('/welcome/deleteProject', welcome.deleteProject);
 
 

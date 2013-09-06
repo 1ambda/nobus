@@ -106,6 +106,9 @@ function selectProject() {
 	$(location).attr('href', '/welcome/selectProject');
 };
 
+function deleteProjcet() {
+	$(location).attr('href', '/welcome/deleteProject');
+};
 
 
 
