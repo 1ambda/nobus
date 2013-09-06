@@ -2,8 +2,7 @@ $(function() {
     getUserID();
     getTeamList();
     $('#btnLogout').button().click(btnLogoutAction);
-    $('#dialogCreateTeam').hide();
-    createDialog();
+    // createDialog();
 });
 
 var btnLogoutAction = function() {
@@ -39,71 +38,35 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-	        		li[i++] = '<li><a href="javascript:selectProject();">' + v.name+ '</a></li>';
+	        		li[i++] = '<li><a href="#" class="projectList">' + v.name+ '</a></li>';
 	        	});
 	        	
 	        	$('#ulProjectList').append(li.join(''));
+			    $('.projectList').click(projectSelected);
         	}
         }
     });
 };
 function openDialog(){
-	$('#dialogCreateTeam').dialog('open');
-};
-function createDialog(){
-	$("#dialogCreateTeam").dialog({
-    	autoOpen: false,
-    	height: 300,
-    	width: 350,
-    	modal: true,
-    	buttons: {
-    		"Create" : function(){
-    			
-    			var json = {};
-    			json["team_name"] = $('#teamName').val();
-    			
-    			if ( json["team_name"] == "" ) {
-    				alert("Insert Team Name!");
-    				return;
-    			}
-    				
-    			$.ajax({
-    				type: "post",
-    				url: "/welcome/createTeam",
-    				data: json,
-    				success: function(result) {
-    					if ( result.status === "success" ) {
-
-    						var li = '<li><a href="javascript:selectProject();">' 
-    						+ json["team_name"] + '</a></li>';
-    						
-    						$('#ulProjectList').append(li);
-    						
-    						// or you can getTeamList();
-    						
-    						// websocket!!!!
-    						
-    					} else if ( result.status === "error"){
-    						alert("'POST : createTeam' return error");		
-    					}
-    				}
-    			});
-    			
-    			$(this).dialog("close");
-    		},
-    		
-    		"Cancel" : function(){
-    			$(this).dialog("close");
-    		}
-    	},
-    	close: function(){
-    		$(this).dialog("close");
-    	}
-    });
+	$('#bootModal').modal({
+		backdrop: false,
+		keyboard: true
+	});
 };
 
-function selectProject() {
-	$(location).attr('href', '/welcome/selectProject');
+function projectSelected() {
+
+	var json = {};
+	json["project_name"] = $(this).text();
+	
+	$.ajax({
+		type: "post",
+		url: "/welcome/projectSelected",
+		data : json,
+		success: function(result) {
+			$(location).attr('href', '/project');
+		}
+	});
 };
 
 function deleteProjcet() {

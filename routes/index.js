@@ -67,11 +67,4 @@ exports.login = function(req, res) {
     });
 };
 
-exports.welcome = function(req, res) {
-    if (req.session.user_id) {
-        res.render('welcome');
-    } else {
-        res.redirect('back');
-    }
-};
 

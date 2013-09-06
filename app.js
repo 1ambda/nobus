@@ -8,6 +8,7 @@
 var express = require('express');
 var routes = require('./routes');
 var welcome = require('./routes/welcome');
+var project = require('./routes/project');
 var http = require('http');
 var path = require('path');
 // var consolidate = require("consolidate");
@@ -42,12 +43,15 @@ var server = app.listen(app.get('port'));
 app.get('/', routes.index);
 app.post('/register', routes.register);
 app.post('/login', routes.login);
-app.get('/welcome', routes.welcome);
+app.get('/welcome', welcome.index);
 app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);
 app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/welcome/selectProject', welcome.selectProject);
 app.get('/welcome/deleteProject', welcome.deleteProject);
+app.post('/welcome/projectSelected', welcome.projectSelected);
+app.get('/project', project.index);
+app.get('/project/getProjectName', project.getProjectName);
 
 

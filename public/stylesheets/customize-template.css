@@ -7256,7 +7256,7 @@ table.tablesorter .headerSortUp:after {
 }
 .body-nav.body-nav-vertical {
   position: absolute;
-  float: left;
+  float: right;
   z-index: 920;
   margin-top: 68px;
   font: white;
