@@ -59,6 +59,7 @@ exports.createTeam = function(req, res) {
 	console.log("Route : createTeam");
 
 	id = req.session.user_id;
+	name = req.session.team_name;
 
 	if (id) {
 		pool.acquire(function(err, conn) {
