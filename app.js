@@ -48,6 +48,7 @@ app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);
 app.post('/welcome/projectSelected', welcome.projectSelected);
+app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/project', project.index);
 app.get('/project/getProjectName', project.getProjectName);
 
