@@ -22,7 +22,7 @@ var pool = generic_pool.Pool({
         });
     },
     destroy: function(client) {
-        
+        client.end();
     },
     min: 7,
     max: 1000,
