@@ -25,7 +25,7 @@ var pool = generic_pool.Pool({
         client.end();
     },
     min: 7,
-    max: 10,
+    max: 1000,
     idleTimeoutMillis: 300000,
     log: false
 });

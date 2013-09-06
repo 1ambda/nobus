@@ -5,8 +5,6 @@
 
 var pool = require('../library/mysql-pool'); 
 
-var fs = require("fs");
-
 exports.index = function(req, res){
     if (req.session.user_id) {
         console.log(req.session.user_id);
@@ -67,11 +65,4 @@ exports.login = function(req, res) {
     });
 };
 
-exports.welcome = function(req, res) {
-    if (req.session.user_id) {
-        res.render('welcome');
-    } else {
-        res.redirect('back');
-    }
-};
 

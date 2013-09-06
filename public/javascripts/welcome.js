@@ -16,7 +16,6 @@ var btnLogoutAction = function() {
 };
 
 function getUserID() {
-	console.log("1231");
     $.ajax({
         type:   'get',
         url:    '/welcome/getUserID',
@@ -27,7 +26,6 @@ function getUserID() {
 };
 
 function getTeamList() {
-	console.log("123");
     $.ajax({
         type:   'get',
         url:    '/welcome/getTeamList',
@@ -38,10 +36,11 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-	        		li[i++] = '<li><a href="javascript:selectProject();">' + v.name+ '</a></li>';
+	        		li[i++] = '<li><a href="#" class="projectList">' + v.name+ '</a></li>';
 	        	});
-	        	
+	        	$('#ulProjectList').empty();
 	        	$('#ulProjectList').append(li.join(''));
+			    $('.projectList').click(projectSelected);
         	}
         }
     });
@@ -53,10 +52,44 @@ function openDialog(){
 	});
 };
 
-function selectProject() {
-	$(location).attr('href', '/welcome/selectProject');
+function createTeam() {
+	
+	var json = {};
+	json["team_name"] = $('#inputTeamName').val();
+	
+	if ( json["team_name"] == "" ) {
+		alert("Insert Your Team Name");
+		return;
+	}
+	
+	$.ajax({
+		type: 'post',
+		url: '/welcome/createTeam',
+		data: json,
+		success: function() {
+			getTeamList();
+		}
+	});
+}
+
+function projectSelected() {
+
+	var json = {};
+	json["project_name"] = $(this).text();
+	
+	$.ajax({
+		type: "post",
+		url: "/welcome/projectSelected",
+		data : json,
+		success: function(result) {
+			$(location).attr('href', '/project');
+		}
+	});
 };
 
+function deleteProjcet() {
+	$(location).attr('href', '/welcome/deleteProject');
+};
 
 
 
