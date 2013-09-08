@@ -72,15 +72,31 @@ exports.createTeam = function(req, res) {
 	name = req.body.team_name;
 	if (id) {
 		pool.acquire(function(err, conn) {
-	        conn.query("SELECT max(id) as max from team;", function(err, rows){
-	            var num = rows[0].max+1;
-	            conn.query("INSERT INTO team(name) VALUES (?);", [name], function(){
-	                conn.query("INSERT INTO user_team(user_id, team_id) VALUES(?, ?);", [id, num], 
-	                function(err, rows2){
-	                	pool.release(conn);
-						res.send({"status": "success"});
-					});
-				});
+	        conn.query("SELECT max(id) as max FROM team;", function(err, rows){
+	        	var num = rows[0].max + 1;
+	        	console.log(err);
+	            conn.query("SELECT id FROM user WHERE user_id=?", [id], function(err, rows2){
+		            if (!err) {
+		            	var ide = rows2[0].id;
+			            console.log("ide : "+ide);
+			            console.log("num : "+num);
+			            conn.query("INSERT INTO team(id, name) VALUES (?, ?);", [num, name], function(err, rows3){
+			            	if (!err) {
+			            		conn.query("INSERT INTO user_team (user_id, team_id) VALUES (? , ?);", [ide, num], function(err, rows4){
+			            			pool.release(conn);
+				            	});
+								res.send({"status": "success"});
+			            	} else {
+			            		console.log(err);
+			            	}
+			            	
+						});	
+		            } else {
+		            	console.log(err);
+		            }
+		            
+	            });
+	            
 			});
 		});
 	} else {
