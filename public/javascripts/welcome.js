@@ -62,13 +62,11 @@ function createTeam() {
 		return;
 	}
 	
-	
 	$.ajax({
 		type: 'post',
 		url: '/welcome/createTeam',
 		data: json,
 		success: function() {
-			console.log("createTeam Response");
 			getTeamList();
 		}
 	});

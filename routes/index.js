@@ -5,8 +5,6 @@
 
 var pool = require('../library/mysql-pool'); 
 
-var fs = require("fs");
-
 exports.index = function(req, res){
     if (req.session.user_id) {
         console.log(req.session.user_id);
