@@ -1,6 +1,7 @@
 $(function() {
 	getProjectName();
 	$('#btnLogout').click(btnLogoutAction);
+	$('#dialogInviteMember').hide();
 });
 
 var btnLogoutAction = function() {
@@ -21,4 +22,15 @@ function getProjectName() {
 			$('#projectName').text(data.project_name);
 		}
 	});
+};
+
+function openInviteDialog() {
+	$('#dialogInviteMember').modal({
+		backdrop: false,
+		keyboard: true
+	});
+};
+
+function inviteMember() {
+	alert("invite Member");
 };
