@@ -109,19 +109,19 @@
 					<div class="container" align="right">
 						<ul>
 							<li>
-								<a href="javascript:openDialog()"> <i class="icon-dashboard icon-large"></i> Invite </a>
+								<a href="javascript:openInviteDialog()"> <i class="icon-dashboard icon-large"></i> Invite </a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-calendar icon-large"></i> Portion </a>
+								<a href="#"> <i class="icon-calendar icon-large"></i> Gantt </a>
 							</li>
 							<li>
 								<a href="#"> <i class="icon-map-marker icon-large"></i> Comment </a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-tasks icon-large"></i> Delete Project </a>
+								<a href="#"> <i class="icon-tasks icon-large"></i> Protion </a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-cogs icon-large"></i> etc </a>
+								<a href="javascript:openDeleteDialog()"> <i class="icon-cogs icon-large"></i> Delete Project </a>
 							</li>
 							<li>
 								<a href="#"> <i class="icon-list-alt icon-large"></i> etc </a>
@@ -132,7 +132,7 @@
 						</ul>
 					</div>
 				</div>
-				<div id="bootModal" class="modal hide fade" role="dialog">
+				<div id="inviteMember" class="modal hide fade" role="dialog">
 					<div class="modal-header">
 						<a class="close" data-dismiss="modal">x</a>
 						<h3>Invite New Member</h1>
@@ -149,14 +149,29 @@
 						<a href="#" class="btn" data-dismiss='modal'>Close</a>
 					</div>
 				</div>
+				<div id="deleteProject" class="modal hide fade" role="dialog">
+					<div class="modal-header">
+						<a class="close" data-dismiss="modal">x</a>
+						<h3>Real Delete Project?</h1>
+					</div>
+					<div class="modal-body">
+						<p>
+							Insert "delete"
+						</p>
+						<input type='text' id='inputDeleteProject' data-provide='typehead' >
+					</div>
+					<div class="modal-body"></div>
+					<div class="modal-footer">
+						<a href="javascript:deleteProject();" class="btn btn-primary">Delete</a>
+						<a href="#" class="btn" data-dismiss='modal'>Close</a>
+					</div>
+				</div>
 				<section class="nav nav-page">
 					<div class="container">
 						<div class="row">
 							<div class="span7">
 								<header class="page-header">
-									<div id="projectName"></div>
-									<small>Additional Bootstrap Components</small>
-									</h3>
+									<h3><div id="projectName"></div><small>Additional Bootstrap Components</small></h3>
 								</header>
 							</div>
 							<div class="page-nav-options">
@@ -182,6 +197,14 @@
 						</div>
 					</div>
 				</section>
+				<section class="page container">
+					<button id="btnTest">
+						Go
+					</button>
+					<div id="test">
+						test Slot
+					</div>
 
+				</section>
 	</body>
 </html>
