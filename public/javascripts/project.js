@@ -24,7 +24,6 @@ function inputInviteMemberTypeahead(query, process) {
 		}
 	});
 };
-
 function inputInviteMemberChange() {
 	if ($('#inputInviteMember').val() == "") {
 		$("#btnInviteMember").addClass('disabled');
