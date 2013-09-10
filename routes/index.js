@@ -23,12 +23,12 @@ exports.register = function(req,res) {
 
 	pool.acquire(function(err, conn) {
 	    // Query
-	    conn.query("SELECT user_Id FROM user WHERE user_Id=? and user_Pwd=?", [id, pwd], function(err, rows){
+	    conn.query("SELECT id FROM user WHERE id=? and pwd=?", [id, pwd], function(err, rows){
 	    	console.log(rows.length);
 	    	
 	        if ( rows.length === 0  ) {
 	    		pool.release(conn);
-	            conn.query("INSERT INTO user(user_Id, user_Pwd) VALUES (?,?)", [id, pwd], function(){      	 
+	            conn.query("INSERT INTO user(id, pwd) VALUES (?,?)", [id, pwd], function(){      	 
 	            });
 	            res.send({ "status": "Registerd" });
 	        } else {
@@ -50,8 +50,8 @@ exports.login = function(req, res) {
     pool.acquire(function(err, conn) {
     	
 	    // Query
-	    conn.query("SELECT user_Id count FROM user WHERE user_Id=? and user_Pwd=?", [id, pwd], function(err, rows){
-	    	
+	    conn.query("SELECT id count FROM user WHERE id=? and pwd=?", [id, pwd], function(err, rows){
+	    	console.log(rows);
 	    	pool.release(conn);
 	
 	        if ( rows.length === 0 ) {

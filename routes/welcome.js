@@ -30,8 +30,7 @@ exports.getTeamList = function(req, res) {
 		 pool.acquire(function(err, conn) {
 
 		 var query = "SELECT name " +
-		  			 "FROM (user_team B JOIN team C ON team_id=id) JOIN user A on B.user_id = A.id " +
-		  			 "WHERE A.user_id = ?;";
+		  			 "FROM user_team B JOIN team C ON team_id=id WHERE B.user_id = ?;";
 
 		 conn.query(query, [id], function(err, rows, cols) {
 		 pool.release(conn);
@@ -77,29 +76,19 @@ exports.createTeam = function(req, res) {
 	        conn.query("SELECT max(id) as max FROM team;", function(err, rows){
 	        	var num = rows[0].max + 1;
 	        	console.log(err);
-	            conn.query("SELECT id FROM user WHERE user_id=?", [id], function(err, rows2){
-		            if (!err) {
-		            	var ide = rows2[0].id;
-			            console.log("ide : "+ide);
-			            console.log("num : "+num);
-			            conn.query("INSERT INTO team(id, name) VALUES (?, ?);", [num, name], function(err, rows3){
-			            	if (!err) {
-			            		conn.query("INSERT INTO user_team (user_id, team_id) VALUES (? , ?);", [ide, num], function(err, rows4){
-			            			pool.release(conn);
-				            	});
-								res.send({"status": "success"});
-			            	} else {
-			            		console.log(err);
-			            	}
+	        	conn.query("INSERT INTO team(id, name) VALUES (?, ?);", [num, name], function(err, rows3){
+	        		if (!err) {
+	        			conn.query("INSERT INTO user_team (user_id, team_id) VALUES (? , ?);", [id, num], function(err, rows4){
+	        			pool.release(conn);
+	        			});
+	        			res.send({"status": "success"});
+	        		} else {
+	        			console.log(err);
+	        		}
 			            	
-						});	
-		            } else {
-		            	console.log(err);
-		            }
-		            
-	            });
+	        	});	        
+	        });
 	            
-			});
 		});
 	} else {
 		res.redirect('/');
