@@ -9,6 +9,7 @@
 
 		<link href="/stylesheets/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
 		<link href="/stylesheets/project.css" type="text/css" media="screen, projection" rel="stylesheet" />
+		<link href="/stylesheets/font-awesome.min.css" type="text/css" media="screen, projection" rel="stylesheet" />
 
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script src="/javascripts/jquery-1.8.2.min.js" type="text/javascript" ></script>
@@ -114,7 +115,25 @@
 					</div>
 
 					<div class="modal-footer">
-						<a id="btnInviteMember" href="javascript:inviteMember();" class="btn btn-success disabled">Invite</a>
+						<a id="btnInviteMember" href="javascript:inviteMemberAction();" class="btn btn-success disabled">Invite</a>
+						<a href="#" class="btn" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+
+				<!-- Drop out  Dialog -->
+				<div id="dialogDrop" class="modal hide fade" role="dialog">
+					<div class="modal-header">
+						<h3>Drop out from this project</h3>
+					</div>
+					<div>
+					</div>
+					<div class="modal-body">
+						<h4><i class='icon-warning-sign icon-large'></i> Insert 'Drop' for dropping out from this project</h4>
+						<input type="text" id="inputDropout" data-provide="typehead" autocomplete="off" />
+					</div>
+
+					<div class="modal-footer">
+						<a id="btnDropout" href="javascript:dropoutAction();" class="btn btn-danger disabled"><i class='icon-trash'></i>   Drop Out</a>
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
@@ -135,7 +154,7 @@
 								<a href="#"> <i class="icon-tasks icon-large"></i> Protion </a>
 							</li>
 							<li>
-								<a href="javascript:openDeleteDialog()"> <i class="icon-cogs icon-large"></i> Delete Project </a>
+								<a href="javascript:openDropDialog()"> <i class="icon-cogs icon-large"></i>Dropout </a>
 							</li>
 							<li>
 								<a href="#"> <i class="icon-list-alt icon-large"></i> etc </a>
@@ -179,14 +198,15 @@
 										</li>
 									</ul>
 									<ul class="nav nav-tabs">
-										<li class="active">
-											<a href="#"><i class="icon-home"></i>Home</a>
+										<!-- <li class="active"> -->
+										<li >
+											<a href="#"><i class="icon-home">Gantt</i></a>
 										</li>
 										<li>
-											<a href="#">Maps</a>
+											<a href="#">Contribution</a>
 										</li>
 										<li>
-											<a href="#">Admin</a>
+											<a href="#">Comment</a>
 										</li>
 									</ul>
 								</div>

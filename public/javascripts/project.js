@@ -3,15 +3,31 @@ var teamName;
 $(function() {
 	getProjectName();
 	$('#btnLogout').click(btnLogoutAction);
-	$('#inputInviteMember').keyup(inputInviteMemberChange);
+	$('#inputInviteMember').keyup(inviteMemberChange);
+	$('#inputDropout').keyup(dropoutChange);
 	$('#inputInviteMember').typeahead({
-		source : inputInviteMemberTypeahead
+		source : inviteMemberTypeahead
 	});
 });
 
-function inputInviteMemberTypeahead(query, process) {
+function dropoutAction() {
+	$('#dialogDrop').modal('hide');
+	alert("Dropoutn not implemented");
+};
 
-	console.log("1");
+function dropoutChange() {
+	
+	var str = $('#inputDropout').val();
+	console.log(str.toLowerCase());
+	
+	if ( str.toLowerCase() == "drop") {
+		$("#btnDropout").removeClass('disabled');
+	} else {
+		$("#btnDropout").addClass('disabled');
+	}
+};
+
+function inviteMemberTypeahead(query, process) {
 
 	$.ajax({
 		type : "get",
@@ -24,7 +40,7 @@ function inputInviteMemberTypeahead(query, process) {
 		}
 	});
 };
-function inputInviteMemberChange() {
+function inviteMemberChange() {
 	if ($('#inputInviteMember').val() == "") {
 		$("#btnInviteMember").addClass('disabled');
 	} else {
@@ -59,7 +75,15 @@ function openInviteDialog() {
 	});
 };
 
-function inviteMember() {
+function inviteMemberAction() {
+	$('#dialogInviteMember').modal('hide');
 	alert("invite Member");
 };
+
+function openDropDialog() {
+	$('#dialogDrop').modal({
+		backdrop : false,
+		keyboard : true
+	});
+}
 
