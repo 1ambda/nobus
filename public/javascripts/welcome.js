@@ -2,7 +2,6 @@ $(function() {
     getUserID();
     getTeamList();
     $('#btnLogout').click(btnLogoutAction);
-    // createDialog();
 });
 
 var btnLogoutAction = function() {
@@ -46,13 +45,13 @@ function getTeamList() {
     });
 };
 function openDialog(){
-	$('#bootModal').modal({
+	$('#dialogCreateTeam').modal({
 		backdrop: false,
 		keyboard: true
 	});
 };
 
-function createTeam() {
+function createTeamAction() {
 	
 	var json = {};
 	json["team_name"] = $('#inputTeamName').val();
@@ -70,6 +69,9 @@ function createTeam() {
 			getTeamList();
 		}
 	});
+	
+	$('#dialogCreateTeam').modal('hide');
+	
 }
 
 function projectSelected() {
@@ -87,9 +89,6 @@ function projectSelected() {
 	});
 };
 
-function deleteProjcet() {
-	$(location).attr('href', '/welcome/deleteProject');
-};
 
 
 
