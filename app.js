@@ -55,5 +55,6 @@ app.post('/welcome/projectSelected', welcome.projectSelected);
 app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/project', project.index);
 app.get('/project/getProjectName', project.getProjectName);
+app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
 
 
