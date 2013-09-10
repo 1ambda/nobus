@@ -43,7 +43,7 @@ exports.inviteMemberTypeahead = function(req, res) {
 			console.log(err);
 
 			if (!err) {
-				var query = "SELECT user_Id FROM user WHERE UPPER(user_Id) like ?;";
+				var query = "SELECT id FROM user WHERE UPPER(id) like ?;";
 
 				conn.query(query, [ req.query.user_id + '%'], function(err, rows) {
 					pool.release(conn);
@@ -54,7 +54,7 @@ exports.inviteMemberTypeahead = function(req, res) {
 						var list = new Array();
 						
 						for(var i = 0, l = rows.length; i < l; i ++) {
-							list[i] = rows[i].user_Id;
+							list[i] = rows[i].id;
 						}
 						
 						res.send(list);
