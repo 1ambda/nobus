@@ -19,7 +19,9 @@ var app = express();
 
 
 // all environments
+
 app.set('port', process.env.PORT || 3000);
+
 
 app.engine('.html', require('ejs').__express);
 app.set('views', __dirname + '/views');
@@ -53,5 +55,6 @@ app.post('/welcome/projectSelected', welcome.projectSelected);
 app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/project', project.index);
 app.get('/project/getProjectName', project.getProjectName);
+app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
 
 
