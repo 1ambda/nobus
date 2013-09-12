@@ -101,6 +101,7 @@ exports.projectSelected = function(req, res) {
 	id = req.session.user_id;
 	
 	if (id) {
+		req.session.team_id = req.body.team_id;
 		req.session.project_name = req.body.project_name;
 		res.send();
 	} else {

@@ -35,7 +35,7 @@ function getTeamList() {
 	        	var i = 0;
 	        	
 	        	$.each(teams, function(k, v) {
-	        		li[i++] = '<li><a href="#" class="projectList">' + v.name+ '</a></li>';
+	        		li[i++] = '<li><a href="#" id="'+v.id+'"class="projectList">' + v.name+ '</a></li>';
 	        	});
 	        	$('#ulProjectList').empty();
 	        	$('#ulProjectList').append(li.join(''));
@@ -78,7 +78,8 @@ function projectSelected() {
 
 	var json = {};
 	json["project_name"] = $(this).text();
-	
+	json["team_id"] = $(this).attr('id');
+	console.log(json);
 	$.ajax({
 		type: "post",
 		url: "/welcome/projectSelected",

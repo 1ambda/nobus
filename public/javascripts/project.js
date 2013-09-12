@@ -28,7 +28,9 @@ function pushAction() {
 
 function dropoutAction() {
 	$('#dialogDrop').modal('hide');
-	alert("Dropout not implemented");
+	$.get('/project/dropout',function(data){
+		$(location).attr('href', 'welcome');
+	});
 };
 
 function dropoutChange() {

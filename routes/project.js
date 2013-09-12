@@ -2,7 +2,6 @@ var pool = require('../library/mysql-pool');
 
 exports.index = function(req, res) {
 	console.log("Route : goProjectPage");
-
 	id = req.session.user_id;
 
 	if (id) {
@@ -73,18 +72,18 @@ exports.dropoutProject = function(req, res){
 	
 	//variable needs : team_id, user_id
 	team_id = req.session.team_id;	
-	user_id = req.body.user_id;	
+	user_id = req.session.user_id;	
 	
 	if(team_id){
 		pool.acquire(function(err, conn) {
         conn.query("UPDATE user_team SET take_on = 0 WHERE team_id=(?) AND user_id=(?);",[team_id, user_id], function(err, rows){
             pool.release(conn);
-            res.send({"status": "sucess"});
-            console.log("Success");
-            res.render('project.html');
+            console.log("2");
+            res.render('welcome.html');
 			});
 		});	
 	} else {
+		console.log("1");
 		res.redirect('/');
 	}
 };
