@@ -7691,7 +7691,7 @@ table.tablesorter .headerSortUp:after {
   -webkit-box-shadow: 1px 1px 2px #1f3a4d;
   -moz-box-shadow: 1px 1px 2px #1f3a4d;
   box-shadow: 1px 1px 2px #1f3a4d;
-  border-bottom: 2px solid #182c3b;
+  border-bottom: 2px solid #182c3b;	
   -webkit-box-shadow: 2px 2px 4px #1f3a4d;
   -moz-box-shadow: 2px 2px 4px #1f3a4d;
   box-shadow: 2px 2px 4px #1f3a4d;
@@ -7699,9 +7699,17 @@ table.tablesorter .headerSortUp:after {
 .body-nav.body-nav-vertical ul li a,
 .body-nav.body-nav-vertical ul li button {
   height: 51px;
+  /*width: 15%;
+  height: 13%;*/
+  
 }
 .body-nav.body-nav-vertical ul li:first-child {
   border-top: 1px solid #048ae4;
+}
+
+.body-nav.body-nav-vertical ul li:last-child {
+ height: 3000px;
+ border-bottom: 2px solid #182c3b;	
 }
 .body-nav.body-nav-vertical.body-nav-fixed {
   position: fixed;

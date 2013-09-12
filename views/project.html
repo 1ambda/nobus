@@ -136,6 +136,23 @@
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
+				
+				<!-- Push Dialog -->
+				<div id="dialogPush" class="modal hide fase" role="dialog">
+					<div class="modal-header">
+						Push a task
+					</div>
+					
+					<div class="modal-body">
+						
+					</div>
+					
+					<div class="modal-footer">
+						<a id="btnDropout" href="javascript:pushAction();" class="btn btn-success disabled"><i class='icon-ok'></i> Push</a>
+						<a href="#" class="btn" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+				
 
 				<div class="body-nav body-nav-vertical body-nav-fixed">
 					<div class="container" align="right">
@@ -144,19 +161,22 @@
 								<a href="javascript:openInviteDialog();"> <i class="icon-male icon-large"></i> Invite</a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-level-down icon-large"></i> Push </a>
+								<a href="javascript:openPushDialog();"> <i class="icon-level-down icon-large"></i> Push </a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-circle-arrow-right icon-large"></i> Toss</a>
+								<a href="javascript:openTossDialog();"> <i class="icon-circle-arrow-right icon-large"></i> Toss</a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-level-up icon-large"></i> Return</a>
+								<a href="javascript:openReturnDialog();"> <i class="icon-level-up icon-large"></i> Return</a>
 							</li>
 							<li>
 								<a href="#"> <i class="icon-list-alt icon-large"></i> etc </a>
 							</li>
 							<li>
 								<a href="javascript:openDropDialog()"> <i class="icon-trash icon-large"></i> Drop out</a>
+							</li>
+							<li>
+								
 							</li>
 						</ul>
 					</div>
