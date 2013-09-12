@@ -136,23 +136,22 @@
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
-				
+
 				<!-- Push Dialog -->
 				<div id="dialogPush" class="modal hide fase" role="dialog">
 					<div class="modal-header">
 						Push a task
 					</div>
-					
+
 					<div class="modal-body">
-						
+
 					</div>
-					
+
 					<div class="modal-footer">
 						<a id="btnDropout" href="javascript:pushAction();" class="btn btn-success disabled"><i class='icon-ok'></i> Push</a>
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
-				
 
 				<div class="body-nav body-nav-vertical body-nav-fixed">
 					<div class="container" align="right">
@@ -176,7 +175,7 @@
 								<a href="javascript:openDropDialog()"> <i class="icon-trash icon-large"></i> Drop out</a>
 							</li>
 							<li>
-								
+
 							</li>
 						</ul>
 					</div>
@@ -208,23 +207,40 @@
 							</div>
 							<div class="page-nav-options">
 								<div class="span9">
-									<ul class="nav nav-pills">
-										<li>
-											<a href="#"><i class="icon-home icon-2x"></i></a>
-										</li>
-									</ul>
-									<ul class="nav nav-tabs" style="font-size: 15px;">
-										<!-- <li class="active"> -->
-										<li >
-											<a href="#"><i class='icon-calendar'></i> Gantt</a>
+									<div class="tabbable">
+										<ul class="nav nav-pills">
+											<li>
+												<a href="#"><i class="icon-home icon-2x"></i></a>
+											</li>
+										</ul>
+										<ul class="nav nav-tabs" style="font-size: 15px;">
+											<!-- <li class="active"> -->
+											<li class="active">
+												<a href="#gantt" data-toggle="tab"><i class='icon-calendar'></i> Gantt</a>
 											</li>
 											<li>
-												<a href="#"><i class='icon-bar-chart'></i> Contribution</a>
+												<a href="#contribution" data-toggle="tab"><i class='icon-bar-chart'></i> Contribution</a>
 											</li>
 											<li>
-												<a href="#"><i class='icon-comment'></i> Comment</a>
+												<a href="#comment" data-toggle="tab"><i class='icon-comment'></i> Comment</a>
 											</li>
-									</ul>
+										</ul>
+
+										<div class="tab-cotent">
+											<div class="tab-pane active" id="gantt">
+												This is a gantt tap.
+											</div>
+											<div class="tab-pane" id="contribution">
+												This is a contribution tab.
+											</div>
+											<div class="tab-pane" id="comment">
+												This is a comments tab.
+											</div>
+
+										</div>
+
+									</div>
+
 								</div>
 							</div>
 						</div>

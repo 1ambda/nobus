@@ -9,6 +9,7 @@ $(function() {
 		source : inviteMemberTypeahead
 	});
 	
+	
 	testFunction();
 });
 
