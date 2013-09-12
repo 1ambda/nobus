@@ -68,3 +68,28 @@ exports.inviteMemberTypeahead = function(req, res) {
 
 };
 
+exports.dropoutProject = function(req, res){
+	console.log("Route : deleteProject");
+	
+	id = req.session.team_id;	//team_id를 넘겨줘야.
+	name = req.body.team_name;	
+	
+	if(id){
+		pool.acquire(function(err, conn) {
+        conn.query("UPDATE user_team SET take_on = '0' WHERE user_team.team_id=(?)",[id], function(err, rows){
+            pool.release(conn);
+            res.send({"status": "sucess"});
+            res.render('project.html');
+			});
+		});		
+	} else {
+		res.redirect('/');
+	}
+	
+};
+
+exports.test = function(req, res) {
+	//
+	console.log("1");
+	
+};

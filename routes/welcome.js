@@ -29,8 +29,8 @@ exports.getTeamList = function(req, res) {
 
 		 pool.acquire(function(err, conn) {
 
-		 var query = "SELECT name " +
-		  			 "FROM user_team B JOIN team C ON team_id=id WHERE B.user_id = ?;";
+		 var query = "SELECT C.id, C.name " +
+		  			 "FROM user_team B JOIN team C ON team_id=id WHERE B.user_id = ? AND B.take_on = 1;";
 
 		 conn.query(query, [id], function(err, rows, cols) {
 		 pool.release(conn);
@@ -106,25 +106,5 @@ exports.projectSelected = function(req, res) {
 	} else {
 		res.redirect('/');
 	}
-};
-
-exports.deleteProject = function(req, res){
-	console.log("Route : deleteProject");
-	
-	id = req.session.user_id;
-	name = req.body.name;
-	
-	if(id){
-		pool.acquire(function(err, conn) {
-        conn.query("DELETE FROM team WHERE name=(?)",[name], function(err, rows){
-            pool.release(conn);
-            res.send({"status": "sucess"});
-            res.render('project.html');
-			});
-		});		
-	} else {
-		res.redirect('/');
-	}
-	
 };
 

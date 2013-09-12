@@ -8,7 +8,18 @@ $(function() {
 	$('#inputInviteMember').typeahead({
 		source : inviteMemberTypeahead
 	});
+	
+	testFunction();
 });
+
+function testFunction() {
+	$.ajax({
+		type: 'post',
+		url: '/project/test',
+		success: function() {
+		}
+	});
+};
 
 function dropoutAction() {
 	$('#dialogDrop').modal('hide');

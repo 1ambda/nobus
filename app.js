@@ -50,11 +50,11 @@ app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);
 app.post('/welcome/createTeam', welcome.createTeam);
-app.get('/welcome/deleteProject', welcome.deleteProject);
 app.post('/welcome/projectSelected', welcome.projectSelected);
 app.post('/welcome/createTeam', welcome.createTeam);
 app.get('/project', project.index);
+app.get('/project/dropout', project.dropoutProject);
 app.get('/project/getProjectName', project.getProjectName);
 app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
-
+app.post('/project/test', project.test);
 
