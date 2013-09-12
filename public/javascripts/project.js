@@ -21,9 +21,14 @@ function testFunction() {
 	});
 };
 
+function pushAction() {
+	$('#dialogPush').modal('hide');
+	alert("Push not implemented");
+};
+
 function dropoutAction() {
 	$('#dialogDrop').modal('hide');
-	alert("Dropoutn not implemented");
+	alert("Dropout not implemented");
 };
 
 function dropoutChange() {
@@ -84,6 +89,21 @@ function openInviteDialog() {
 		backdrop : false,
 		keyboard : true
 	});
+};
+
+function openPushDialog() {
+	$('#dialogPush').modal({
+		backdrop : false,
+		keyboard : true
+	});
+};
+
+function openTossDialog() {
+	alert("dialog not implemented");
+};
+
+function openReturnDialog() {
+	alert("dialog not implemented");
 };
 
 function inviteMemberAction() {

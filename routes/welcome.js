@@ -30,7 +30,7 @@ exports.getTeamList = function(req, res) {
 		 pool.acquire(function(err, conn) {
 
 		 var query = "SELECT C.id, C.name " +
-		  			 "FROM user_team B JOIN team C ON team_id=id WHERE B.user_id = ? AND B.take_on = 1;";
+		  			 "FROM user_team B JOIN team C ON B.team_id=C.id WHERE B.user_id = ? AND B.take_on = 1;";
 
 		 conn.query(query, [id], function(err, rows, cols) {
 		 pool.release(conn);
