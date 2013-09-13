@@ -25,8 +25,20 @@ $(function() {
 		loadPageContents(map[this.id]);
 	});
 
-	testFunction();
+	// testFunction();
 });
+
+function insertTask() {
+	// Sample function for PUSH
+	
+	console.log("1");
+	
+	var data = [
+		{ task_name : "Search OS", person : "Hoon", due_date: "09-28" }
+	];
+	
+	$('#tmplTask').tmpl(data).appendTo('#pageContainer');
+};
 
 function loadPageContents(tmpl) {
 	$("#pageContainer").html($('#' + tmpl).html());
