@@ -1,3 +1,8 @@
 .typeahead {
 	z-index: 1100;
 }
+font.title {
+	font-size: 18px;
+	line-height: 20px;
+	font-weight: bold;
+}

@@ -8,7 +8,8 @@ $(function() {
 	$('#inputInviteMember').typeahead({
 		source : inviteMemberTypeahead
 	});
-	
+	$('#datepicker').datepicker();
+	$('#datepicker2').datepicker();
 	testFunction();
 });
 

@@ -79,7 +79,7 @@ function projectSelected() {
 	var json = {};
 	json["project_name"] = $(this).text();
 	json["team_id"] = $(this).attr('id');
-	console.log(json);
+	
 	$.ajax({
 		type: "post",
 		url: "/welcome/projectSelected",

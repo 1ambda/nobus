@@ -78,12 +78,11 @@ exports.dropoutProject = function(req, res){
 		pool.acquire(function(err, conn) {
         conn.query("UPDATE user_team SET take_on = 0 WHERE team_id=(?) AND user_id=(?);",[team_id, user_id], function(err, rows){
             pool.release(conn);
-            console.log("2");
             res.render('welcome.html');
 			});
 		});	
 	} else {
-		console.log("1");
+		
 		res.redirect('/');
 	}
 };
