@@ -7148,7 +7148,7 @@ table.tablesorter .headerSortUp:after {
 .nav-page .nav.nav-tabs .active > a,
 .nav-page .nav.nav-pills .active > a {
   background-color: #047ed0;
-  background-image: -moz-linear-gradient(top, #048ae4, #036cb2);
+  background-image: -moz-linear-gradient(top, #048ae4, #454545);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#048ae4), to(#036cb2));
   background-image: -webkit-linear-gradient(top, #048ae4, #036cb2);
   background-image: -o-linear-gradient(top, #048ae4, #036cb2);
@@ -7699,9 +7699,6 @@ table.tablesorter .headerSortUp:after {
 .body-nav.body-nav-vertical ul li a,
 .body-nav.body-nav-vertical ul li button {
   height: 51px;
-  /*width: 15%;
-  height: 13%;*/
-  
 }
 .body-nav.body-nav-vertical ul li:first-child {
   border-top: 1px solid #048ae4;

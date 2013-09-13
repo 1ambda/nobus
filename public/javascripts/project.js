@@ -25,9 +25,35 @@ $(function() {
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
 		loadPageContents(map[this.id]);
 	});
-	
-	testFunction();
+	// testFunction();
 });
+
+function getMemberList() {
+	
+	var data = [
+	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
+	{ user_name : "scene", task_number : 2, status : "Online" }
+	];
+	
+	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList tbody');
+	
+	$('#dialogMemberList').modal({
+		backdrop : false,
+		keyboard : true
+	});
+};
+
+function insertTask() {
+	// Sample function for PUSH
+	
+	console.log("1");
+	
+	var data = [
+		{ task_name : "Search OS", person : "Hoon", due_date: "09-28" }
+	];
+	
+	$('#tmplTask').tmpl(data).appendTo('#pageContainer');
+};
 
 function loadPageContents(tmpl) {
 	$("#pageContainer").html($('#' + tmpl).html());
@@ -155,8 +181,12 @@ function inviteMemberAction() {
 		type: 'post',
 		url: '/project/inviteMemberAction',
 		data: json,
-		success: function(){
-			alert("invite"+newMember);
+		success: function(result){
+			if( result.status == "fail" ) {
+				alert("Already invited : " + newMember);
+			} else {
+				alert("Successfully invited : " + newMember);
+			}
 		}
 	});
 };

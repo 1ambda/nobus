@@ -14,6 +14,8 @@
 
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script src="/javascripts/jquery-1.8.2.min.js" type="text/javascript" ></script>
+		<script src="/javascripts/jquery.tmpl.min.js" type="text/javascript"></script>
+
 		<script src="/javascripts/bootstrap/bootstrap-transition.js" type="text/javascript" ></script>
 		<script src="/javascripts/bootstrap/bootstrap-alert.js" type="text/javascript" ></script>
 		<script src="/javascripts/bootstrap/bootstrap-modal.js" type="text/javascript" ></script>
@@ -28,6 +30,7 @@
 		<script src="/javascripts/bootstrap/bootstrap-typeahead.js" type="text/javascript" ></script>
 		<script src="/javascripts/bootstrap/bootstrap-affix.js" type="text/javascript" ></script>
 		<script src="/javascripts/bootstrap/bootstrap-datepicker.js" type="text/javascript" ></script>
+
 		<script src="/javascripts/jquery-tablesorter.js" type="text/javascript" ></script>
 		<script src="/javascripts/jquery-chosen.js" type="text/javascript" ></script>
 		<script src="/javascripts/virtual-tour.js" type="text/javascript" ></script>
@@ -47,7 +50,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a href="dashboard.html" class="brand"><i class="icon-leaf">No Bus</i></a>
+					<a href="welcome" class="brand"><i class="icon-leaf">No Bus</i></a>
 					<div id="app-nav-top-bar" class="nav-collapse">
 						<ul class="nav">
 
@@ -146,6 +149,7 @@
 						<div class="modal-body" style='background-color:#eeeeee'>
 
 							<h4><i class='icon-user'></i> Task</h4>
+
 							<textarea class="contents" style="resize: none"></textarea>													
 
  							<h4><i class='icon-user'></i> Due to</h4>
@@ -186,19 +190,22 @@
 					<div class="container" align="right">
 						<ul>
 							<li>
-								<a href="javascript:openInviteDialog();"> <i class="icon-male icon-large"></i> Invite</a>
+								<a href="javascript:getMemberList();"> <i class="icon-sitemap icon-large"></i> Team</a>
 							</li>
 							<li>
-								<a href="javascript:openPushDialog();"> <i class="icon-level-down icon-large"></i> Push </a>
+								<a href="javascript:openInviteDialog();"> <i class="icon-user icon-large"></i> Invite</a>
+							</li>
+							<li>
+								<a href="javascript:openPushDialog();"> <i class="icon-circle-arrow-down icon-large"></i> Push </a>
 							</li>
 							<li>
 								<a href="javascript:openTossDialog();"> <i class="icon-circle-arrow-right icon-large"></i> Toss</a>
 							</li>
 							<li>
-								<a href="javascript:openReturnDialog();"> <i class="icon-level-up icon-large"></i> Return</a>
+								<a href="javascript:openReturnDialog();"> <i class="icon-circle-arrow-up icon-large"></i> Return</a>
 							</li>
 							<li>
-								<a href="#"> <i class="icon-list-alt icon-large"></i> etc </a>
+								<a href="javascript:insertTask();"> <i class="icon-list-alt icon-large"></i> etc </a>
 							</li>
 							<li>
 								<a href="javascript:openDropDialog()"> <i class="icon-trash icon-large"></i> Drop out</a>
@@ -258,12 +265,11 @@
 						</div>
 					</div>
 				</section>
-				<section class="page container" id="pageContainer"></section>
+				<section class="page container" id="pageContainer">
 
-				<script id="tmplGantt" type="text/html">
-					Gantt
-					<div class="btn btn-primary">Hello</div>
-				</script>
+				</section>
+
+				<script id="tmplGantt" type="text/html"></script>
 				<script id="tmplContribution" type="text/html">
 					Contribution
 				</script>
@@ -271,7 +277,65 @@
 					Comment
 				</script>
 
+				<script id="tmplTask" type="text/html">
+					<div class="span8">
+					<div class="box">
+					<div class="box-header">
+					<i class="icon-bookmark"></i>
+					<h5>${task_name}</h5>
+					</div>
+					<div class="box-content">
+					<h5>Hello</h5>
+					<div class="btn-group-box">
+					<button class="btn"><i class="icon-user icon-large"></i><br/>${person}</button>
+					<button class="btn"><i class="icon-search icon-large"></i><br/>${due_date}</button>
+					</div>
+					</div>
+					</div>
+					</div>
+				</script>
+				
+				<script id="tmplTeam" type="hext/html">
+					<tr>
+						<td>${user_name}</td>
+						<td>${task_number}</td>
+						<td>${status}</td>
+					</tr>	
+				</script>
+				
+				<div class="span12">
+					<div id="dialogMemberList" class="box modal hide fade" role="dialog">
+						<div class="modal-header">
+							<h4><i class="icon-user icon-large"></i>  Team Members</h4>
+							
+						</div>
+
+						<div class="box-content box-table">
+							<table class="table table-hover tablesorter">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Task</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Hoon</td>
+										<td>5</td>
+										<td>Online</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="btn btn-success">Message</a>
+							<a href="#" class="btn" data-dismiss="modal">Close</a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
+			
 	</body>
 </html>
