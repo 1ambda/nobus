@@ -8341,7 +8341,7 @@ body > #body-container {
   .navbar-static-top .container,
   .navbar-fixed-top .container,
   .navbar-fixed-bottom .container {
-    width: 1186px;
+    width: 95%;
   }
   .span16 {
     width: 1186px;
