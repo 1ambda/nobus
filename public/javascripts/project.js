@@ -160,8 +160,12 @@ function inviteMemberAction() {
 		type: 'post',
 		url: '/project/inviteMemberAction',
 		data: json,
-		success: function(){
-			alert("invite"+newMember);
+		success: function(result){
+			if( result.status == "fail" ) {
+				alert("Already invited : " + newMember);
+			} else {
+				alert("Successfully invited : " + newMember);
+			}
 		}
 	});
 };
