@@ -31,12 +31,15 @@ $(function() {
 
 function getMemberList() {
 	
+	// Query
+	
 	var data = [
 	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
 	{ user_name : "scene", task_number : 2, status : "Online" }
 	];
 	
-	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList tbody');
+	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList table:last');
+	
 	
 	$('#dialogMemberList').modal({
 		backdrop : false,
