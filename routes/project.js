@@ -90,23 +90,25 @@ exports.dropoutProject = function(req, res){
 exports.inviteMemberAction = function(req, res){
 	console.log("Route : inviteMemberAction");
 	
-	team_id = req.session.team_id;
-	user_id = req.body.user_id;
-	console.log(req.session.team_id);
-	console.log(req.body.user_id);
-	var query = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
+	team_id = 70;
+	user_id = 'scene';
 	
-	if(user_id){
-		pool.acquire(function(err, conn){
-			conn.query(query, [team_id, user_id], function(err, rows){
+	var inputQuery = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
+
+	pool.acquire(function(err, conn){
+		conn.query(inputQuery, [team_id, user_id], function(err, rows){
+			if(err){
 				pool.release(conn);
-				console.log("invite Success");
-				res.send({"Status": "Success"});
-			});
+				console.log("invite fail")
+				res.send({"status": "fail"});
+			} else {
+				pool.release(conn);
+				console.log("invite success");
+				res.send({"status": "success"});
+			}
 		});
-	} else {
-		res.send({"Status": "Fail"});
-	}
+	});
+	
 };
 
 exports.test = function(req, res) {
