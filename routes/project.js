@@ -98,6 +98,7 @@ exports.inviteMemberAction = function(req, res){
 		pool.acquire(function(err, conn){
 			conn.query(query, [team_id, user_id], function(err, rows){
 				pool.release(conn);
+				console.log("invite Success");
 				res.send({"Status": "Success"});
 			});
 		});
