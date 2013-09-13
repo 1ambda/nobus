@@ -92,6 +92,8 @@ exports.inviteMemberAction = function(req, res){
 	
 	team_id = req.session.team_id;
 	user_id = req.body.user_id;
+	console.log(req.session.team_id);
+	console.log(req.body.user_id);
 	var query = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
 	
 	if(user_id){

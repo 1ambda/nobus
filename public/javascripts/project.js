@@ -141,11 +141,12 @@ function openReturnDialog() {
 function inviteMemberAction() {
 	var json = {};
 	var newMember = $('#inputInviteMember').val();
-	json[user_id] = newMember;
+	json["user_id"] = newMember;
+	console.log(json);
 	$('#dialogInviteMember').modal('hide');
 	$.ajax({
 		type: 'post',
-		url: '/project/inviteMember',
+		url: '/project/inviteMemberAction',
 		data: json,
 		success: function(){
 			alert("invite"+newMember);
