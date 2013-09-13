@@ -6,3 +6,15 @@ font.title {
 	line-height: 20px;
 	font-weight: bold;
 }
+textarea.contents{
+	width: 150px;
+	height: 150px;
+	background-color:#EEEEEE;
+}
+div.modal-contents{
+	display:block;
+	clear:both;
+	content: ".";
+	overflow:hidden;
+	
+}

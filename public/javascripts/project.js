@@ -1,4 +1,5 @@
 var teamName;
+var user_id;
 
 $(function() {
 	getProjectName();
@@ -38,6 +39,7 @@ function getUserID() {
 		url : '/welcome/getUserID',
 		success : function(result) {
 			$('#divUserID').text(result.id);
+			user_id = result.id;
 		}
 	});
 };
@@ -141,6 +143,10 @@ function openReturnDialog() {
 function inviteMemberAction() {
 	var json = {};
 	var newMember = $('#inputInviteMember').val();
+	if(user_id == newMember){
+		alert("That's you");
+		return;
+	}
 	json["user_id"] = newMember;
 	console.log(json);
 	$('#dialogInviteMember').modal('hide');
