@@ -7,14 +7,13 @@ font.title {
 	font-weight: bold;
 }
 textarea.contents{
-	width: 150px;
+	width: 400px;
 	height: 150px;
-	background-color:#EEEEEE;
+	background-color:#FFFFFF;
 }
 div.modal-contents{
 	display:block;
 	clear:both;
 	content: ".";
 	overflow:hidden;
-	
 }

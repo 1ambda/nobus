@@ -25,7 +25,7 @@ $(function() {
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
 		loadPageContents(map[this.id]);
 	});
-
+	
 	testFunction();
 });
 
@@ -55,7 +55,8 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	alert("Push not implemented");
+	var test = $('#pushMember').val();
+	console.log(test);
 };
 
 function dropoutAction() {
@@ -166,4 +167,3 @@ function openDropDialog() {
 		keyboard : true
 	});
 }
-
