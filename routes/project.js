@@ -90,8 +90,8 @@ exports.dropoutProject = function(req, res){
 exports.inviteMemberAction = function(req, res){
 	console.log("Route : inviteMemberAction");
 	
-	team_id = 70;
-	user_id = 'scene';
+	team_id = req.session.team_id;
+	user_id = req.body.user_id;
 	
 	var inputQuery = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
 
@@ -114,7 +114,7 @@ exports.inviteMemberAction = function(req, res){
 exports.getTeamMembers = function(req, res){
 	console.log("Route : getTeamMembers");
 	
-	team_id = req.session.team_id
+	team_id = req.session.team_id;
 	var query ="SELECT user_id FROM user_team WHERE team_id = ? AND take_on = 1;";
 	
 	pool.acquire(function(err, conn){
