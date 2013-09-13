@@ -32,6 +32,8 @@ function getMemberList() {
 	
 	// Query
 	
+	$('#dialogMemberList table tbody').remove();
+	
 	var data = [
 	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
 	{ user_name : "scene", task_number : 2, status : "Online" }
