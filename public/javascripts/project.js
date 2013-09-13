@@ -139,8 +139,18 @@ function openReturnDialog() {
 };
 
 function inviteMemberAction() {
+	var json = {};
+	var newMember = $('#inputInviteMember').val();
+	json[user_id] = newMember;
 	$('#dialogInviteMember').modal('hide');
-	alert("invite Member");
+	$.ajax({
+		type: 'post',
+		url: '/project/inviteMember',
+		data: json,
+		success: function(){
+			alert("invite"+newMember);
+		}
+	});
 };
 
 function openDropDialog() {
