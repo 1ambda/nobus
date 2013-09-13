@@ -111,6 +111,22 @@ exports.inviteMemberAction = function(req, res){
 	
 };
 
+exports.getTeamMembers = function(req, res){
+	console.log("Route : getTeamMembers");
+	
+	team_id = req.session.team_id
+	var query ="SELECT user_id FROM user_team WHERE team_id = ? AND take_on = 1;";
+	
+	pool.acquire(function(err, conn){
+		conn.query(query, [team_id], function(err, rows){
+			pool.release(conn);
+			res.send(rows);
+			console.log(rows);
+		});
+	});
+	
+};
+
 exports.test = function(req, res) {
 	
 };
