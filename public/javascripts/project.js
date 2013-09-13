@@ -2,22 +2,51 @@ var teamName;
 
 $(function() {
 	getProjectName();
+	getUserID();
+
 	$('#btnLogout').click(btnLogoutAction);
 	$('#inputInviteMember').keyup(inviteMemberChange);
 	$('#inputDropout').keyup(dropoutChange);
 	$('#inputInviteMember').typeahead({
 		source : inviteMemberTypeahead
 	});
+
 	$('#datepicker').datepicker();
 	$('#datepicker2').datepicker();
+
+	loadPageContents('tmplGantt');
+
+	var map = {};
+	map["tabGantt"] = "tmplGantt";
+	map["tabContribution"] = "tmplContribution";
+	map["tabComment"] = "tmplComment";
+
+	$('#tabGantt, #tabContribution, #tabComment').click(function() {
+		loadPageContents(map[this.id]);
+	});
+
 	testFunction();
 });
 
+function loadPageContents(tmpl) {
+	$("#pageContainer").html($('#' + tmpl).html());
+};
+
+function getUserID() {
+	$.ajax({
+		type : 'get',
+		url : '/welcome/getUserID',
+		success : function(result) {
+			$('#divUserID').text(result.id);
+		}
+	});
+};
+
 function testFunction() {
 	$.ajax({
-		type: 'post',
-		url: '/project/test',
-		success: function() {
+		type : 'post',
+		url : '/project/test',
+		success : function() {
 		}
 	});
 };
@@ -29,17 +58,17 @@ function pushAction() {
 
 function dropoutAction() {
 	$('#dialogDrop').modal('hide');
-	$.get('/project/dropout',function(data){
+	$.get('/project/dropout', function(data) {
 		$(location).attr('href', 'welcome');
 	});
 };
 
 function dropoutChange() {
-	
+
 	var str = $('#inputDropout').val();
 	console.log(str.toLowerCase());
-	
-	if ( str.toLowerCase() == "drop") {
+
+	if (str.toLowerCase() == "drop") {
 		$("#btnDropout").removeClass('disabled');
 	} else {
 		$("#btnDropout").addClass('disabled');

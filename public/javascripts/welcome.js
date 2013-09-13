@@ -19,7 +19,7 @@ function getUserID() {
         type:   'get',
         url:    '/welcome/getUserID',
         success:    function(result) {
-            $('#divUserID').text(result);
+            $('#divUserID').text(result.id);
         }
     });
 };
