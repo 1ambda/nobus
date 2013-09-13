@@ -87,6 +87,25 @@ exports.dropoutProject = function(req, res){
 	}
 };
 
+exports.inviteMemberAction = function(req, res){
+	console.log("Route : inviteMemberAction");
+	
+	team_id = req.session.team_id;
+	user_id = req.body.user_id;
+	var query = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
+	
+	if(user_id){
+		pool.acquire(function(err, conn){
+			conn.query(query, [team_id, user_id], function(err, rows){
+				pool.release(conn);
+				res.send({"Status": "Success"});
+			});
+		});
+	} else {
+		res.send({"Status": "Fail"});
+	}
+}
+
 exports.test = function(req, res) {
 	
 };
