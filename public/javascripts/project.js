@@ -29,6 +29,21 @@ $(function() {
 	// testFunction();
 });
 
+function getMemberList() {
+	
+	var data = [
+	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
+	{ user_name : "scene", task_number : 2, status : "Online" }
+	];
+	
+	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList tbody');
+	
+	$('#dialogMemberList').modal({
+		backdrop : false,
+		keyboard : true
+	});
+};
+
 function insertTask() {
 	// Sample function for PUSH
 	
