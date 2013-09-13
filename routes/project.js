@@ -105,7 +105,7 @@ exports.inviteMemberAction = function(req, res){
 	} else {
 		res.send({"Status": "Fail"});
 	}
-}
+};
 
 exports.test = function(req, res) {
 	
