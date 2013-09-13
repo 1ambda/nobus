@@ -55,8 +55,7 @@ exports.getUserID = function(req, res) {
 	var id = req.session.user_id;
 
 	if (id) {
-		res.write(id);
-		res.end();
+		res.send( { id: id });
 	} else {
 		console.log("Route: getUserID error");
 		res.end();

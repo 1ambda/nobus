@@ -2,6 +2,8 @@ var teamName;
 
 $(function() {
 	getProjectName();
+    getUserID(); 
+    
 	$('#btnLogout').click(btnLogoutAction);
 	$('#inputInviteMember').keyup(inviteMemberChange);
 	$('#inputDropout').keyup(dropoutChange);
@@ -9,9 +11,32 @@ $(function() {
 		source : inviteMemberTypeahead
 	});
 	
+	loadPageContents('tmplGantt');
+
+	var map = {};
+	map["tabGantt"] = "tmplGantt";
+	map["tabContribution"] = "tmplContribution";
+	map["tabComment"] = "tmplComment";
 	
-	testFunction();
+	$('#tabGantt, #tabContribution, #tabComment').click(function() {
+		loadPageContents(map[this.id]);
+	});
+	
 });
+
+function loadPageContents(tmpl) {
+	$("#pageContainer").html($('#' + tmpl).html());
+};
+
+function getUserID() {
+    $.ajax({
+        type:   'get',
+        url:    '/welcome/getUserID',
+        success:    function(result) {
+            $('#divUserID').text(result.id);
+        }
+    });
+};
 
 function testFunction() {
 	$.ajax({
