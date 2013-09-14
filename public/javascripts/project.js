@@ -35,18 +35,24 @@ function getMemberList() {
 	
 	$('#dialogMemberList table tbody').remove();
 	
-	var data = [
-	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
-	{ user_name : "scene", task_number : 2, status : "Online" }
-	];
-	
-	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList table:last');
-	
-	
-	$('#dialogMemberList').modal({
-		backdrop : false,
-		keyboard : true
+	$.ajax({
+		type: 'get',
+		url: '/project/getTeamMembers',
+		success: function(result) {
+			if (result.status == "fail") {
+				alert("Error : getTeamMembers");
+				return;
+			}
+			
+			$('#tmplTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
+			
+			$('#dialogMemberList').modal({
+				backdrop : false,
+				keyboard : true
+			});
+		} 		
 	});
+	
 };
 
 function insertTask() {

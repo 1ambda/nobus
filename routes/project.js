@@ -120,8 +120,12 @@ exports.getTeamMembers = function(req, res){
 	pool.acquire(function(err, conn){
 		conn.query(query, [team_id], function(err, rows){
 			pool.release(conn);
-			res.send(rows);
-			console.log(rows);
+			if (!err) {
+				res.send({status : "success", data: rows });
+			} else {
+				console.log(err);
+				res.send({ status : "fail"} );
+			}
 		});
 	});
 	
