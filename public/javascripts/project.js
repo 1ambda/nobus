@@ -106,12 +106,13 @@ function dropoutAction() {
 function dropoutChange() {
 
 	var str = $('#inputDropout').val();
-	console.log(str.toLowerCase());
 
 	if (str.toLowerCase() == "drop") {
 		$("#btnDropout").removeClass('disabled');
+		$("#btnDropout").attr('href', 'javascript:dropoutAction();');
 	} else {
 		$("#btnDropout").addClass('disabled');
+		$("#btnDropout").attr('href', '#');
 	}
 };
 
@@ -131,8 +132,10 @@ function inviteMemberTypeahead(query, process) {
 function inviteMemberChange() {
 	if ($('#inputInviteMember').val() == "") {
 		$("#btnInviteMember").addClass('disabled');
+		$("#btnInviteMember").attr('href', '#');
 	} else {
 		$("#btnInviteMember").removeClass('disabled');
+		$("#btnInviteMember").attr('href', 'javascript:inviteMemberAction();');
 	}
 };
 
@@ -193,7 +196,9 @@ function inviteMemberAction() {
 		url: '/project/inviteMemberAction',
 		data: json,
 		success: function(result){
-			if( result.status == "fail" ) {
+			if( result.status == "not_exist" ) {
+				alert("There is no person like '" + newMember +"'");
+			} else if (result.status == "fail"){
 				alert("Already invited : " + newMember);
 			} else {
 				alert("Successfully invited : " + newMember);
