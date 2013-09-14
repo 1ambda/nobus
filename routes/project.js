@@ -127,6 +127,39 @@ exports.getTeamMembers = function(req, res){
 	
 };
 
-exports.test = function(req, res) {
+exports.pushTask = function(req, res){
+	console.log("Route : push");
 	
+	team_id = req.session.team_id;
+	name = req.body.name;
+	user_id = req.body.user_id;
+	start_date = req.body.start_date;
+	due_date = req.body.due_date;
+	
+	var taskQuery = "INSERT INTO task(team_id, name, start_date, due_date) VALUES (?, ?, ?, ?);";
+	var getTaskIdQuery = "SELECT id FROM task WHERE team_id = ? AND name = ?;";
+	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) VALUES(?, ?);";
+	
+	pool.acquire(function(err, conn){
+		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows){
+			if(err){
+				console.log(err);
+			} else {
+				conn.query(getTaskIdQuery, [team_id, name], function(err, rows){
+					req.session.task_id = rows[0].id;
+					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows){
+						pool.release(conn);
+						if(err){
+							console.log(err);
+						} else {
+							console.log("success");
+						}
+					});
+				});
+			}	
+		});
+	});
+}
+
+exports.test = function(req, res) {
 };
