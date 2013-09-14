@@ -1,10 +1,10 @@
-var teamName;
+varf teamName;
 var user_id;
 
 $(function() {
 	getProjectName();
 	getUserID();
-
+	$(".chosen").chosen();
 	$('#btnLogout').click(btnLogoutAction);
 	$('#inputInviteMember').keyup(inviteMemberChange);
 	$('#inputDropout').keyup(dropoutChange);
@@ -162,6 +162,7 @@ function openPushDialog() {
 		backdrop : false,
 		keyboard : true
 	});
+	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList table:last');
 };
 
 function openTossDialog() {
