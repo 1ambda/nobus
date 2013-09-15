@@ -149,7 +149,7 @@
 						<div class="modal-body" style='background-color:#eeeeee'>
 
 							<h4><i class='icon-user'></i> Task</h4>
-							<textarea class="contents" style="resize: none"></textarea>														
+							<textarea class="contents" style="resize: none"></textarea>																																			
 																				
 
  							<h4><i class='icon-user'></i> Due to</h4>
@@ -169,24 +169,16 @@
 							</span>
 
 							<h4><i class='icon-user'></i> User ID</h4>
-							<br />
 
 							<div class="controls">
-								<fieldset id="testFieldset">
 								<div id='controls' class='span4'>
-									<script id="tmplView" type="text/x-jquery-tmpl">
-										<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --">
-											{{tmpl(user_id, {selectedId: user_id}) "#titleTemplate"}}
-										</select>
-									</script>
-									<script id="tmplSelectOption" type="text/x-jquery-tmpl">
-										<option {{if user_id === $item.selectedId}}selected="selected"{{/if}} value="${user_id}">${user_id}</option>
-									</script>
-
+									<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --" onchange="addPushMember(value);">
+										
+									</select>
 								</div>
-								</fieldset>
 							</div>
-
+							<h1>&nbsp;</h1>
+							<div id="placeAddMemberButton"></div>	
 						</div>
 					</div>
 

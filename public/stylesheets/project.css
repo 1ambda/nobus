@@ -7,8 +7,8 @@ font.title {
 	font-weight: bold;
 }
 textarea.contents{
-	width: 400px;
-	height: 150px;
+	width: 98%;
+	height: 130px;
 	background-color:#FFFFFF;
 }
 div.modal-contents{

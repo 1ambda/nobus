@@ -1,6 +1,6 @@
 var teamName;
 var user_id;
-
+var pushMemberId = new Array();
 $(function() {
 	getProjectName();
 	getUserID();
@@ -14,7 +14,6 @@ $(function() {
 
 	$('#datepicker').datepicker();
 	$('#datepicker2').datepicker();
-
 	loadPageContents('tmplGantt');
 
 	var map = {};
@@ -171,7 +170,9 @@ function openInviteDialog() {
 function openPushDialog() {
 
 	$('#pushMember option').remove();
-
+	$('#placeAddMemberButton button').remove();
+	console.log(pushMemberId.length);
+	pushMemberId = [];
 	$.ajax({
 		type : 'get',
 		url : '/project/getTeamMembers',
@@ -180,11 +181,12 @@ function openPushDialog() {
 				alert("Error : getTeamMembers");
 				return;
 			}
-			
-			$('#tmplView').tmpl(result.data).appendTo('#testFieldset');
-	
-			console.log($('#pushMember').text());
-
+			$("<option></option>").attr("value", "").appendTo('#pushMember');
+			$.each(result.data, function(k, v) {
+				$("<option></option>").attr("value", v.user_id).text(v.user_id).appendTo("#pushMember");
+			});
+			console.log($('#pushMember').val());
+			$('#pushMember').trigger("liszt:updated");
 			$('#dialogPush').modal({
 				backdrop : false,
 				keyboard : true
@@ -235,4 +237,24 @@ function openDropDialog() {
 	});
 }
 
+function addPushMember(val) {
+	var sep = $.inArray(val, pushMemberId);
+	sep=sep+1;
+	if (!sep) {
+		pushMemberId.push(val);
+		var icon = val + " <i class=\"icon-remove-sign\"></i>";
+		var id = val + "push"
+		var onClick = "javascript:deleteButton("+id+");";
+		$("<button></button>").attr("id", id).attr("onClick",onClick).attr("class", "btn btn-primary btnMember").html(icon).appendTo("#placeAddMemberButton");
+	}
+	else{
+		console.log("Member is alredy added");
+		return;
+	}
 
+}
+
+function deleteButton(id){
+	pushMemberId.splice($.inArray(id.id, pushMemberId)-1,1);
+	$('#'+id.id).remove();
+}
