@@ -117,7 +117,7 @@
 					</div>
 
 					<div class="modal-footer">
-						<a id="btnInviteMember" href="javascript:inviteMemberAction();" class="btn btn-success disabled">Invite</a>
+						<a id="btnInviteMember" href="#" class="btn btn-success disabled">Invite</a>
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
@@ -134,13 +134,13 @@
 					</div>
 
 					<div class="modal-footer">
-						<a id="btnDropout" href="javascript:dropoutAction();" class="btn btn-danger disabled"><i class='icon-trash'></i> Drop Out</a>
+						<a id="btnDropout" href="#" class="btn btn-danger disabled"><i class='icon-trash'></i> Drop Out</a>
 						<a href="#" class="btn" data-dismiss="modal">Close</a>
 					</div>
 				</div>
 
 				<!-- Push Dialog -->
-				<div id="dialogPush" class="modal hide fase" style="width:50%;left:50%" role="dialog">
+				<div id="dialogPush" class="modal hide fase" style="width:50%;left:50%" rolFe="dialog">
 					<div class="modal-header">
 						<h3>Push a task</h3>
 					</div>
@@ -149,7 +149,7 @@
 						<div class="modal-body" style='background-color:#eeeeee'>
 
 							<h4><i class='icon-user'></i> Task</h4>
-							<textarea class="contents" style="resize: none"></textarea>
+							<textarea class="contents" style="resize: none"></textarea>														
 																				
 
  							<h4><i class='icon-user'></i> Due to</h4>
@@ -170,21 +170,23 @@
 
 							<h4><i class='icon-user'></i> User ID</h4>
 							<br />
-							<form class="form-inline">
-								<div class="controls">
-									<div class='span4'>
-										<select class="chosen span4" id="pushMember" data-placeholder="-- Select Member --">
-											<script id="tmplSelectOption" type="text/html">
-												Comment
-											</script>
-											<option value="a"> a </option>
-											<option value="b"> b </option>
-											<option value="c"> c </option>
-											<option value="d"> d </option>
+
+							<div class="controls">
+								<fieldset id="testFieldset">
+								<div id='controls' class='span4'>
+									<script id="tmplView" type="text/x-jquery-tmpl">
+										<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --">
+											{{tmpl(user_id, {selectedId: user_id}) "#titleTemplate"}}
 										</select>
-									</div>
+									</script>
+									<script id="tmplSelectOption" type="text/x-jquery-tmpl">
+										<option {{if user_id === $item.selectedId}}selected="selected"{{/if}} value="${user_id}">${user_id}</option>
+									</script>
+
 								</div>
-							</form>
+								</fieldset>
+							</div>
+
 						</div>
 					</div>
 
@@ -289,12 +291,14 @@
 
 				<script id="tmplTeam" type="hext/html">
 					<tbody>
+
 					<tr>
-					<td>${user_name}</td>
+					<td>${user_id}</td>
 					<td>${task_number}</td>
 					<td>${status}</td>
 					</tr>
 					</tbody>
+
 				</script>
 
 				<div class="span12">

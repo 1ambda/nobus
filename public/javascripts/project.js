@@ -1,4 +1,4 @@
-varf teamName;
+var teamName;
 var user_id;
 
 $(function() {
@@ -25,38 +25,46 @@ $(function() {
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
 		loadPageContents(map[this.id]);
 	});
+
 	// testFunction();
 });
 
 function getMemberList() {
-	
+
 	// Query
-	
+
 	$('#dialogMemberList table tbody').remove();
-	
-	var data = [
-	{ user_name : "dbwkck", task_number : 1, status : "Offline" },
-	{ user_name : "scene", task_number : 2, status : "Online" }
-	];
-	
-	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList table:last');
-	
-	
-	$('#dialogMemberList').modal({
-		backdrop : false,
-		keyboard : true
+
+	$.ajax({
+		type : 'get',
+		url : '/project/getTeamMembers',
+		success : function(result) {
+			if (result.status == "fail") {
+				alert("Error : getTeamMembers");
+				return;
+			}
+
+			$('#tmplTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
+			$('#dialogMemberList').modal({
+				backdrop : false,
+				keyboard : true
+			});
+		}
 	});
+
 };
 
 function insertTask() {
 	// Sample function for PUSH
-	
+
 	console.log("1");
-	
-	var data = [
-		{ task_name : "Search OS", person : "Hoon", due_date: "09-28" }
-	];
-	
+
+	var data = [{
+		task_name : "Search OS",
+		person : "Hoon",
+		due_date : "09-28"
+	}];
+
 	$('#tmplTask').tmpl(data).appendTo('#pageContainer');
 };
 
@@ -100,12 +108,13 @@ function dropoutAction() {
 function dropoutChange() {
 
 	var str = $('#inputDropout').val();
-	console.log(str.toLowerCase());
 
 	if (str.toLowerCase() == "drop") {
 		$("#btnDropout").removeClass('disabled');
+		$("#btnDropout").attr('href', 'javascript:dropoutAction();');
 	} else {
 		$("#btnDropout").addClass('disabled');
+		$("#btnDropout").attr('href', '#');
 	}
 };
 
@@ -125,8 +134,10 @@ function inviteMemberTypeahead(query, process) {
 function inviteMemberChange() {
 	if ($('#inputInviteMember').val() == "") {
 		$("#btnInviteMember").addClass('disabled');
+		$("#btnInviteMember").attr('href', '#');
 	} else {
 		$("#btnInviteMember").removeClass('disabled');
+		$("#btnInviteMember").attr('href', 'javascript:inviteMemberAction();');
 	}
 };
 
@@ -158,11 +169,29 @@ function openInviteDialog() {
 };
 
 function openPushDialog() {
-	$('#dialogPush').modal({
-		backdrop : false,
-		keyboard : true
+
+	$('#pushMember option').remove();
+
+	$.ajax({
+		type : 'get',
+		url : '/project/getTeamMembers',
+		success : function(result) {
+			if (result.status == "fail") {
+				alert("Error : getTeamMembers");
+				return;
+			}
+			
+			$('#tmplView').tmpl(result.data).appendTo('#testFieldset');
+	
+			console.log($('#pushMember').text());
+
+			$('#dialogPush').modal({
+				backdrop : false,
+				keyboard : true
+			});
+		}
 	});
-	$('#tmplTeam').tmpl(data).appendTo('#dialogMemberList table:last');
+
 };
 
 function openTossDialog() {
@@ -176,7 +205,7 @@ function openReturnDialog() {
 function inviteMemberAction() {
 	var json = {};
 	var newMember = $('#inputInviteMember').val();
-	if(user_id == newMember){
+	if (user_id == newMember) {
 		alert("That's you");
 		return;
 	}
@@ -184,11 +213,13 @@ function inviteMemberAction() {
 	console.log(json);
 	$('#dialogInviteMember').modal('hide');
 	$.ajax({
-		type: 'post',
-		url: '/project/inviteMemberAction',
-		data: json,
-		success: function(result){
-			if( result.status == "fail" ) {
+		type : 'post',
+		url : '/project/inviteMemberAction',
+		data : json,
+		success : function(result) {
+			if (result.status == "not_exist") {
+				alert("There is no person like '" + newMember + "'");
+			} else if (result.status == "fail") {
 				alert("Already invited : " + newMember);
 			} else {
 				alert("Successfully invited : " + newMember);
@@ -203,3 +234,5 @@ function openDropDialog() {
 		keyboard : true
 	});
 }
+
+
