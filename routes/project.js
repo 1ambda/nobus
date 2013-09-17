@@ -216,9 +216,40 @@ exports.pushTask = function(req, res){
 exports.getTaskName = function(req, res){
 	console.log("Route : getTaskName");
 	
-	var query = "SELECT"
-}
+	team_id = req.session.team_id;
+	user_id = req.body.user_id;
+	var query = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE B.team_id = ? AND B.task_on = 1;";
+	
+	pool.acquire(function(req, res){
+		conn.query(query, [team_id], function(err, rows){
+			pool.release(conn);
+			
+			if(err){
+				console.log(err);
+				res.send({"status": "fail"});
+			} else {				
+				while(i < rows.length){	
+					var i = 0;
+					var jsonObj = [];
+								
+					while(i < rows.length){	
+						if(user_id == rows[i].user_id){
+							jsonObj.push({ allocated: "my", task_name: rows[i].name});
+						} else {
+							jsonObj.push({ allocated: "other", task_name: rows[i].name});
+						}
+						
+						console.log(jsonObj[i]);
+						i++;
+					}
+					res.send(jsonObj);
+				}
+			}
+		});
+	});
+};
 
 exports.test = function(req, res) {
+
 };
 

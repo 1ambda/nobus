@@ -60,3 +60,4 @@ app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.get('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
+app.get('/project/getTaskName', project.getTaskName);
