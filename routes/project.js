@@ -94,6 +94,8 @@ exports.inviteMemberAction = function(req, res) {
 	user_id = req.body.user_id;
 
 	var selectQuery = "SELECT * FROM user WHERE id = ?;";
+	var checkQuery = "SELECT count(take_on) count FROM user_team WHERE team_id = ? AND user_id = ?;";
+	var updateQuery = "UPDATE user_team SET take_on = 1 WHERE team_id=(?) AND user_id=(?);"
 	var inputQuery = "INSERT INTO user_team (team_id, user_id) VALUES (? , ?);";
 
 	pool.acquire(function(err, conn) {
@@ -106,18 +108,40 @@ exports.inviteMemberAction = function(req, res) {
 				});
 			} else {
 
-				conn.query(inputQuery, [team_id, user_id], function(err, rows) {
-					if (err) {
-						pool.release(conn);
-						console.log("InviteMemberAction Fail : " + err);
-						res.send({
-							"status" : "fail"
+				conn.query(checkQuery, [team_id, user_id], function(err1, rows1) {
+					console.log(rows1);
+					if (rows1[0].count === 0) {
+						conn.query(inputQuery, [team_id, user_id], function(err2, rows2){
+							if(err1){
+								pool.release(conn);
+								console.log("InviteMemberAction Fail : " + err2);
+								res.send({
+									"status" : "fail"
+								});
+							} else {
+								pool.release(conn);
+								console.log("input success");
+								res.send({
+									"status" : "success"
+								});
+							}
 						});
+						
 					} else {
-						pool.release(conn);
-						console.log("invite success");
-						res.send({
-							"status" : "success"
+						conn.query(updateQuery, [team_id, user_id], function(err2, rows2){
+							if(err1){
+								pool.release(conn);
+								console.log("InviteMemberAction Fail : " + err2);
+								res.send({
+									"status" : "fail"
+								});
+							} else {
+								pool.release(conn);
+								console.log("update success");
+								res.send({
+									"status" : "success"
+								});
+							}
 						});
 					}
 				});
@@ -137,6 +161,8 @@ exports.getTeamMembers = function(req, res) {
 		conn.query(query, [team_id], function(err, rows) {
 			pool.release(conn);
 			if (!err) {
+				console.log(rows);
+				
 				res.send({
 					status : "success",
 					data : rows
@@ -185,6 +211,12 @@ exports.pushTask = function(req, res){
 			}	
 		});
 	});
+};
+
+exports.getTaskName = function(req, res){
+	console.log("Route : getTaskName");
+	
+	var query = "SELECT"
 }
 
 exports.test = function(req, res) {
