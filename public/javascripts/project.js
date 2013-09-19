@@ -56,15 +56,13 @@ function getMemberList() {
 };
 
 function insertTask() {
-	// Sample function for PUSH
+	// var data = [
+		// { task_name : "Search OS", person : "Hoon", due_date: "09-28" }
+	// ];
+	// $('#tmplTask').tmpl(data).appendTo('#pageContainer');
 	
-	console.log("1");
+	$('#tmplTaskList').tmpl().appendTo('#pageContainer');
 	
-	var data = [
-		{ task_name : "Search OS", person : "Hoon", due_date: "09-28" }
-	];
-	
-	$('#tmplTask').tmpl(data).appendTo('#pageContainer');
 };
 
 function loadPageContents(tmpl) {

@@ -149,7 +149,7 @@
 						<div class="modal-body" style='background-color:#abcdef'>
 
 							<h4><i class='icon-user'></i> Task</h4>
-							<textarea class="contents"></textarea>																				
+							<textarea class="contents"></textarea>																											
 
  <h4><i class='icon-user'></i> Due to</h4>
 							Starting at
@@ -278,8 +278,51 @@
 					Comment
 				</script>
 
-				<script id="tmplTask" type="text/html">
-					<div class="span8">
+				<script id="tmplTaskList" type="text/html">
+					<div class="row">
+					<div class="span16">
+					<div class="box">
+					<div class="box-content">
+					<legend class="lead">
+						<font class="box-title">My Tasks</font>
+						<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".box-hide">
+							<i class="icon-reorder"></i>
+						</button>
+					</legend>
+					
+						<div class="box-hide box-content">
+
+							<div class="box">
+								<div class="box-header">
+									<i class="icon-bookmark"></i>
+									<h5>Research</h5>
+								</div>
+								<div class="box-content">
+									<button class="btn"><i class="icon-dashboard icon-large"></i><br/>Dashboard</button>
+                            		<button class="btn"><i class="icon-user icon-large"></i><br/>Account</button>
+								</div>
+							</div>
+
+							<div class="box">
+								<div class="box-header">
+									<i class="icon-bookmark"></i>
+									<h5>Powerpoint</h5>
+								</div>
+								<div class="box-content">
+									<button class="btn"><i class="icon-dashboard icon-large"></i><br/>Dashboard</button>
+                            		<button class="btn"><i class="icon-user icon-large"></i><br/>Account</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+					</div>
+					</div>
+					</div>
+					</script>
+	
+					<script id="tmplTask" type="text/html">
+						<!-- <div class="span8">
 					<div class="box">
 					<div class="box-header">
 					<i class="icon-bookmark"></i>
@@ -293,24 +336,25 @@
 					</div>
 					</div>
 					</div>
-					</div>
+					</div> -->
+
 				</script>
-				
+
 				<script id="tmplTeam" type="hext/html">
 					<tbody>
-						<tr>
-							<td>${user_id}</td>
-							<td>${task_number}</td>
-							<td>${status}</td>
-						</tr>
-					</tbody>	
+					<tr>
+					<td>${user_id}</td>
+					<td>${task_number}</td>
+					<td>${status}</td>
+					</tr>
+					</tbody>
 				</script>
-				
+
 				<div class="span12">
 					<div id="dialogMemberList" class="box modal hide fade" role="dialog">
 						<div class="modal-header">
-							<h4><i class="icon-user icon-large"></i>  Team Members</h4>
-							
+							<h4><i class="icon-user icon-large"></i> Team Members</h4>
+
 						</div>
 
 						<div class="box-content box-table">
@@ -332,6 +376,6 @@
 				</div>
 			</div>
 		</div>
-			
+
 	</body>
 </html>
