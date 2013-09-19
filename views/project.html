@@ -140,44 +140,43 @@
 				</div>
 
 				<!-- Push Dialog -->
-				<div id="dialogPush" class="modal hide fase" style="width:50%;left:50%" role="dialog">
+				<div id="dialogPush" class="modal hide fase" style="width:50%;left:50%" rolFe="dialog">
 					<div class="modal-header">
 						<h3>Push a task</h3>
 					</div>
 
 					<div class="modal-contents">
-						<div class="modal-body" style='background-color:#abcdef'>
+						<div class="modal-body" style='background-color:#eeeeee'>
 
 							<h4><i class='icon-user'></i> Task</h4>
-							<textarea class="contents"></textarea>																											
+							<textarea class="contents" style="resize: none"></textarea>																																			
+ 							<h4><i class='icon-user'></i> Due to</h4>
 
- <h4><i class='icon-user'></i> Due to</h4>
-							Starting at
-							<div id="datepicker" class="input-prepend date">
+							<span id="datepicker" class="input-prepend date">
 								<div class="add-on">
 									<i class="icon-th"></i>
 								</div>
 								<input class="span2" type="text" value="09/13/2013">
-							</div>
-
-							DeadLine
-							<div id="datepicker2" class="input-prepend date">
+							</span>
+							to
+							<span id="datepicker2" class="input-prepend date">
 								<div class="add-on">
 									<i class="icon-th"></i>
 								</div>
 								<input class="span2" type="text" value="09/13/2013">
-							</div>
+							</span>
 
 							<h4><i class='icon-user'></i> User ID</h4>
+
 							<div class="controls">
-								<div class='span4'>
-									<select id="challenge_question_control">
-										<option value="">-- Select a Question --</option>
-										<option value="In which city were you born?"> In which city were you born? </option>
+								<div id='controls' class='span4'>
+									<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --" onchange="addPushMember(value);">
+										
 									</select>
 								</div>
-
 							</div>
+							<h1>&nbsp;</h1>
+							<div id="placeAddMemberButton"></div>	
 						</div>
 					</div>
 
@@ -215,23 +214,6 @@
 
 							</li>
 						</ul>
-					</div>
-				</div>
-				<div id="deleteProject" class="modal hide fade" role="dialog">
-					<div class="modal-header">
-						<a class="close" data-dismiss="modal">x</a>
-						<h3>Real Delete Project?</h1>
-					</div>
-					<div class="modal-body">
-						<p>
-							Insert "delete"
-						</p>
-						<input type='text' id='inputDeleteProject' data-provide='typehead' >
-					</div>
-					<div class="modal-body"></div>
-					<div class="modal-footer">
-						<a href="javascript:deleteProject();" class="btn btn-primary">Delete</a>
-						<a href="#" class="btn" data-dismiss='modal'>Close</a>
 					</div>
 				</div>
 				<section class="nav nav-page">
@@ -327,6 +309,7 @@
 					<div class="box-header">
 					<i class="icon-bookmark"></i>
 					<h5>${task_name}</h5>
+
 					</div>
 					<div class="box-content">
 					<h5>Hello</h5>
@@ -342,12 +325,20 @@
 
 				<script id="tmplTeam" type="hext/html">
 					<tbody>
+<<<<<<< HEAD
+=======
+
+>>>>>>> d8ad371cf13fba42ab262967e6a58b3560565227
 					<tr>
 					<td>${user_id}</td>
 					<td>${task_number}</td>
 					<td>${status}</td>
 					</tr>
 					</tbody>
+<<<<<<< HEAD
+=======
+
+>>>>>>> d8ad371cf13fba42ab262967e6a58b3560565227
 				</script>
 
 				<div class="span12">

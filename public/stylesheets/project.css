@@ -15,14 +15,13 @@ font.box-title {
 }
 
 textarea.contents{
-	width: 150px;
-	height: 150px;
-	background-color:#EEEEEE;
+	width: 98%;
+	height: 130px;
+	background-color:#FFFFFF;
 }
 div.modal-contents{
 	display:block;
 	clear:both;
 	content: ".";
 	overflow:hidden;
-	
 }

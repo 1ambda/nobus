@@ -14,9 +14,10 @@ CREATE TABLE team(
 CREATE TABLE task(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	team_id INT NOT NULL,
-	name CHAR(30) NOT NULL,
-	start_date DATETIME,
-	due_date DATETIME,
+	name CHAR(50) NOT NULL,
+	instruction CHAR(200),
+	start_date DATE,
+	due_date DATE,
 	finished TINYINT(1) DEFAULT 0,
 	FOREIGN KEY (team_id) REFERENCES team(id));
 
@@ -40,7 +41,9 @@ CREATE TABLE comment(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	user_id char(20) NOT NULL,
 	task_id INT NOT NULL,
-	txt CHAR(200) NOT NULL,
+	txt CHAR(200),
+	url CHAR(80),
+	write_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	comment_on TINYINT(1) DEFAULT 1,
 	FOREIGN KEY (user_id) REFERENCES user(id),
 	FOREIGN KEY (task_id) REFERENCES task(id));

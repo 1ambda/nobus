@@ -1,10 +1,10 @@
 var teamName;
 var user_id;
-
+var pushMemberId = new Array();
 $(function() {
 	getProjectName();
 	getUserID();
-
+	$(".chosen").chosen();
 	$('#btnLogout').click(btnLogoutAction);
 	$('#inputInviteMember').keyup(inviteMemberChange);
 	$('#inputDropout').keyup(dropoutChange);
@@ -14,7 +14,6 @@ $(function() {
 
 	$('#datepicker').datepicker();
 	$('#datepicker2').datepicker();
-
 	loadPageContents('tmplGantt');
 
 	var map = {};
@@ -30,29 +29,28 @@ $(function() {
 });
 
 function getMemberList() {
-	
+
 	// Query
-	
+
 	$('#dialogMemberList table tbody').remove();
-	
+
 	$.ajax({
-		type: 'get',
-		url: '/project/getTeamMembers',
-		success: function(result) {
+		type : 'get',
+		url : '/project/getTeamMembers',
+		success : function(result) {
 			if (result.status == "fail") {
 				alert("Error : getTeamMembers");
 				return;
 			}
-			
+
 			$('#tmplTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
-			
 			$('#dialogMemberList').modal({
 				backdrop : false,
 				keyboard : true
 			});
-		} 		
+		}
 	});
-	
+
 };
 
 function insertTask() {
@@ -91,7 +89,8 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	alert("Push not implemented");
+	var test = $('#pushMember').val();
+	console.log(test);
 };
 
 function dropoutAction() {
@@ -165,10 +164,32 @@ function openInviteDialog() {
 };
 
 function openPushDialog() {
-	$('#dialogPush').modal({
-		backdrop : false,
-		keyboard : true
+
+	$('#pushMember option').remove();
+	$('#placeAddMemberButton button').remove();
+	console.log(pushMemberId.length);
+	pushMemberId = [];
+	$.ajax({
+		type : 'get',
+		url : '/project/getTeamMembers',
+		success : function(result) {
+			if (result.status == "fail") {
+				alert("Error : getTeamMembers");
+				return;
+			}
+			$("<option></option>").attr("value", "").appendTo('#pushMember');
+			$.each(result.data, function(k, v) {
+				$("<option></option>").attr("value", v.user_id).text(v.user_id).appendTo("#pushMember");
+			});
+			console.log($('#pushMember').val());
+			$('#pushMember').trigger("liszt:updated");
+			$('#dialogPush').modal({
+				backdrop : false,
+				keyboard : true
+			});
+		}
 	});
+
 };
 
 function openTossDialog() {
@@ -182,7 +203,7 @@ function openReturnDialog() {
 function inviteMemberAction() {
 	var json = {};
 	var newMember = $('#inputInviteMember').val();
-	if(user_id == newMember){
+	if (user_id == newMember) {
 		alert("That's you");
 		return;
 	}
@@ -190,13 +211,13 @@ function inviteMemberAction() {
 	console.log(json);
 	$('#dialogInviteMember').modal('hide');
 	$.ajax({
-		type: 'post',
-		url: '/project/inviteMemberAction',
-		data: json,
-		success: function(result){
-			if( result.status == "not_exist" ) {
-				alert("There is no person like '" + newMember +"'");
-			} else if (result.status == "fail"){
+		type : 'post',
+		url : '/project/inviteMemberAction',
+		data : json,
+		success : function(result) {
+			if (result.status == "not_exist") {
+				alert("There is no person like '" + newMember + "'");
+			} else if (result.status == "fail") {
 				alert("Already invited : " + newMember);
 			} else {
 				alert("Successfully invited : " + newMember);
@@ -212,3 +233,24 @@ function openDropDialog() {
 	});
 }
 
+function addPushMember(val) {
+	var sep = $.inArray(val, pushMemberId);
+	sep=sep+1;
+	if (!sep) {
+		pushMemberId.push(val);
+		var icon = val + " <i class=\"icon-remove-sign\"></i>";
+		var id = val + "push"
+		var onClick = "javascript:deleteButton("+id+");";
+		$("<button></button>").attr("id", id).attr("onClick",onClick).attr("class", "btn btn-primary btnMember").html(icon).appendTo("#placeAddMemberButton");
+	}
+	else{
+		console.log("Member is alredy added");
+		return;
+	}
+
+}
+
+function deleteButton(id){
+	pushMemberId.splice($.inArray(id.id, pushMemberId)-1,1);
+	$('#'+id.id).remove();
+}

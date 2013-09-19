@@ -58,4 +58,6 @@ app.get('/project/getProjectName', project.getProjectName);
 app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
 app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
-app.post('/project/test', project.test);
+app.get('/project/pushTask', project.pushTask);
+app.get('/project/test', project.test);
+app.get('/project/getTaskName', project.getTaskName);
