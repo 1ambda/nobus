@@ -43,10 +43,13 @@ function getMemberList() {
 				return;
 			}
 
-			$('#tmplTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
-			$('#dialogMemberList').modal({
-				backdrop : false,
-				keyboard : true
+			$.get('/template/dialogTeam', function(templates) {
+				$('body').append(templates);
+				$('#tmplDialogTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
+				$('#dialogMemberList').modal({
+					backdrop : false,
+					keyboard : true
+				});
 			});
 		}
 	});
@@ -54,12 +57,25 @@ function getMemberList() {
 };
 
 function insertTask() {
-	// var data = [
-		// { task_name : "Search OS", person : "Hoon", due_date: "09-28" }
-	// ];
-	// $('#tmplTask').tmpl(data).appendTo('#pageContainer');
 	
-	$('#tmplTaskList').tmpl().appendTo('#pageContainer');
+	var task = [
+		{ taskList_name : "My Tasks", taskBoxes : [
+			{ taskbox_name : "Research" },
+			{ taskbox_name : "Powerpoint"} 	
+		]},
+		{ taskList_name : "Others", taskBoxes : [
+			{ taskbox_name : "UCC" },
+			{ taskbox_name : "Speech"} 	
+		]}
+		
+	];
+	
+	
+	$.get('/template/task', function(templates) {
+		$('body').append(templates);	
+		$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	});
+	
 	
 };
 

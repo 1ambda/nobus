@@ -9,6 +9,7 @@ var express = require('express');
 var routes = require('./routes');
 var welcome = require('./routes/welcome');
 var project = require('./routes/project');
+var template = require('./routes/template');
 var http = require('http');
 var path = require('path');
 // var consolidate = require("consolidate");
@@ -61,3 +62,9 @@ app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.get('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
 app.get('/project/getTaskName', project.getTaskName);
+
+
+// for jQuery Template
+app.get('/template/task', template.task);
+app.get('/template/dialogTeam', template.dialogTeam);
+

@@ -1,0 +1,36 @@
+<script id="tmplTaskList" type="x-jquery-tmpl">
+	<div class="row">
+		<div class="span16">
+			<div class="box">
+				<div class="box-content">
+					<legend class="lead">
+						<font class="box-title">${taskList_name}</font>
+						<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".box-hide">
+							<i class="icon-reorder" ></i>
+						</button>
+					</legend>
+					<div id="divTaskListContent" class="box-hide box-content">
+						<h4></h4> <!-- for Hide -->
+						{{tmpl(taskBoxes) "#tmplTaskBox"}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<script id="tmplTaskBox" type="x-jquery-tmpl">
+	<div class="box">
+		<div class="box-header">
+			<h5>${taskbox_name}</h5>
+		</div>
+		<div class="box-content">
+			</button>
+			<button class="btn">
+				<i class="icon-user icon-large"></i>
+				<br/>
+				Push
+			</button>
+		</div>
+	</div>
+</script>
