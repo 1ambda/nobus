@@ -96,21 +96,21 @@ function insertTask() {
 
 	$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
 	
-	// $('.task-elem').click(function(event) {
-		// // alert($(this).children('#taskelem_member').text());
-// 		
-			// openTaskDialog();
-// 		
-	// });
-// 	
-	// $('.taskelem-select').click(function(event) {
-		// event = event || window.event;
-		// if(event.stopPropagation) {
-			// event.stopPropagation();
-		// } else {
-			// event.cancelBubble = false;
-		// }
-	// });
+	$('.task-elem').click(function(event) {
+		// alert($(this).children('#taskelem_member').text());
+		
+			openTaskDialog();
+		
+	});
+	
+	$('.taskelem-select').click(function(event) {
+		event = event || window.event;
+		if(event.stopPropagation) {
+			event.stopPropagation();
+		} else {
+			event.cancelBubble = false;
+		}
+	});
 };
 
 function loadPageContents(tmpl) {
