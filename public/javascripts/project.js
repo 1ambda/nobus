@@ -106,8 +106,10 @@ function testFunction() {
 function pushAction() {
 	$('#dialogPush').modal('hide');
 	var json = new Array();
+	//send push data in json
+	//pushTitle, pushText, start_date, due_date, user_id
 	json['pushTitle'] = $('#inputPushTitle').val();
-	json['pushText'] = $('#pushText').val();
+	json['pushDescription'] = $('#pushText').val();
 	json['start_date'] = $('#inputStartDate').val();
 	json['due_date'] = $('#inputDueDate').val();
 	json['user_id'] = pushMemberId;
@@ -118,8 +120,8 @@ function pushAction() {
 		type : 'post',
 		url : '/project/pushTask',
 		data : json,
-		success : function(result) {
-			
+		success : function() {
+			console.log("Push Success");
 		}
 	});
 	
