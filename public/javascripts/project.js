@@ -12,8 +12,8 @@ $(function() {
 		source : inviteMemberTypeahead
 	});
 
-	$('#datepicker').datepicker();
-	$('#datepicker2').datepicker();
+	$('#datepicker').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
+	$('#datepicker2').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
 	loadPageContents('tmplGantt');
 
 	var map = {};
@@ -139,8 +139,28 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	var test = $('#pushMember').val();
-	console.log(test);
+	var json = new Array();
+	//send push data in json
+	//pushTitle, pushText, start_date, due_date, user_id
+	json['pushTitle'] = $('#inputPushTitle').val();
+	json['pushDescription'] = $('#pushText').val();
+	json['start_date'] = $('#inputStartDate').val();
+	json['due_date'] = $('#inputDueDate').val();
+	json['user_id'] = pushMemberId;
+	
+	console.log(pushMemberId.valueOf());
+	console.log(json);
+	$.ajax({
+		type : 'post',
+		url : '/project/pushTask',
+		data : json,
+		success : function() {
+			console.log("Push Success");
+		}
+	});
+	
+	pushMemberId = [];
+	console.log(pushMemberId);
 };
 
 function dropoutAction() {
@@ -304,18 +324,19 @@ function addPushMember(val) {
 	if (!sep) {
 		pushMemberId.push(val);
 		var icon = val + " <i class=\"icon-remove-sign\"></i>";
-		var id = val + "push"
+		var id = val;
 		var onClick = "javascript:deleteButton("+id+");";
 		$("<button></button>").attr("id", id).attr("onClick",onClick).attr("class", "btn btn-primary btnMember").html(icon).appendTo("#placeAddMemberButton");
 	}
 	else{
-		console.log("Member is alredy added");
+		console.log("Member is already added");
 		return;
 	}
 
 }
 
 function deleteButton(id){
-	pushMemberId.splice($.inArray(id.id, pushMemberId)-1,1);
+	var templ = $.inArray(id.id, pushMemberId);
+	pushMemberId.splice($.inArray(id.id, pushMemberId),1);
 	$('#'+id.id).remove();
 }
