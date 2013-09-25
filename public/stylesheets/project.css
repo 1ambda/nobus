@@ -25,3 +25,6 @@ div.modal-contents{
 	content: ".";
 	overflow:hidden;
 }
+.inputPushTitle{
+	width: 696px;
+}
