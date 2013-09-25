@@ -24,15 +24,18 @@ $(function() {
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
 		loadPageContents(map[this.id]);
 	});
-
+	
+	
 	// testFunction();
 });
+
+
 
 function getMemberList() {
 
 	// Query
 
-	$('#dialogMemberList table tbody').remove();
+	$('#dialogTeam table tbody').remove();
 
 	$.ajax({
 		type : 'get',
@@ -45,38 +48,69 @@ function getMemberList() {
 
 			$.get('/template/dialogTeam', function(templates) {
 				$('body').append(templates);
-				$('#tmplDialogTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
-				$('#dialogMemberList').modal({
+				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dialogTeam table:last');
+				$('#dialogTeam').modal({
 					backdrop : false,
 					keyboard : true
 				});
 			});
 		}
 	});
-
 };
 
 function insertTask() {
 	
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
-			{ taskbox_name : "Research" },
-			{ taskbox_name : "Powerpoint"} 	
+			{ taskbox_name : "Research" , taskElems : [
+				{ task_kind : "Push", member: "Hoon", duedate: "09.28", taskMembers : [
+					{ co_worker : "Hoon", current_user : "true"}
+				]}
+			]}, 
+			{ taskbox_name : "Presentation" , taskElems : [
+				{ task_kind : "Push", duedate: "09.28", taskMembers : [
+					{ co_worker : "Ho"},
+					{ co_worker : "Hoon", current_user : "true"},
+					{ co_worker : "Eun"}
+				]},
+				{ task_kind : "Return", duedate: "10.28", taskMembers : [
+					{ co_worker : "Lee"},
+					{ co_worker : "Hoon", current_user : "true"}
+				]}
+			]}
 		]},
 		{ taskList_name : "Others", taskBoxes : [
-			{ taskbox_name : "UCC" },
-			{ taskbox_name : "Speech"} 	
+			{ taskbox_name : "UCC" , taskElems : [
+				{ task_kind : "Push", member: "Lee", duedate : "09.27", taskMembers : [
+					{ co_worker : "Jin" }
+				]},
+				{ task_kind : "Toss", member: "Ho", duedate : "09.28", taskMembers : [
+					{ co_worker : "Mun" }
+				]},
+				{ task_kind : "Return", member: "Mun", duedate : "09.29", taskMembers : [
+					{ co_worker : "Lee" }
+				]}
+			]}
 		]}
-		
 	];
+
+	$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
 	
-	
-	$.get('/template/task', function(templates) {
-		$('body').append(templates);	
-		$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
-	});
-	
-	
+	// $('.task-elem').click(function(event) {
+		// // alert($(this).children('#taskelem_member').text());
+// 		
+			// openTaskDialog();
+// 		
+	// });
+// 	
+	// $('.taskelem-select').click(function(event) {
+		// event = event || window.event;
+		// if(event.stopPropagation) {
+			// event.stopPropagation();
+		// } else {
+			// event.cancelBubble = false;
+		// }
+	// });
 };
 
 function loadPageContents(tmpl) {
@@ -176,6 +210,21 @@ function openInviteDialog() {
 	$('#dialogInviteMember').modal({
 		backdrop : false,
 		keyboard : true
+	});
+};
+
+function openTaskDialog() {
+	$.get('/template/dialogTask', function(templates) {
+		$('body').append(templates);
+		$('#tmplDialogTask').tmpl().appendTo('body');
+		$(".taskelem-select").on('click', function(event) {
+			event.preventDefault();
+		});
+		$('#dialogTask').modal({
+			backdrop : false,
+			keyboard : true
+		});
+		// $(".chosen").chosen();
 	});
 };
 

@@ -25,3 +25,12 @@ div.modal-contents{
 	content: ".";
 	overflow:hidden;
 }
+
+.task-elem {
+	margin: 10px;
+}
+
+.taskelem-select {
+	width: 30px;
+	margin-top: 10px;
+}
