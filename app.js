@@ -67,4 +67,4 @@ app.get('/project/getTaskName', project.getTaskName);
 // for jQuery Template
 app.get('/template/task', template.task);
 app.get('/template/dialogTeam', template.dialogTeam);
-
+app.get('/template/dialogTask', template.dialogTask);

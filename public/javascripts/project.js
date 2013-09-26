@@ -12,8 +12,8 @@ $(function() {
 		source : inviteMemberTypeahead
 	});
 
-	$('#datepicker').datepicker();
-	$('#datepicker2').datepicker();
+	$('#datepicker').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
+	$('#datepicker2').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
 	loadPageContents('tmplGantt');
 
 	var map = {};
@@ -24,15 +24,18 @@ $(function() {
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
 		loadPageContents(map[this.id]);
 	});
-
+	
+	
 	// testFunction();
 });
+
+
 
 function getMemberList() {
 
 	// Query
 
-	$('#dialogMemberList table tbody').remove();
+	$('#dialogTeam table tbody').remove();
 
 	$.ajax({
 		type : 'get',
@@ -42,41 +45,76 @@ function getMemberList() {
 				alert("Error : getTeamMembers");
 				return;
 			}
-
+			
+			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
+			result.data[1] = { user_id : "Min", task_number : "2", status : "offline" };
+			result.data[2] = { user_id : "JH", task_number : "1", status : "online" };
+			
 			$.get('/template/dialogTeam', function(templates) {
 				$('body').append(templates);
-				$('#tmplDialogTeam').tmpl(result.data).appendTo('#dialogMemberList table:last');
-				$('#dialogMemberList').modal({
+				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dialogTeam table:last');
+				$('#dialogTeam').modal({
 					backdrop : false,
 					keyboard : true
 				});
 			});
 		}
 	});
-
 };
 
 function insertTask() {
 	
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
-			{ taskbox_name : "Research" },
-			{ taskbox_name : "Powerpoint"} 	
+			{ taskbox_name : "Research" , taskElems : [
+				{ task_kind : "Push", member: "Hoon", duedate: "09.28", taskMembers : [
+					{ co_worker : "Hoon", current_user : "true"}
+				]}
+			]}, 
+			{ taskbox_name : "Presentation" , taskElems : [
+				{ task_kind : "Push", duedate: "09.28", taskMembers : [
+					{ co_worker : "Ho"},
+					{ co_worker : "Hoon", current_user : "true"},
+					{ co_worker : "Eun"}
+				]},
+				{ task_kind : "Return", duedate: "10.28", taskMembers : [
+					{ co_worker : "Lee"},
+					{ co_worker : "Hoon", current_user : "true"}
+				]}
+			]}
 		]},
 		{ taskList_name : "Others", taskBoxes : [
-			{ taskbox_name : "UCC" },
-			{ taskbox_name : "Speech"} 	
+			{ taskbox_name : "UCC" , taskElems : [
+				{ task_kind : "Push", member: "Lee", duedate : "09.27", taskMembers : [
+					{ co_worker : "Jin" }
+				]},
+				{ task_kind : "Toss", member: "Ho", duedate : "09.28", taskMembers : [
+					{ co_worker : "Mun" }
+				]},
+				{ task_kind : "Return", member: "Mun", duedate : "09.29", taskMembers : [
+					{ co_worker : "Lee" }
+				]}
+			]}
 		]}
-		
 	];
+
+	$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
 	
-	
-	$.get('/template/task', function(templates) {
-		$('body').append(templates);	
-		$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	$('.task-elem').click(function(event) {
+		// alert($(this).children('#taskelem_member').text());
+		
+			openTaskDialog();
+		
 	});
 	
-	
+	$('.taskelem-select').click(function(event) {
+		event = event || window.event;
+		if(event.stopPropagation) {
+			event.stopPropagation();
+		} else {
+			event.cancelBubble = false;
+		}
+	});
 };
 
 function loadPageContents(tmpl) {
@@ -105,8 +143,28 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	var test = $('#pushMember').val();
-	console.log(test);
+	var json = new Array();
+	//send push data in json
+	//pushTitle, pushText, start_date, due_date, user_id
+	json['pushTitle'] = $('#inputPushTitle').val();
+	json['pushDescription'] = $('#pushText').val();
+	json['start_date'] = $('#inputStartDate').val();
+	json['due_date'] = $('#inputDueDate').val();
+	json['user_id'] = pushMemberId;
+	
+	console.log(pushMemberId.valueOf());
+	console.log(json);
+	$.ajax({
+		type : 'post',
+		url : '/project/pushTask',
+		data : json,
+		success : function() {
+			console.log("Push Success");
+		}
+	});
+	
+	pushMemberId = [];
+	console.log(pushMemberId);
 };
 
 function dropoutAction() {
@@ -176,6 +234,21 @@ function openInviteDialog() {
 	$('#dialogInviteMember').modal({
 		backdrop : false,
 		keyboard : true
+	});
+};
+
+function openTaskDialog() {
+	$.get('/template/dialogTask', function(templates) {
+		$('body').append(templates);
+		$('#tmplDialogTask').tmpl().appendTo('body');
+		$(".taskelem-select").on('click', function(event) {
+			event.preventDefault();
+		});
+		$('#dialogTask').modal({
+			backdrop : false,
+			keyboard : true
+		});
+		// $(".chosen").chosen();
 	});
 };
 
@@ -255,18 +328,19 @@ function addPushMember(val) {
 	if (!sep) {
 		pushMemberId.push(val);
 		var icon = val + " <i class=\"icon-remove-sign\"></i>";
-		var id = val + "push"
+		var id = val;
 		var onClick = "javascript:deleteButton("+id+");";
 		$("<button></button>").attr("id", id).attr("onClick",onClick).attr("class", "btn btn-primary btnMember").html(icon).appendTo("#placeAddMemberButton");
 	}
 	else{
-		console.log("Member is alredy added");
+		console.log("Member is already added");
 		return;
 	}
 
 }
 
 function deleteButton(id){
-	pushMemberId.splice($.inArray(id.id, pushMemberId)-1,1);
+	var templ = $.inArray(id.id, pushMemberId);
+	pushMemberId.splice($.inArray(id.id, pushMemberId),1);
 	$('#'+id.id).remove();
 }

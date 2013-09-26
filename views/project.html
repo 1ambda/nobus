@@ -147,27 +147,28 @@
 
 					<div class="modal-contents">
 						<div class="modal-body" style='background-color:#eeeeee'>
-
+							
+							<h4><i class='icon-user'></i> Title</h4>
+							<input id='inputPushTitle' class='inputPushTitle' type='text'>
 							<h4><i class='icon-user'></i> Task</h4>
-							<textarea class="contents" style="resize: none"></textarea>																																			
+							<textarea id="pushText" class="contents" style="resize: none"></textarea>																																			
  							<h4><i class='icon-user'></i> Due to</h4>
 
 							<span id="datepicker" class="input-prepend date">
 								<div class="add-on">
 									<i class="icon-th"></i>
 								</div>
-								<input class="span2" type="text" value="09/13/2013">
+								<input id="inputStartDate" class="span2" type="text">
 							</span>
 							to
 							<span id="datepicker2" class="input-prepend date">
 								<div class="add-on">
 									<i class="icon-th"></i>
 								</div>
-								<input class="span2" type="text" value="09/13/2013">
+								<input id="inputDueDate" class="span2" type="text">
 							</span>
 
 							<h4><i class='icon-user'></i> User ID</h4>
-
 							<div class="controls">
 								<div id='controls' class='span4'>
 									<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --" onchange="addPushMember(value);">
@@ -253,31 +254,79 @@
 				</section>
 
 
-				<!-- dialogMemberList-->
-				<div class="span12">
-					<div id="dialogMemberList" class="box modal hide fade" role="dialog">
-						<div class="modal-header">
-							<h4><i class="icon-user icon-large"></i> Team Members</h4>
-						</div>
-						<div class="box-content box-table">
-							<table class="table table-hover tablesorter">
-								<thead>
-									<tr>
-										<th>Name</th>
-										<th>Task</th>
-										<th>Status</th>
-									</tr>
-								</thead>
-							</table>
-						</div>
-						<div class="modal-footer">
-							<a href="#" class="btn btn-success">Message</a>
-							<a href="#" class="btn" data-dismiss="modal">Close</a>
+				
+				
+				<!-- template for Task -->
+				<script id="tmplTaskList" type="x-jquery-tmpl">
+					<div class="row">
+						<div class="span16">
+							<div class="box">
+								<div class="box-content">
+									<legend class="lead">
+										<font class="box-title">${taskList_name}</font>
+										{{if taskList_name == "My Tasks"}}
+										<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-my">
+										{{else taskList_name == "Others"}}
+										<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-others">
+										{{/if}}
+											<i class="icon-reorder" ></i>
+										</button>
+									</legend>
+									{{if taskList_name == "My Tasks"}}
+									<div id="divTaskListContent" class="tasklist-my box-content">
+									{{else taskList_name == "Others"}}
+									<div id="divTaskListContent" class="tasklist-others box-content">
+									{{/if}}
+										<h4></h4>
+										{{tmpl(taskBoxes) "#tmplTaskBox"}}
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-				</div>
-				<!-- end dialogMemberList-->
+				</script>
+
+				<script id="tmplTaskBox" type="x-jquery-tmpl">
+					<div class="box">
+						<div class="box-header">
+							<h5 id="taskbox_name">${taskbox_name}</h5>
+						</div>
+						<div class="box-content">
+							{{tmpl(taskElems) "#tmplTaskElem"}}
+						</div>
+					</div>
+				</script>
+
+				<script id="tmplTaskElem" type="x-jquery-tmpl">
+					{{if task_kind == "Push"}}
+						<div class="btn task-elem btn-success">
+						<i class="icon-envelope icon-large"></i>
+					{{else task_kind == "Toss"}}
+						<i class="icon-circle-arrow-right icon-large"></i>
+						<div class="btn task-elem btn-primary">
+						<i class="icon-signin icon-large"></i>
+					{{else task_kind == "Return"}}
+						<i class="icon-circle-arrow-right icon-large"></i>
+						<div class="btn task-elem btn-danger">
+						<i class="icon-flag icon-large"></i>
+					{{/if}}
+							<!-- <div id="taskelem_member">${member}</div> -->
+							<div class="controls">
+								<select style="width: 100px;" class="taskelem-select">
+									{{if taskMembers}}
+									{{tmpl(taskMembers) "#tmplTaskElemOption"}}
+									{{/if}}
+								</select>
+							</div>
+							<div id="taskelem_duedate">${duedate}</div>
+						</div>
+				</script>
 				
+				<script id="tmplTaskElemOption" type="x-jquery-tmpl">
+					<option {{if current_user}}selected{{/if}} value="${co_worker}">${co_worker}</option>
+					
+				</script> 
+				<!-- Template for Task end -->
 				
 				
 			</div>
