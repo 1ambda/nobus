@@ -25,6 +25,15 @@ div.modal-contents{
 	content: ".";
 	overflow:hidden;
 }
-.inputPushTitle{
+
+.task-elem {
+	margin: 10px;
+}
+
+.taskelem-select {
+	width: 30px;
+	margin-top: 10px;
+
+.inputPushTitle {
 	width: 696px;
 }
