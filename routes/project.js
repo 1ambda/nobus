@@ -216,7 +216,7 @@ exports.pushTask = function(req, res){
 	});
 };
 
-exports.getTaskName = function(req, res){
+exports.getTaskList = function(req, res){
 	console.log("Route : getTaskName");
 	
 	team_id = req.session.team_id;
