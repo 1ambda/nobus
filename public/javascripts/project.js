@@ -18,22 +18,30 @@ $(function() {
 	};
 	$('#datepicker').datepicker(pickerOpts);
 	$('#datepicker2').datepicker(pickerOpts);
-	loadPageContents('tmplGantt');
 
 	var map = {};
-	map["tabGantt"] = "tmplGantt";
-	map["tabContribution"] = "tmplContribution";
-	map["tabComment"] = "tmplComment";
+	map["tabGantt"] = getTaskList;
+	map["tabContribution"] = getContribution;
+	map["tabComment"] = getCommentList;
 
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
-		loadPageContents(map[this.id]);
+		map[this.id]();
 	});
 	
+	// Not Fully impl
+	// We need to work.
+	getTaskList();
 	
 	// testFunction();
 });
 
+function getContribution() {
+	$("#pageContainer").html($('#tmplContribution').tmpl());
+};
 
+function getCommentList() {
+	$("#pageContainer").html($('#tmplComment').tmpl());
+};
 
 function getMemberList() {
 
@@ -66,7 +74,7 @@ function getMemberList() {
 	});
 };
 
-function insertTask() {
+function getTaskList() {
 	
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
@@ -102,7 +110,8 @@ function insertTask() {
 		]}
 	];
 
-	$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	// $('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	$('#pageContainer').html($('#tmplTaskList').tmpl(task));
 	
 	$('.task-elem').click(function(event) {
 		// alert($(this).children('#taskelem_member').text());
@@ -121,9 +130,6 @@ function insertTask() {
 	});
 };
 
-function loadPageContents(tmpl) {
-	$("#pageContainer").html($('#' + tmpl).html());
-};
 
 function getUserID() {
 	$.ajax({
@@ -240,9 +246,20 @@ function openInviteDialog() {
 };
 
 function openTaskDialog() {
+	
+	var data = {
+		title: "Search Images",
+		description : "we need sexy girls",
+		taskMembers : [
+			{ user_id : "Hoon", status : "online"},
+			{ user_id : "Lee", status : "online"},
+			{ user_id : "Jung", status : "online"}
+		]
+	};
+
 	$.get('/template/dialogTask', function(templates) {
 		$('body').append(templates);
-		$('#tmplDialogTask').tmpl().appendTo('body');
+		$('#tmplDialogTask').tmpl(data).appendTo('body');
 		$(".taskelem-select").on('click', function(event) {
 			event.preventDefault();
 		});
@@ -250,7 +267,6 @@ function openTaskDialog() {
 			backdrop : false,
 			keyboard : true
 		});
-		// $(".chosen").chosen();
 	});
 };
 
