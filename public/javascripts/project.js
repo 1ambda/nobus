@@ -11,9 +11,13 @@ $(function() {
 	$('#inputInviteMember').typeahead({
 		source : inviteMemberTypeahead
 	});
-
-	$('#datepicker').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
-	$('#datepicker2').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
+	var pickerOpts = {
+		format: "yyyy-mm-dd",
+		changeYear: true,
+		defaultDate: new Date()
+	};
+	$('#datepicker').datepicker(pickerOpts);
+	$('#datepicker2').datepicker(pickerOpts);
 	loadPageContents('tmplGantt');
 
 	var map = {};
