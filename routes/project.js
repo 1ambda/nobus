@@ -181,7 +181,8 @@ exports.getTeamMembers = function(req, res) {
 
 exports.pushTask = function(req, res){
 	console.log("Route : push");
-
+	
+	console.log(req.body.name);
 	team_id = req.session.team_id;
 	name = req.body.name;
 	user_id = req.body.user_id;
@@ -194,8 +195,11 @@ exports.pushTask = function(req, res){
 	pool.acquire(function(err, conn){
 		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows){
 			if(err){
+				console.log("this");
 				console.log(err);
+				console.log("this");
 			} else {
+				console.log("1");
 				conn.query(getTaskIdQuery, [team_id, name], function(err, rows){
 					req.session.task_id = rows[0].id;
 					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows){

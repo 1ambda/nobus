@@ -105,24 +105,22 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	var json = new Array();
+	var json = {};
 	//send push data in json
 	//pushTitle, pushText, start_date, due_date, user_id
 	json['pushTitle'] = $('#inputPushTitle').val();
-	json['pushDescription'] = $('#pushText').val();
+	// json['pushDescription'] = $('#pushText').val();
+	json['name'] = $('#pushText').val();
 	json['start_date'] = $('#inputStartDate').val();
 	json['due_date'] = $('#inputDueDate').val();
-	json['user_id'] = pushMemberId;
-	
-	console.log(pushMemberId.valueOf());
+	json['user_id'] = new Array();
+	json['user_id']= pushMemberId;
 	console.log(json);
 	$.ajax({
 		type : 'post',
 		url : '/project/pushTask',
 		data : json,
-		success : function() {
-			console.log("Push Success");
-		}
+		success : console.log(json)
 	});
 	
 	pushMemberId = [];
