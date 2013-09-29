@@ -2,6 +2,7 @@ var teamName;
 var user_id;
 var pushMemberId = new Array();
 $(function() {
+	
 	getProjectName();
 	getUserID();
 	$(".chosen").chosen();
@@ -25,8 +26,7 @@ $(function() {
 	map["tabComment"] = getCommentList;
 
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
-		map[this.id]();
-	});
+		map[this.id]();	});
 	
 	// Not Fully impl
 	// We need to work.
@@ -34,6 +34,30 @@ $(function() {
 	
 	// testFunction();
 });
+
+
+// connected with 'etc' button
+function testAction() {
+	// for Logging
+	// Click F2!!! and then  etc button
+	
+  	log.debug( 'this is a debug message' );
+	log.info( 'this is an info message' );
+	log.warn( 'this is a warning message' );
+	log.error( 'this is an error message' );
+	
+	log.profile( 'generate test string' );
+
+	var testContent = '';
+	for (var i = 0; i < 3000; i++) {
+		testContent += '-';
+	}
+
+	log.profile('generate test string'); 
+
+	// end for Logging
+	
+}
 
 function getContribution() {
 	$("#pageContainer").html($('#tmplContribution').tmpl());
