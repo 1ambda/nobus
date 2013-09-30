@@ -256,3 +256,17 @@ exports.test = function(req, res) {
 
 };
 
+
+exports.upload = function(req, res){
+	fs.readFile(req.files.uploadFile.path, function(error, data){
+		var filePath = ___dirname + "\\files\\" + req.files.uploadFile.name;
+		fs.writeFile(filePath, data, function(error) {
+			if(error) {
+				throw err;
+			} else {
+				res.redirect(filePath);
+			}
+		});
+	});
+};
+

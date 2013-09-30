@@ -12,6 +12,7 @@ var project = require('./routes/project');
 var template = require('./routes/template');
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 // var consolidate = require("consolidate");
 
 
@@ -31,6 +32,9 @@ app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.listen(3000, "localhost", function(){
+	console.log('Server Start');
+});
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session( { secret: "Youth" } ));
@@ -69,3 +73,8 @@ app.post('/project/getTaskList', project.getTaskList);
 app.get('/template/task', template.task);
 app.get('/template/dialogTeam', template.dialogTeam);
 app.get('/template/dialogTask', template.dialogTask);
+//for upload File
+// app.get('/project/test', routes.test);
+app.post('/project/upload', project.upload);
+
+
