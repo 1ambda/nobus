@@ -283,10 +283,17 @@
     root = this;
 
     $ = jQuery;
+    
+    // edited by anster
+    
+    IE = /MSIE/i.test(navigator.userAgent);
+	IE6 = /MSIE 6/i.test(navigator.userAgent);
+	IE7 = /MSIE 7/i.test(navigator.userAgent);
 
     $.fn.extend({
         chosen: function(options) {
-            if ($.browser.msie && ($.browser.version === "6.0" || ($.browser.version === "7.0" && document.documentMode === 7))) {
+            // if ($.support.msie && ($.support.version === "6.0" || ($.support.version === "7.0" && document.documentMode === 7))) {
+            if ( IE && ( IE6 || IE7 )) {
                 return this;
             }
             return this.each(function(input_field) {
