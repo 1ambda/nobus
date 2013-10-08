@@ -83,10 +83,12 @@ function getMemberList() {
 				return;
 			}
 			
-			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
-			result.data[1] = { user_id : "Min", task_number : "2", status : "offline" };
-			result.data[2] = { user_id : "JH", task_number : "1", status : "online" };
-			
+//			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
+            for(var i = 0; i < result.data.length; i++) {
+                result.data[i]["task_number"] = i;
+                result.data[i]["status"] = "online";
+            }
+
 			$.get('/template/dialogTeam', function(templates) {
 				$('body').append(templates);
 				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dialogTeam table:last');
