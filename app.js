@@ -32,20 +32,21 @@ app.set('view engine', 'html');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
-app.listen(3000, "localhost", function(){
-	console.log('Server Start');
-});
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session( { secret: "Youth" } ));
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-var server = app.listen(app.get('port'));
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(app.get('port'));
 
 app.get('/', routes.index);
 app.post('/register', routes.register);
@@ -65,10 +66,17 @@ app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
-console.log('1');
-app.post('/project/getTaskList', project.getTaskList);
-console.log('2');
+app.get('/project/getTaskList', project.getTaskList);
 
+
+// RESTFUL API
+app.get('/project/comments/:team_id', project.getComments);
+
+
+
+
+// for socket.io
+var comment = require('./routes/sockets/comment').listen(io);
 
 // for jQuery Template
 app.get('/template/task', template.task);
@@ -77,5 +85,4 @@ app.get('/template/dialogTask', template.dialogTask);
 //for upload File
 // app.get('/project/test', routes.test);
 app.post('/project/upload', project.upload);
-
 

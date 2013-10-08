@@ -15,7 +15,9 @@ exports.getProjectName = function(req, res) {
 	if (req.session.user_id) {
 		if (req.session.project_name) {
 			res.send({
-				"project_name" : req.session.project_name
+				team_name : req.session.project_name,
+                team_id : req.session.team_id,
+                user_id : req.session.user_id
 			});
 		}
 	} else {
@@ -190,7 +192,7 @@ exports.pushTask = function(req, res){
 	due_date = req.body.due_date;
 	var taskQuery = "INSERT INTO task(team_id, name, start_date, due_date) VALUES (?, ?, ?, ?);";
 	var getTaskIdQuery = "SELECT id FROM task WHERE team_id = ? AND name = ?;";
-	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) VALUES(?, ?);";
+	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) /VALUES(?, ?);";
 	
 	pool.acquire(function(err, conn){
 		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows){
@@ -253,6 +255,23 @@ exports.getTaskList = function(req, res){
 			}
 		});
 	});
+};
+
+// get /project/comments
+exports.getComments = function(req, res)  {
+    var team_id = req.params.team_id;
+    console.log(team_id);
+
+    // query for get comments list from DB
+
+    var data = [];
+    data[0] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[1] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[2] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[3] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+
+
+    res.send(data);
 };
 
 exports.test = function(req, res) {

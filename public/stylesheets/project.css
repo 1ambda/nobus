@@ -33,7 +33,14 @@ div.modal-contents{
 .taskelem-select {
 	width: 30px;
 	margin-top: 10px;
+}
 
 .inputPushTitle {
 	width: 696px;
 }
+
+.comment {
+    background-image: url('../images/bg_comment.jpg');
+    background-repeat: repeat;
+}
+

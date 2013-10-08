@@ -1,8 +1,9 @@
-var teamName;
+var team_name;
 var user_id;
+var team_id;
 var pushMemberId = new Array();
 $(function() {
-	
+
 	getProjectName();
 	getUserID();
 	$(".chosen").chosen();
@@ -29,14 +30,36 @@ $(function() {
 		map[this.id]();
 	});
 	
-	// Not Fully impl
-	// We need to work.
 	getTaskList();
-	
-	// testFunction();
+
+    commentSocketInit();
 });
 
+function commentSocketInit() {
+    var comment = io.connect('http://localhost/comment');
 
+    comment.on('connect', function() {
+
+        log.debug(team_id);
+        // get chatting log;
+        $.ajax({
+            type: 'get',
+            url: '/project/comments/' + team_id,
+            success : function(data) {
+                log.debug(data);
+                log.debug(data[0]);
+                log.debug(data[0].comment);
+            }
+        });
+    });
+
+
+    comment.on('disconnect', function() {
+
+    });
+
+
+};
 // connected with 'etc' button
 function testAction() {
 	// for Logging
@@ -62,10 +85,14 @@ function testAction() {
 
 function getContribution() {
 	$("#pageContainer").html($('#tmplContribution').tmpl());
+
+    $("body").removeClass('comment')
 };
 
 function getCommentList() {
 	$("#pageContainer").html($('#tmplComment').tmpl());
+
+    $("body").addClass('comment')
 };
 
 function getMemberList() {
@@ -102,7 +129,8 @@ function getMemberList() {
 };
 
 function getTaskList() {
-	
+    $("body").removeClass('comment')
+
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
 			{ taskbox_name : "Research" , taskElems : [
@@ -157,7 +185,7 @@ function getTaskList() {
 	});
 
     $.ajax({
-        type : 'post',
+        type : 'get',
         url : '/project/getTaskList',
         success : function(result) {
             console.log(result);
@@ -268,7 +296,10 @@ function getProjectName() {
 		type : 'get',
 		url : '/project/getProjectName',
 		success : function(data) {
-			$('#projectName').text(data.project_name);
+            $('#projectName').text(data.team_name);
+            team_id = data.team_id;
+            team_name = data.team_name;
+            user_id = data.user_id;
 		}
 	});
 };
