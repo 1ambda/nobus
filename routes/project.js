@@ -217,13 +217,16 @@ exports.pushTask = function(req, res){
 };
 
 exports.getTaskList = function(req, res){
-	console.log("Route : getTaskName");
+	console.log("Route : getTaskList");
 	
-	team_id = req.session.team_id;
-	user_id = req.body.user_id;
+    team_id = req.session.team_id;
+    user_id = req.session.user_id;
+
+    console.log(team_id);
+    console.log(user_id);
 	var query = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE B.team_id = ? AND B.task_on = 1;";
 	
-	pool.acquire(function(req, res){
+	pool.acquire(function(err, conn){
 		conn.query(query, [team_id], function(err, rows){
 			pool.release(conn);
 			

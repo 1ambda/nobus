@@ -26,7 +26,8 @@ $(function() {
 	map["tabComment"] = getCommentList;
 
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
-		map[this.id]();	});
+		map[this.id]();
+	});
 	
 	// Not Fully impl
 	// We need to work.
@@ -152,6 +153,14 @@ function getTaskList() {
 			event.cancelBubble = false;
 		}
 	});
+
+    $.ajax({
+        type : 'post',
+        url : '/project/getTaskList',
+        success : function(result) {
+            console.log(result);
+        }
+    });
 };
 
 

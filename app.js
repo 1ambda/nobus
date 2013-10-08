@@ -65,8 +65,9 @@ app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
-// app.get('/project/getTaskName', project.getTaskName);
+console.log('1');
 app.post('/project/getTaskList', project.getTaskList);
+console.log('2');
 
 
 // for jQuery Template
