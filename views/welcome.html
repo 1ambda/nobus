@@ -1,158 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>NoBus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="/stylesheets/bootstrap.css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/bootswatch.min.css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/font-awesome.min.css" media="screen">
+	<head>
+		<title>Welcome to NoBus!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="/stylesheets/bootstrap.css" media="screen">
+		<link rel="stylesheet" href="/stylesheets/bootswatch.min.css" media="screen">
+		<link rel="stylesheet" href="/stylesheets/font-awesome.min.css" media="screen">
 
-    <link rel="stylesheet" href="/stylesheets/index.css" media="screen">
-    <link rel="stylesheet" href="/stylesheets/common.css" media="screen">
+		<link rel="stylesheet" href="/stylesheets/common.css" media="screen">
+		<link rel="stylesheet" href="/stylesheets/welcome.css" media="screen">
 
-    <link href="/library/blackbird/blackbird.css" type="text/css" media="screen, projection" rel="stylesheet"/>
-    <!-- end debug lib include -->
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <![endif]-->
-    <script type="text/javascript">
+		<link href="/library/blackbird/blackbird.css" type="text/css" media="screen, projection" rel="stylesheet"/>
+		<!-- end debug lib include -->
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+		<![endif]-->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-23019901-1']);
+			_gaq.push(['_setDomainName', "bootswatch.com"]);
+			_gaq.push(['_setAllowLinker', true]);
+			_gaq.push(['_trackPageview']);
 
-        var _gaq = _gaq || [];
-        _gaq.push(['_setAccount', 'UA-23019901-1']);
-        _gaq.push(['_setDomainName', "bootswatch.com"]);
-        _gaq.push(['_setAllowLinker', true]);
-        _gaq.push(['_trackPageview']);
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
 
-        (function () {
-            var ga = document.createElement('script');
-            ga.type = 'text/javascript';
-            ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(ga, s);
-        })();
-
-    </script>
-</head>
-<body>
-
-<div class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a href="../" class="navbar-brand">NoBus</a>
-            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="navbar-collapse collapse" id="navbar-main">
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Dropdown<span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu" aria-labelledby="themes">
-                        <li><a tabindex="-1" href="../default/">Default</a></li>
-                        <li class="divider"></li>
-                        <li><a tabindex="-1" href="../amelia/">Amelia</a></li>
-                        <li><a tabindex="-1" href="../cerulean/">Cerulean</a></li>
-                        <li><a tabindex="-1" href="../cosmo/">Cosmo</a></li>
-                        <li><a tabindex="-1" href="../cyborg/">Cyborg</a></li>
-                        <li><a tabindex="-1" href="../flatly/">Flatly</a></li>
-                        <li><a tabindex="-1" href="../journal/">Journal</a></li>
-                        <li><a tabindex="-1" href="../readable/">Readable</a></li>
-                        <li><a tabindex="-1" href="../simplex/">Simplex</a></li>
-                        <li><a tabindex="-1" href="../slate/">Slate</a></li>
-                        <li><a tabindex="-1" href="../spacelab/">Spacelab</a></li>
-                        <li><a tabindex="-1" href="../united/">United</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="http://news.bootswatch.com">Link</a>
-                </li>
-            </ul>
-
-            <!--<ul class="nav navbar-nav navbar-right">-->
-            <!--<li><a href="http://builtwithbootstrap.com/" target="_blank">Escape from free riders!</a></li>-->
-            <!--<li style="margin-right: 10px;"><input class="form-control input-sm" type="text" id="inputId"></li>-->
-            <!--<li><input class="form-control input-sm" type="password" id="inputPw"></li>-->
-            <!--<li>-->
-            <!--<button id='btnLogin' type="button" class="btn btn-small btn-info">Login</button>-->
-            <!--</li>-->
-            <!--</ul>-->
-
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <div id="divUserId">Sample, Welcome!</div>
-                </div>
-                <button type="submit" class="btn btn-success">Log out</button>
-            </form>
-
-        </div>
-    </div>
-</div>
-
-<div id="wrap">
-    <div class="container">
-
-        <div class="bs-docs-section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="page-header">
-                        <h1 id="container">What is</h1>
-                    </div>
-                    <div class="bs-example">
-                        <div class="jumbotron">
-                            <h1>NoBus</h1>
-
-                            <p>This is the worst solution for free riders. We believe our solution can improve more
-                                responsibilities for your team. We also believe they can better. Just try it.</p>
-
-                            <h1></h1>
-
-                            <p><a data-toggle="modal" href="#dlgRegister" id='btnRegister' class="btn btn-primary btn-lg">Register</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+		</script>
+	</head>
+	<body>
+		
+			<div class="modal" id="dlgCreateTeam">
+			    <div class="modal-dialog">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			                <h4 class="modal-title">Create New Project</h4>
+			            </div>
+			            <div class="modal-body">
+			            	<div class='form-group'>
+			            		<label class='control-label' for='inputProjectName'>Insert Project Name</label>
+			            		<input id='inputProjectName' class='form-control' type='text'></input>
+			            	</div>
+			            </div>
+			            <div class="modal-footer">
+							<a href="#" class="btn" data-dismiss='modal'>Close</a>
+			                <a href="javascript:createTeamAction();" class="btn btn-primary">Create</a>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+		
 
 
-    </div> <!-- end container -->
-</div> <!--end wrap -->
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<a href="../" class="navbar-brand">NoBus</a>
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="navbar-collapse collapse" id="navbar-main">
+					<ul class="nav navbar-nav">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Dropdown<span
+							class="caret"></span></a>
+							<ul class="dropdown-menu" aria-labelledby="themes">
+								<li>
+									<a tabindex="-1" href="../default/">Default</a>
+								</li>
+								<li class="divider"></li>
+								<li>
+									<a tabindex="-1" href="../amelia/">Amelia</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../cerulean/">Cerulean</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../cosmo/">Cosmo</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../cyborg/">Cyborg</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../flatly/">Flatly</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../journal/">Journal</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../readable/">Readable</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../simplex/">Simplex</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../slate/">Slate</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../spacelab/">Spacelab</a>
+								</li>
+								<li>
+									<a tabindex="-1" href="../united/">United</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="http://news.bootswatch.com">Link</a>
+						</li>
+					</ul>
 
-<div id="footer">
-    <div class="container">
-        Sample Footer
-    </div>
-</div>
+					<!--<ul class="nav navbar-nav navbar-right">-->
+					<!--<li><a href="http://builtwithbootstrap.com/" target="_blank">Escape from free riders!</a></li>-->
+					<!--<li style="margin-right: 10px;"><input class="form-control input-sm" type="text" id="inputId"></li>-->
+					<!--<li><input class="form-control input-sm" type="password" id="inputPw"></li>-->
+					<!--<li>-->
+					<!--<button id='btnLogin' type="button" class="btn btn-small btn-info">Login</button>-->
+					<!--</li>-->
+					<!--</ul>-->
 
-<div class="modal" id="dlgRegister">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                Content for the dialog / modal goes here.
-            </div>
-            <div class="modal-footer">
-                <a href="#" data-dismiss="modal" class="btn">Close</a>
-                <a href="#" class="btn btn-primary">Save changes</a>
-            </div>
-        </div>
-    </div>
-</div>
+					<form class="navbar-form navbar-right">
+						<div class="form-group">
+							<h4 id='textUserId' class='textUserId'>Sample </h4>
+						</div>
+						<div class="form-group">
+							<h4 class='textUserId'>Welcome! </h4>
+						</div>
+						<button id='btnLogout' type="button" class="btn btn-success">
+							Log out
+						</button>
+					</form>
 
+				</div>
+			</div>
+		</div>
 
-<script src="/javascripts/jquery/jquery-1.10.2.min.js"></script>
-<script src="/javascripts/bootstrap/bootstrap.js"></script>
-<script src="/javascripts/bootstrap/bootswatch.js"></script>
-<script src="/library/blackbird/blackbird.js" type="text/javascript"></script>
-<script src="/javascripts/jquery/jquery.tmpl.min.js" type="text/javascript"></script>
+		<div id="wrap">
+			<div class="container">
 
-<SCRIPT SRC="/javascripts/index.js"></SCRIPT>
-</body>
+				<div class="bs-docs-section">
+					<div class="row">
+						<div class="col-lg-6 centered">
+							
+							<button id='btnNewProject' class='btn btn-primary btn pull-right'>New</button>
+							<div class="page-header">
+								<h1 id="container">Projects</h1>
+							</div>
+							
+									<div id='divProjectList' class='list-group'>
+										<li class='list-group-item list-even'>
+											<span class='badge'>13</span>
+											Sample Project
+										</li>
+										<li class='list-group-item'>
+											<span class='badge'>13</span>
+											Sample Project
+										</li>
+										<li class='list-group-item list-even'>
+											<span class='badge'>13</span>
+											Sample Project
+										</li>
+								</div>
+							
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- end container -->
+		</div>
+		<!--end wrap -->
+
+		<div id="footer">
+			<div class="container">
+				Sample Footer
+			</div>
+		</div>
+
+		<div class="modal" id="dlgRegister">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							×
+						</button>
+						<h4 class="modal-title">Modal title</h4>
+					</div>
+					<div class="modal-body">
+						Content for the dialog / modal goes here.
+					</div>
+					<div class="modal-footer">
+						<a href="#" data-dismiss="modal" class="btn">Close</a>
+						<a href="#" class="btn btn-primary">Save changes</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="/javascripts/jquery/jquery-1.10.2.min.js"></script>
+		<script src="/javascripts/bootstrap/bootstrap.js"></script>
+		<script src="/javascripts/bootstrap/bootswatch.js"></script>
+		<script src="/library/blackbird/blackbird.js" type="text/javascript"></script>
+		<script src="/javascripts/jquery/jquery.tmpl.min.js" type="text/javascript"></script>
+
+		<script src="/javascripts/welcome.js" type="text/javascript"></script>
+		
+		
+		<div id="dialogCreateTeam" class="modal hide fade" role="dialog">
+			<div class="modal-header">
+			</div>
+			<div class="modal-body">
+				<p>
+					Insert Team Name
+				</p>
+				<input type='text' id='inputTeamName' data-provide='typehead' >
+			</div>
+
+			<div class="modal-footer">
+				<a href="javascript:createTeamAction();" class="btn btn-primary">Create</a>
+				<a href="#" class="btn" data-dismiss='modal'>Close</a>
+			</div>
+		</div>
+		
+		
+	</body>
 </html>

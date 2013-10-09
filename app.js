@@ -51,7 +51,7 @@ server.listen(app.get('port'));
 app.get('/', routes.index);
 app.post('/register', routes.register);
 app.post('/login', routes.login);
-app.post('/welcome', welcome.index);
+app.get('/welcome', welcome.index);
 app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);

@@ -22,8 +22,17 @@ body {
 }
 
 .modal-dialog {
-    margin-top:50%;
+    margin-top:20%;
 }
 .modal-content {
-    margin-top:-50%;
+    margin-top:-20%;
+}
+
+.centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.list-even {
+	background-color: #DDDDDD;
 }

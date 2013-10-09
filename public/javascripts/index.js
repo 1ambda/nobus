@@ -2,7 +2,7 @@
  * Created by Administrator on 13. 10. 9.
  */
 $(function() {
-//    $('#btnLogin').button().click(btnLoginAction);
+   $('#btnLogin').button().click(btnLoginAction);
 });
 
 function btnLoginAction(){

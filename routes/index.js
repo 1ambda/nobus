@@ -35,7 +35,6 @@ exports.register = function(req,res) {
 	    		pool.release(conn);
 	            res.send({ "status": "Already Registered"});
 	        }
-
 	    });
 	});
 };
