@@ -1,6 +1,6 @@
 $(function() {
 	getUserID();
-	// getTeamList();
+	getTeamList();
 	$('#btnLogout').click(btnLogoutAction);
 	$('#btnNewProject').click(btnNewProjectAction);
 });
@@ -32,18 +32,10 @@ function getTeamList() {
 		type : 'get',
 		url : '/welcome/getTeamList',
 		success : function(teams) {
-			console.log("getTeamList");
-			if (teams.length > 0) {
-				var li = [];
-				var i = 0;
-
-				$.each(teams, function(k, v) {
-					li[i++] = '<li><a href="#" id="' + v.id + '"class="projectList">' + v.name + '</a></li>';
-				});
-				$('#ulProjectList').empty();
-				$('#ulProjectList').append(li.join(''));
-				$('.projectList').click(projectSelected);
-			}
+			
+			$('#tmplProjectList').tmpl({ teams : teams }).appendTo('#divProjectList');
+			
+			$('.list-for-project').click(projectSelected);
 		}
 	});
 };

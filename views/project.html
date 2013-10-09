@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Welcome to NoBus!</title>
+		<title>Project Page</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="/stylesheets/bootstrap.css" media="screen">
@@ -9,7 +9,7 @@
 		<link rel="stylesheet" href="/stylesheets/font-awesome.min.css" media="screen">
 
 		<link rel="stylesheet" href="/stylesheets/common.css" media="screen">
-		<link rel="stylesheet" href="/stylesheets/welcome.css" media="screen">
+		<link rel="stylesheet" href="/stylesheets/project.css" media="screen">
 
 		<link href="/library/blackbird/blackbird.css" type="text/css" media="screen, projection" rel="stylesheet"/>
 		<!-- end debug lib include -->
@@ -35,31 +35,6 @@
 		</script>
 	</head>
 	<body>
-
-		<div class="modal" id="dlgCreateTeam">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							×
-						</button>
-						<h4 class="modal-title">Create New Project</h4>
-					</div>
-					<div class="modal-body">
-						<div class='form-group'>
-							<label class='control-label' for='inputProjectName'>Insert Project Name</label>
-							<input id='inputProjectName' class='form-control' type='text'>
-							</input>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="#" class="btn" data-dismiss='modal'>Close</a>
-						<a href="javascript:createTeamAction();" class="btn btn-primary">Create</a>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<div class="navbar navbar-default navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -120,21 +95,12 @@
 						</li>
 					</ul>
 
-					<!--<ul class="nav navbar-nav navbar-right">-->
-					<!--<li><a href="http://builtwithbootstrap.com/" target="_blank">Escape from free riders!</a></li>-->
-					<!--<li style="margin-right: 10px;"><input class="form-control input-sm" type="text" id="inputId"></li>-->
-					<!--<li><input class="form-control input-sm" type="password" id="inputPw"></li>-->
-					<!--<li>-->
-					<!--<button id='btnLogin' type="button" class="btn btn-small btn-info">Login</button>-->
-					<!--</li>-->
-					<!--</ul>-->
-
 					<form class="navbar-form navbar-right">
 						<div class="form-group">
 							<h4 id='textUserId' class='textUserId'>Sample </h4>
 						</div>
 						<div class="form-group">
-							<h4 class='textUserId'>Welcome!</h4>
+							<h4 class='textUserId'>Welcome! </h4>
 						</div>
 						<button id='btnLogout' type="button" class="btn btn-success">
 							Log out
@@ -142,9 +108,50 @@
 					</form>
 
 				</div>
+				
+
+				
+			</div>
+
+		</div>
+		
+		<!-- Second Navbar -->
+		<div class="navbar" >
+			<div class="container">
+				<div class="navbar-header">
+					<!-- <a href="../" class="navbar-brand">NoBus</a> -->
+					<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-sub">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="navbar-collapse collapse" id="navbar-sub">
+					
+					<ul class="nav navbar-nav">
+						<li class='tab-menu'>
+							<a href="#"><span class="glyphicon glyphicon-credit-card"></span>&nbsp;&nbsp;  Gantt</a>
+						</li>
+						<li class='tab-menu'>
+							<a href="#"><span class="glyphicon glyphicon-info-sign"></span>&nbsp;&nbsp;  Contribution</a>
+						</li>
+						<li class='tab-menu'>
+							<a href="#"><span class="glyphicon glyphicon-list"></span>&nbsp;&nbsp;  Comment</a>
+						</li>
+					</ul>
+
+					<form class="navbar-form navbar-right">
+						<div class="form-group">
+							<h4 class='textUserId'>Second Nav </h4>
+						</div>
+					
+					</form>
+				</div>
 			</div>
 		</div>
-
+		
+		
+		<!-- body -->
 		<div id="wrap">
 			<div class="container">
 
@@ -159,8 +166,6 @@
 								<h1 id="container">Projects</h1>
 							</div>
 
-							<div id='divProjectList' class='list-group'>
-							</div>
 
 						</div>
 					</div>
@@ -177,15 +182,6 @@
 			</div>
 		</div>
 
-
-		<script id="tmplProjectList" type="x-query-tmpl">
-				{{each(i, team) teams}}
-				<a href="#" class="list-group-item list-for-project {{= i % 2 ?  '' : 'list-even'}}">
-					<span class='badge badge-warning'>${i}</span>
-					<h5>${name}</h5>
-				</a>
-				{{/each}}
-		</script>
 		
 		<!-- script area -->
 		<script src="/javascripts/jquery/jquery-1.10.2.min.js"></script>
@@ -194,7 +190,7 @@
 		<script src="/library/blackbird/blackbird.js" type="text/javascript"></script>
 		<script src="/javascripts/jquery/jquery.tmpl.min.js" type="text/javascript"></script>
 
-		<script src="/javascripts/welcome.js" type="text/javascript"></script>
+		<script src="/javascripts/project.js" type="text/javascript"></script>
 
 	</body>
 </html>
