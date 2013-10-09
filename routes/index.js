@@ -55,7 +55,6 @@ exports.login = function(req, res) {
 	    	pool.release(conn);
 	
 	        if ( rows.length === 0 ) {
-	        	
 	            res.send({ "status": "FAIL"});
 	        } else {
 	            req.session.user_id = id;

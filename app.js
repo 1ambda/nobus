@@ -51,7 +51,7 @@ server.listen(app.get('port'));
 app.get('/', routes.index);
 app.post('/register', routes.register);
 app.post('/login', routes.login);
-app.get('/welcome', welcome.index);
+app.post('/welcome', welcome.index);
 app.get('/welcome/logout', welcome.logout);
 app.get('/welcome/getUserID', welcome.getUserID);
 app.get('/welcome/getTeamList', welcome.getTeamList);
@@ -79,9 +79,12 @@ app.get('/project/comments/:team_id', project.getComments);
 var comment = require('./routes/sockets/comment').listen(io);
 
 // for jQuery Template
-app.get('/template/task', template.task);
 app.get('/template/dialogTeam', template.dialogTeam);
 app.get('/template/dialogTask', template.dialogTask);
+
+app.get('/template/dlgRegister', template.dlgRegister);
+
+
 //for upload File
 // app.get('/project/test', routes.test);
 app.post('/project/upload', project.upload);
