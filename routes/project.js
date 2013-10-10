@@ -15,7 +15,9 @@ exports.getProjectName = function(req, res) {
 	if (req.session.user_id) {
 		if (req.session.project_name) {
 			res.send({
-				"project_name" : req.session.project_name
+				team_name : req.session.project_name,
+                team_id : req.session.team_id,
+                user_id : req.session.user_id
 			});
 		}
 	} else {
@@ -181,7 +183,8 @@ exports.getTeamMembers = function(req, res) {
 
 exports.pushTask = function(req, res){
 	console.log("Route : push");
-
+	
+	console.log(req.body.name);
 	team_id = req.session.team_id;
 	name = req.body.name;
 	user_id = req.body.user_id;
@@ -189,13 +192,16 @@ exports.pushTask = function(req, res){
 	due_date = req.body.due_date;
 	var taskQuery = "INSERT INTO task(team_id, name, start_date, due_date) VALUES (?, ?, ?, ?);";
 	var getTaskIdQuery = "SELECT id FROM task WHERE team_id = ? AND name = ?;";
-	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) VALUES(?, ?);";
+	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) /VALUES(?, ?);";
 	
 	pool.acquire(function(err, conn){
 		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows){
 			if(err){
+				console.log("this");
 				console.log(err);
+				console.log("this");
 			} else {
+				console.log("1");
 				conn.query(getTaskIdQuery, [team_id, name], function(err, rows){
 					req.session.task_id = rows[0].id;
 					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows){
@@ -216,7 +222,7 @@ exports.getTaskList = function(req, res){
 	console.log("Route : getTaskList");
 	
 	team_id = req.session.team_id;
-	user_id = 'samelcd';
+	user_id = req.body.user_id;
 	var mainQuery = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE A.team_id = ? AND B.task_on = 1;";
 	var pushQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM push WHERE task_id = ?;";
 	var tossQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM toss WHERE task_id = ?;";
@@ -305,7 +311,38 @@ exports.getTaskList = function(req, res){
 	});
 };
 
+// get /project/comments
+exports.getComments = function(req, res)  {
+    var team_id = req.params.team_id;
+    console.log(team_id);
+
+    // query for get comments list from DB
+
+    var data = [];
+    data[0] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[1] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[2] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+    data[3] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+
+
+    res.send(data);
+};
+
 exports.test = function(req, res) {
 
+};
+
+
+exports.upload = function(req, res){
+	fs.readFile(req.files.uploadFile.path, function(error, data){
+		var filePath = ___dirname + "\\files\\" + req.files.uploadFile.name;
+		fs.writeFile(filePath, data, function(error) {
+			if(error) {
+				throw err;
+			} else {
+				res.redirect(filePath);
+			}
+		});
+	});
 };
 

@@ -1,7 +1,9 @@
-var teamName;
+var team_name;
 var user_id;
+var team_id;
 var pushMemberId = new Array();
 $(function() {
+
 	getProjectName();
 	getUserID();
 	$(".chosen").chosen();
@@ -11,25 +13,87 @@ $(function() {
 	$('#inputInviteMember').typeahead({
 		source : inviteMemberTypeahead
 	});
-
-	$('#datepicker').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
-	$('#datepicker2').datepicker({ dateFormat: 'dd-mm-yy', changeYear: true,defaultDate: new Date()});
-	loadPageContents('tmplGantt');
+	var pickerOpts = {
+		format: "yyyy-mm-dd",
+		changeYear: true,
+		defaultDate: new Date()
+	};
+	$('#datepicker').datepicker(pickerOpts);
+	$('#datepicker2').datepicker(pickerOpts);
 
 	var map = {};
-	map["tabGantt"] = "tmplGantt";
-	map["tabContribution"] = "tmplContribution";
-	map["tabComment"] = "tmplComment";
+	map["tabGantt"] = getTaskList;
+	map["tabContribution"] = getContribution;
+	map["tabComment"] = getCommentList;
 
 	$('#tabGantt, #tabContribution, #tabComment').click(function() {
-		loadPageContents(map[this.id]);
+		map[this.id]();
 	});
 	
-	
-	// testFunction();
+	getTaskList();
+
+    commentSocketInit();
 });
 
+function commentSocketInit() {
+    var comment = io.connect('http://localhost/comment');
 
+    comment.on('connect', function() {
+
+        log.debug(team_id);
+        // get chatting log;
+        $.ajax({
+            type: 'get',
+            url: '/project/comments/' + team_id,
+            success : function(data) {
+                log.debug(data);
+                log.debug(data[0]);
+                log.debug(data[0].comment);
+            }
+        });
+    });
+
+
+    comment.on('disconnect', function() {
+
+    });
+
+
+};
+// connected with 'etc' button
+function testAction() {
+	// for Logging
+	// Click F2!!! and then  etc button
+	
+  	log.debug( 'this is a debug message' );
+	log.info( 'this is an info message' );
+	log.warn( 'this is a warning message' );
+	log.error( 'this is an error message' );
+	
+	log.profile( 'generate test string' );
+
+	var testContent = '';
+	for (var i = 0; i < 3000; i++) {
+		testContent += '-';
+	}
+
+	log.profile('generate test string'); 
+
+	// end for Logging
+	
+}
+
+function getContribution() {
+	$("#pageContainer").html($('#tmplContribution').tmpl());
+
+    $("body").removeClass('comment')
+};
+
+function getCommentList() {
+	$("#pageContainer").html($('#tmplComment').tmpl());
+
+    $("body").addClass('comment')
+};
 
 function getMemberList() {
 
@@ -46,10 +110,12 @@ function getMemberList() {
 				return;
 			}
 			
-			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
-			result.data[1] = { user_id : "Min", task_number : "2", status : "offline" };
-			result.data[2] = { user_id : "JH", task_number : "1", status : "online" };
-			
+//			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
+            for(var i = 0; i < result.data.length; i++) {
+                result.data[i]["task_number"] = i;
+                result.data[i]["status"] = "online";
+            }
+
 			$.get('/template/dialogTeam', function(templates) {
 				$('body').append(templates);
 				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dialogTeam table:last');
@@ -62,8 +128,9 @@ function getMemberList() {
 	});
 };
 
-function insertTask() {
-	
+function getTaskList() {
+    $("body").removeClass('comment')
+
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
 			{ taskbox_name : "Research" , taskElems : [
@@ -98,7 +165,8 @@ function insertTask() {
 		]}
 	];
 
-	$('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	// $('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
+	$('#pageContainer').html($('#tmplTaskList').tmpl(task));
 	
 	$('.task-elem').click(function(event) {
 		// alert($(this).children('#taskelem_member').text());
@@ -115,11 +183,16 @@ function insertTask() {
 			event.cancelBubble = false;
 		}
 	});
+
+    $.ajax({
+        type : 'get',
+        url : '/project/getTaskList',
+        success : function(result) {
+            console.log(result);
+        }
+    });
 };
 
-function loadPageContents(tmpl) {
-	$("#pageContainer").html($('#' + tmpl).html());
-};
 
 function getUserID() {
 	$.ajax({
@@ -143,24 +216,22 @@ function testFunction() {
 
 function pushAction() {
 	$('#dialogPush').modal('hide');
-	var json = new Array();
+	var json = {};
 	//send push data in json
 	//pushTitle, pushText, start_date, due_date, user_id
 	json['pushTitle'] = $('#inputPushTitle').val();
-	json['pushDescription'] = $('#pushText').val();
+	// json['pushDescription'] = $('#pushText').val();
+	json['name'] = $('#pushText').val();
 	json['start_date'] = $('#inputStartDate').val();
 	json['due_date'] = $('#inputDueDate').val();
-	json['user_id'] = pushMemberId;
-	
-	console.log(pushMemberId.valueOf());
+	json['user_id'] = new Array();
+	json['user_id']= pushMemberId;
 	console.log(json);
 	$.ajax({
 		type : 'post',
 		url : '/project/pushTask',
 		data : json,
-		success : function() {
-			console.log("Push Success");
-		}
+		success : console.log(json)
 	});
 	
 	pushMemberId = [];
@@ -225,7 +296,10 @@ function getProjectName() {
 		type : 'get',
 		url : '/project/getProjectName',
 		success : function(data) {
-			$('#projectName').text(data.project_name);
+            $('#projectName').text(data.team_name);
+            team_id = data.team_id;
+            team_name = data.team_name;
+            user_id = data.user_id;
 		}
 	});
 };
@@ -238,9 +312,20 @@ function openInviteDialog() {
 };
 
 function openTaskDialog() {
+	
+	var data = {
+		title: "Search Images",
+		description : "we need sexy girls",
+		taskMembers : [
+			{ user_id : "Hoon", status : "online"},
+			{ user_id : "Lee", status : "online"},
+			{ user_id : "Jung", status : "online"}
+		]
+	};
+
 	$.get('/template/dialogTask', function(templates) {
 		$('body').append(templates);
-		$('#tmplDialogTask').tmpl().appendTo('body');
+		$('#tmplDialogTask').tmpl(data).appendTo('body');
 		$(".taskelem-select").on('click', function(event) {
 			event.preventDefault();
 		});
@@ -248,7 +333,6 @@ function openTaskDialog() {
 			backdrop : false,
 			keyboard : true
 		});
-		// $(".chosen").chosen();
 	});
 };
 

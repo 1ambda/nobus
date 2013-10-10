@@ -173,8 +173,10 @@
         .on('blur',     $.proxy(this.blur, this))
         .on('keypress', $.proxy(this.keypress, this))
         .on('keyup',    $.proxy(this.keyup, this))
-
-      if ($.browser.chrome || $.browser.webkit || $.browser.msie) {
+	
+	 // edited by anster
+	  if ( $.support.chrome || $.support.webkit || $.support.msie ) {
+      // if ($.browser.chrome || $.browser.webkit || $.browser.msie) {
         this.$element.on('keydown', $.proxy(this.keydown, this))
       }
 

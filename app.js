@@ -12,6 +12,7 @@ var project = require('./routes/project');
 var template = require('./routes/template');
 var http = require('http');
 var path = require('path');
+var fs = require('fs');
 // var consolidate = require("consolidate");
 
 
@@ -35,13 +36,17 @@ app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.session( { secret: "Youth" } ));
 app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/public'));
 
 // development only
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-var server = app.listen(app.get('port'));
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+
+server.listen(app.get('port'));
 
 app.get('/', routes.index);
 app.post('/register', routes.register);
@@ -62,9 +67,25 @@ app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
 app.get('/project/getTaskList', project.getTaskList);
+<<<<<<< HEAD
+=======
 
+
+// RESTFUL API
+app.get('/project/comments/:team_id', project.getComments);
+
+>>>>>>> 0e9c851ba3f26695f5d018fef885353bcf0be655
+
+
+
+// for socket.io
+var comment = require('./routes/sockets/comment').listen(io);
 
 // for jQuery Template
 app.get('/template/task', template.task);
 app.get('/template/dialogTeam', template.dialogTeam);
 app.get('/template/dialogTask', template.dialogTask);
+//for upload File
+// app.get('/project/test', routes.test);
+app.post('/project/upload', project.upload);
+
