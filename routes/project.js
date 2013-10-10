@@ -213,36 +213,93 @@ exports.pushTask = function(req, res){
 };
 
 exports.getTaskList = function(req, res){
-	console.log("Route : getTaskName");
+	console.log("Route : getTaskList");
 	
 	team_id = req.session.team_id;
-	user_id = req.body.user_id;
-	var query = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE B.team_id = ? AND B.task_on = 1;";
+	user_id = 'samelcd';
+	var mainQuery = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE A.team_id = ? AND B.task_on = 1;";
+	var pushQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM push WHERE task_id = ?;";
+	var tossQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM toss WHERE task_id = ?;";
+	var returnQuery = "SELECT id, DATE_FORMAT(submit_date, '%y-%m-%d') due_date FROM submit WHERE task_id = ?;";
+	var pushGetMemberQuery = "SELECT user_id FROM push WHERE task_id = ?;";
+	var tossGetMemberQuery = "SELECT user_id FROM toss WHERE task_id = ?;";
+	var returnGetMemberQuery = "SELECT user_id FROM submit WHERE task_id = ?;";
+	var jsonObj = [];
+	var elemsObj = [];
+	var taskObj = [];
 	
-	pool.acquire(function(req, res){
-		conn.query(query, [team_id], function(err, rows){
-			pool.release(conn);
-			
-			if(err){
-				console.log(err);
-				res.send({"status": "fail"});
-			} else {				
-				while(i < rows.length){	
-					var i = 0;
-					var jsonObj = [];
-								
-					while(i < rows.length){	
-						if(user_id == rows[i].user_id){
-							jsonObj.push({ allocated: "my", task_name: rows[i].name});
-						} else {
-							jsonObj.push({ allocated: "other", task_name: rows[i].name});
+	pool.acquire(function(req, conn){
+		conn.query(mainQuery, [team_id], function(mainErr, mainRows){
+			if(mainErr){
+				console.log(mainErr);
+			} else {
+				var i;
+				var mainId;
+				
+				for(i = 0; i < mainRows.length; i++){
+					mainId = mainRows[i].id;
+
+					conn.query(pushQuery, [mainId], function(pushErr, pushRows){
+						if(pushErr){
+							console.log(pushErr);
+						} else if(pushRows.length > 0){
+							conn.query(pushGetMemberQuery, [mainId], function(memErr, memRows){
+								pool.release(conn);
+								if(memErr){
+									console.log(memErr);
+								} else {
+									elemsObj.push({task_kind: 'push', due_date: pushRows[0].due_date, task_members: memRows});
+								}
+							});
 						}
-						
-						console.log(jsonObj[i]);
-						i++;
+					});
+					
+					conn.query(tossQuery, [mainId], function(tossErr, tossRows){
+						if(tossErr){
+							console.log(tossErr);
+						} else if(tossRows.length > 0){
+							var j;
+							
+							for(j = 0; j < tossRows.length; j++){
+								conn.query(tossGetMemberQuery, [mainId], function(memErr, memRows){
+									pool.release(conn);
+									if(memErr){
+										console.log(memErr);
+									} else {
+										elemsObj.push({task_kind: 'toss', due_date: tossRows[j].due_date, task_members: memRows});
+									}
+								});
+							}
+						}
+					});		
+					
+					conn.query(returnQuery, [mainId], function(returnErr, returnRows){
+						if(returnErr){
+							console.log(returnErr);
+						} else if(returnRows.length > 0){
+							conn.query(returnGetMemberQuery, [mainId], function(memErr, memRows){
+								pool.release(conn);
+								if(memErr){
+									console.log(memErr);
+								} else {
+									elemsObj.push({task_kind: 'return', due_date: pushRows[0].due_date, task_members: memRows});
+								}
+							});
+						}
+					});
+					
+					taskObj.push({task_name: mainRows[i].name, task_elems: elemsObj});
+					elemsObj = [];
+					if(mainRows[i].user_id == user_id){
+						jsonObj.push({allocated: 'my', task: taskObj});
+					} else {
+						jsonObj.push({allocated: 'other', task: taskObj});
 					}
-					res.send(jsonObj);
+					taskObj = [];
 				}
+				
+				res.send(jsonObj);
+				jsonObj = [];
 			}
 		});
 	});
