@@ -32,6 +32,8 @@ function getTeamList() {
 		type : 'get',
 		url : '/welcome/getTeamList',
 		success : function(teams) {
+
+            $('#divProjectList').empty();
 			
 			$('#tmplProjectList').tmpl({ teams : teams }).appendTo('#divProjectList');
 			
@@ -62,10 +64,10 @@ function createTeamAction() {
 		data : json,
 		success : function() {
 			getTeamList();
+            $('#dlgCreateTeam').modal('hide');
 		}
 	});
 
-	$('#dialogCreateTeam').modal('hide');
 
 }
 
