@@ -79,10 +79,12 @@ app.get('/project/comments/:team_id', project.getComments);
 var comment = require('./routes/sockets/comment').listen(io);
 
 // for jQuery Template
-app.get('/template/dialogTeam', template.dialogTeam);
+app.get('/template/dlgMemberList', template.dlgMemberList);
 app.get('/template/dialogTask', template.dialogTask);
 
 app.get('/template/dlgRegister', template.dlgRegister);
+app.get('/template/dlgDrop', template.dlgDrop);
+app.get('/template/dlgInvite', template.dlgInvite);
 
 
 //for upload File

@@ -1,6 +1,6 @@
 
-exports.dialogTeam = function(req, res) {
-	res.render('template/dialogTeam.html');
+exports.dlgMemberList = function(req, res) {
+	res.render('template/dlgMemberList.html');
 };
 
 exports.dialogTask = function(req, res) {
@@ -10,3 +10,11 @@ exports.dialogTask = function(req, res) {
 exports.dlgRegister = function(req, res) {
     res.render('template/dlgRegister.html');
 };
+
+exports.dlgDrop = function(req, res) {
+	res.render('template/dlgDrop.html');
+};
+
+exports.dlgInvite = function(req, res) {
+	res.render('template/dlgInvite.html');
+}

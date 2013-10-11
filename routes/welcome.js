@@ -115,6 +115,7 @@ exports.projectSelected = function(req, res) {
 	console.log("Route : projectSelected");
 	
 	id = req.session.user_id;
+	console.log(id);
 	
 	if (id) {
 		req.session.team_id = req.body.team_id;

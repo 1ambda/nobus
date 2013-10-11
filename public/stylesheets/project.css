@@ -1,3 +1,24 @@
 .tab-menu {
 	font-size: 15px;
 }
+
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:90px;
+  	width:156px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:90px;
+    width:156px;
+  }
+}
+
+.affix,.affix-top {
+   position:static;
+}
+
+

@@ -32,7 +32,7 @@ function getTeamList() {
 		type : 'get',
 		url : '/welcome/getTeamList',
 		success : function(teams) {
-
+			
             $('#divProjectList').empty();
 			
 			$('#tmplProjectList').tmpl({ teams : teams }).appendTo('#divProjectList');
@@ -74,9 +74,9 @@ function createTeamAction() {
 function projectSelected() {
 
 	var json = {};
-	json["project_name"] = $(this).text();
+	json["project_name"] = $(this).find('h5').text();
 	json["team_id"] = $(this).attr('id');
-
+	
 	$.ajax({
 		type : "post",
 		url : "/welcome/projectSelected",
