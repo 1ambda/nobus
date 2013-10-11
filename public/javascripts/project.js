@@ -141,6 +141,8 @@ function getMemberList() {
 
 function getTaskList() {
     $("body").removeClass('comment')
+    
+    //edited
 
 	var task = [
 		{ taskList_name : "My Tasks", taskBoxes : [
