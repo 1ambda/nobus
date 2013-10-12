@@ -3,7 +3,7 @@
  * GET home page.
  */
 
-var pool = require('../library/mysql-pool'); 
+var pool = require('../library/mysql-pool');
 
 exports.index = function(req, res){
     if (req.session.user_id) {

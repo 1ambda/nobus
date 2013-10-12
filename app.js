@@ -10,6 +10,7 @@ var routes = require('./routes');
 var welcome = require('./routes/welcome');
 var project = require('./routes/project');
 var template = require('./routes/template');
+var test = require('./routes/test');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
@@ -73,7 +74,9 @@ app.get('/project/getTaskList', project.getTaskList);
 app.get('/project/comments/:team_id', project.getComments);
 
 
+// for test
 
+app.get('/test/testAsync', test.testAsync);
 
 // for socket.io
 var comment = require('./routes/sockets/comment').listen(io);
