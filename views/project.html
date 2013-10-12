@@ -184,14 +184,6 @@
 
 						<div class="tab-content">
 							<div class="tab-pane active" id="gantt">
-								<h2>Gantt</h2>
-								<hr class="col-md-12">
-								Rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-								dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia cor magni dolores
-								eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-								sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-								Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut
-								<hr class="col-md-12">
 							</div>
 
 							<div class="tab-pane" id="contribution">
@@ -242,38 +234,50 @@
 		<!-- template for Task -->
 		<script id="tmplTaskList" type="x-jquery-tmpl">
 			<div class="row">
+				
+				
 			<div class="form-group">
-
-			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".task-list .ended-task">
+			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".ongoing">
 			<i class="icon-reorder" ></i>
 			</button>
-			<h2>All Tasks</h2>
+			<h2>Ongoing Tasks</h2>
 			</div>
 			<hr class="col-md-12">
-			<div id="divTaskListContent" class="task-list box-content">
+			<div id="divTaskListContent" class="ongoing box-content">
 			<h4></h4>
-			{{tmpl(taskBoxes) "#tmplTaskBox"}}
+			{{each(index, taskBox) taskBoxes}}
+				{{if finished == 0}}			
+					{{tmpl(taskBox) "#tmplTaskBox"}}
+				{{/if}}
+			{{/each}}
 			</div>
+
+			<div class="form-group">
+			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".finished">
+			<i class="icon-reorder" ></i>
+			</button>
+			<h2>Finished Tasks</h2>
+			</div>
+			<hr class="col-md-12">
+			<div id="divTaskListContent" class="finished box-content">
+			<h4></h4>
+			{{each(index, taskBox) taskBoxes}}
+				{{if finished == 1}}			
+					{{tmpl(taskBox) "#tmplTaskBox"}}
+				{{/if}}
+			{{/each}}
+			</div>
+			
 			</div>
 		</script>
 
 		<script id="tmplTaskBox" type="x-jquery-tmpl">
 			<h4 id="taskbox_name">${name}</h4>
-			<h4> ${finished}</h4>
-			<h4> ${taskElems}</h4>
 			<div class="alert alert-dismissable alert-info">
-				{{tmpl(taskElems) "#tmplTaskElems"}}
+				{{tmpl(taskElems) "#tmplTaskElem"}}
 			</div>
 		</script>
 
-		<script id="tmplTaskElems" type="x-jquery-tmpl">
-			{{tmpl(push) "#tmplTaskElem"}}
-			{{tmpl(toss) "#tmplTaskElem"}}
-			{{tmpl(submit) "#tmplTaskElem"}}
-
-
-		</script>
-		
 		<script id="tmplTaskElem" type="x-jquery-tmpl">
 			
 			{{if task_kind == 'push'}}

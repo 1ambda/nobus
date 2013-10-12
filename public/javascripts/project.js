@@ -182,10 +182,10 @@ function getTaskList() {
         type : 'get',
         url : '/project/getTaskList',
         success : function(result) {
+            console.log('1');
+            console.log(result);
             $('#gantt').html($('#tmplTaskList').tmpl(result));
             
-            console.log(result);
-            console.log(JSON.stringify(result));
 
             $('.task-elem').click(function (event) {
                 // alert($(this).children('#taskelem_member').text());
