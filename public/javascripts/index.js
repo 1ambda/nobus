@@ -3,13 +3,6 @@
  */
 $(function() {
     $('#btnLogin').button().click(btnLoginAction);
-    $.ajax({
-        type: 'get',
-        url: '/test/testAsync',
-        success : function() {
-
-        }
-    });
 });
 
 function btnLoginAction(){

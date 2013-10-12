@@ -243,22 +243,14 @@
 		<script id="tmplTaskList" type="x-jquery-tmpl">
 			<div class="row">
 			<div class="form-group">
-				
-			{{if taskList_name == "My Tasks"}}
-			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-my">
-			{{else taskList_name == "Others"}}
-			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-others">
-			{{/if}}
+
+			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".task-list .ended-task">
 			<i class="icon-reorder" ></i>
 			</button>
-			<h2>${taskList_name}</h2>
+			<h2>All Tasks</h2>
 			</div>
 			<hr class="col-md-12">
-			{{if taskList_name == "My Tasks"}}
-			<div id="divTaskListContent" class="tasklist-my box-content">
-			{{else taskList_name == "Others"}}
-			<div id="divTaskListContent" class="tasklist-others box-content">
-			{{/if}}
+			<div id="divTaskListContent" class="task-list box-content">
 			<h4></h4>
 			{{tmpl(taskBoxes) "#tmplTaskBox"}}
 			</div>
@@ -266,30 +258,30 @@
 		</script>
 
 		<script id="tmplTaskBox" type="x-jquery-tmpl">
-			<h4 id="taskbox_name">${taskbox_name}</h5>
+			<h4 id="taskbox_name">${name}</h5>
 				<div class="alert alert-dismissable alert-info">
 					{{tmpl(taskElems) "#tmplTaskElem"}}
 				</div>
 		</script>
 
 		<script id="tmplTaskElem" type="x-jquery-tmpl">
-			{{if task_kind == "Push"}}
+			{{if push}}
 			<div class="btn task-elem btn-success">
 			<i class="icon-envelope icon-large"></i>
-			{{else task_kind == "Toss"}}
+			{{else toss}}
 			<i class="icon-circle-arrow-right icon-large"></i>
 			<div class="btn task-elem btn-warning">
 			<i class="icon-signin icon-large"></i>
-			{{else task_kind == "Return"}}
+			{{else submit}}
 			<i class="icon-circle-arrow-right icon-large"></i>
 			<div class="btn task-elem btn-danger">
 			<i class="icon-flag icon-large"></i>
 			{{/if}}
-			<!-- <div id="taskelem_member">${member}</div> -->
+
 			<div class="controls">
 			<select style="width: 100px;" class="taskelem-select">
-			{{if taskMembers}}
-			{{tmpl(taskMembers) "#tmplTaskElemOption"}}
+			{{if users}}
+			{{tmpl(users) "#tmplTaskElemOption"}}
 			{{/if}}
 			</select>
 			</div>
@@ -298,6 +290,10 @@
 		</script>
 
 		<script id="tmplTaskElemOption" type="x-jquery-tmpl">
+			<option value="${user_id}">${user_id}</option>
+
+		</script>
+        <script id="tmplTaskElemOption_temp" type="x-jquery-tmpl">
 			<option {{if current_user}}selected{{/if}} value="${co_worker}">${co_worker}</option>
 
 		</script>

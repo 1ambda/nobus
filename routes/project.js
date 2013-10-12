@@ -228,7 +228,7 @@ exports.getTaskList = function (req, res) {
 
     var queryTask = "select id as task_id, name, finished from task where team_id = ?;";
 
-    var taskList = [];
+    var taskList = { taskBoxes : [] };
 
     pool.acquire(function (err, conn) {
         if (err) errorHandler(res, err, conn);
@@ -242,16 +242,16 @@ exports.getTaskList = function (req, res) {
 
                     for (var i = 0; i < rows.length; i++) {
                         params[i] = {task_id: rows[i].task_id, index: i };
-                        taskList.push(rows[i]);
+                        taskList.taskBoxes[i] = (rows[i]);
                     }
 
                     async.each(params, function (param, callback) {
 
                         var task_id = param.task_id;
                         var i = param.index;
-//                        getTaskBox(callback, 'push', task_id, taskList[i]);
+
                         async.each(task_kinds, function (task_kind, callback) {
-                            getTaskBox(callback, task_kind, task_id, taskList[i]);
+                            getTaskBox(callback, task_kind, task_id, taskList.taskBoxes[i]);
                         }, function (err) {
                             return callback();
                         });
@@ -266,16 +266,16 @@ exports.getTaskList = function (req, res) {
         }
 
     });
-
-    res.send();
 };
 
 function getTaskBox(callback, task_kind, task_id, taskBox) {
 
     var queryMap = [];
-    queryMap['push'] = "SELECT id, due_date FROM push WHERE task_id = ?;"
-    queryMap['toss'] = "SELECT id, due_date FROM toss WHERE task_id = ?;"
-    queryMap['submit'] = "SELECT id, submit_date FROM submit WHERE task_id = ?;"
+    queryMap['push'] = "SELECT id, due_date FROM push WHERE task_id = ?;";
+    queryMap['toss'] = "SELECT id, due_date FROM toss WHERE task_id = ?;";
+    queryMap['submit'] = "SELECT id, submit_date FROM submit WHERE task_id = ?;";
+
+    taskBox["taskElems"] = [];
 
     pool.acquire(function (err, conn) {
         if (err) errorHandler(null, err, null);
@@ -290,8 +290,11 @@ function getTaskBox(callback, task_kind, task_id, taskBox) {
                         taskBox[task_kind][i] = rows[i];
                     }
 
+                    console.log(taskBox["taskElems"]);
+
                     async.each(taskBox[task_kind], function (task_elem, callback) {
 
+                        console.log(task_elem);
                         getElemUser(callback, task_elem, task_kind);
 
                     }, function (err) {
@@ -306,6 +309,7 @@ function getTaskBox(callback, task_kind, task_id, taskBox) {
 };
 
 function getElemUser(callback, task_elem, task_kind) {
+
     var queryMap = [];
     queryMap['push'] = "SELECT user_id FROM push_user WHERE push_id = ?";
     queryMap['toss'] = "SELECT user_id FROM toss_user WHERE toss_id = ?";
@@ -315,10 +319,16 @@ function getElemUser(callback, task_elem, task_kind) {
         if(err) errorHandler(null, err, null) ;
         else {
             conn.query(queryMap[task_kind], [task_elem['id']], function(err, rows) {
-                task_elem.users = rows;
+                if(err) errorHandler(null, err, conn);
+                else {
 
-                pool.release(conn);
-                return callback();
+                    console.log('working');
+                    task_elem.users = rows;
+                    task_elem.task_kind = task_kind;
+
+                    pool.release(conn);
+                    return callback();
+                }
             });
         }
     });
