@@ -258,26 +258,37 @@
 		</script>
 
 		<script id="tmplTaskBox" type="x-jquery-tmpl">
-			<h4 id="taskbox_name">${name}</h5>
-				<div class="alert alert-dismissable alert-info">
-					{{tmpl(taskElems) "#tmplTaskElem"}}
-				</div>
+			<h4 id="taskbox_name">${name}</h4>
+			<h4> ${finished}</h4>
+			<h4> ${taskElems}</h4>
+			<div class="alert alert-dismissable alert-info">
+				{{tmpl(taskElems) "#tmplTaskElems"}}
+			</div>
 		</script>
 
+		<script id="tmplTaskElems" type="x-jquery-tmpl">
+			{{tmpl(push) "#tmplTaskElem"}}
+			{{tmpl(toss) "#tmplTaskElem"}}
+			{{tmpl(submit) "#tmplTaskElem"}}
+
+
+		</script>
+		
 		<script id="tmplTaskElem" type="x-jquery-tmpl">
-			{{if push}}
+			
+			{{if task_kind == 'push'}}
 			<div class="btn task-elem btn-success">
 			<i class="icon-envelope icon-large"></i>
-			{{else toss}}
+			{{else task_kind == 'toss'}}
 			<i class="icon-circle-arrow-right icon-large"></i>
 			<div class="btn task-elem btn-warning">
 			<i class="icon-signin icon-large"></i>
-			{{else submit}}
+			{{else task_kind == 'submit'}}
 			<i class="icon-circle-arrow-right icon-large"></i>
 			<div class="btn task-elem btn-danger">
 			<i class="icon-flag icon-large"></i>
 			{{/if}}
-
+			
 			<div class="controls">
 			<select style="width: 100px;" class="taskelem-select">
 			{{if users}}
@@ -293,6 +304,7 @@
 			<option value="${user_id}">${user_id}</option>
 
 		</script>
+
         <script id="tmplTaskElemOption_temp" type="x-jquery-tmpl">
 			<option {{if current_user}}selected{{/if}} value="${co_worker}">${co_worker}</option>
 

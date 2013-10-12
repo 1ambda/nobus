@@ -178,29 +178,14 @@ function getTaskList() {
 		]}
 	];
 
-//	$('#gantt').html($('#tmplTaskList').tmpl(task));
-//
-//	$('.task-elem').click(function(event) {
-//		// alert($(this).children('#taskelem_member').text());
-//
-//		openTaskDialog();
-//
-//	});
-//
-//	$('.taskelem-select').click(function(event) {
-//		event = event || window.event;
-//		if(event.stopPropagation) {
-//			event.stopPropagation();
-//		} else {
-//			event.cancelBubble = false;
-//		}
-//	});
-
     $.ajax({
         type : 'get',
         url : '/project/getTaskList',
         success : function(result) {
             $('#gantt').html($('#tmplTaskList').tmpl(result));
+            
+            console.log(result);
+            console.log(JSON.stringify(result));
 
             $('.task-elem').click(function (event) {
                 // alert($(this).children('#taskelem_member').text());
