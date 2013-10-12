@@ -21,4 +21,13 @@
    position:static;
 }
 
+.task-elem {
+	margin: 10px;
+}
+
+.taskelem-select {
+	width: 30px;
+	margin-top: 10px;
+}
+
 
