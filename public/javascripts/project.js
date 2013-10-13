@@ -142,41 +142,7 @@ function getMemberList() {
 function getTaskList() {
     $("body").removeClass('comment')
     
-    //edited
 
-	var task = [
-		{ taskList_name : "My Tasks", taskBoxes : [
-			{ taskbox_name : "Research" , taskElems : [
-				{ task_kind : "Push", member: "Hoon", due_date: "09.28", taskMembers : [
-					{ co_worker : "Hoon", current_user : "true"}
-				]}
-			]}, 
-			{ taskbox_name : "Presentation" , taskElems : [
-				{ task_kind : "Push", due_date: "09.28", taskMembers : [
-					{ co_worker : "Ho"},
-					{ co_worker : "Hoon", current_user : "true"},
-					{ co_worker : "Eun"}
-				]},
-				{ task_kind : "Return", due_date: "10.28", taskMembers : [
-					{ co_worker : "Lee"},
-					{ co_worker : "Hoon", current_user : "true"}
-				]}
-			]}
-		]},
-		{ taskList_name : "Others", taskBoxes : [
-			{ taskbox_name : "UCC" , taskElems : [
-				{ task_kind : "Push", member: "Lee", due_date : "09.27", taskMembers : [
-					{ co_worker : "Jin" }
-				]},
-				{ task_kind : "Toss", member: "Ho", due_date : "09.28", taskMembers : [
-					{ co_worker : "Mun" }
-				]},
-				{ task_kind : "Return", member: "Mun", due_date : "09.29", taskMembers : [
-					{ co_worker : "Lee" }
-				]}
-			]}
-		]}
-	];
 
     $.ajax({
         type : 'get',

@@ -117,9 +117,8 @@
 		<!-- Second Navbar -->
 		<div class="navbar" style=" margin-top: 10px; margin-bottom: 0px;" >
 			<div class="container">
-				<div id="divProjectName" class="navbar-header pull-right" style="margin-right: 15px; font-size: 25px; margin-top: 0px;" >
-				</div>
-				
+				<div id="divProjectName" class="navbar-header pull-right" style="margin-right: 15px; font-size: 25px; margin-top: 0px;" ></div>
+
 				<div class="navbar-collapse collapse" id="navbar-sub">
 					<div class="form-group">
 						<!-- <ul class="nav navbar-nav"> -->
@@ -158,33 +157,32 @@
 						<ul id="sidebar" class="nav nav-stacked affix" style="margin-top: 80px;">
 							<li>
 								<a href="javascript:getMemberList();"><i class="icon-sitemap icon-large" style="margin-right: 5px;"></i> Members</a>
-							</li> 
+							</li>
 							<li>
 								<a href="javascript:openInviteDialog();"><i class="icon-user icon-large" style="margin-right: 5px;"></i> Invite</a>
-							</li> 
+							</li>
 							<li>
 								<a href="javascript:openPushDialog();"><i class="icon-circle-arrow-down icon-large" style="margin-right: 5px;"></i> Push</a>
-							</li> 
+							</li>
+							<!-- <li>
+							<a href="javascript:openTossDialog();"><i class="icon-circle-arrow-right icon-large" style="margin-right: 5px;"></i> Toss</a>
+							</li>
 							<li>
-								<a href="javascript:openTossDialog();"><i class="icon-circle-arrow-right icon-large" style="margin-right: 5px;"></i> Toss</a>
-							</li> 
-							<li>
-								<a href="javascript:openReturnDialog();"><i class="icon-circle-arrow-up icon-large" style="margin-right: 5px;"></i> Return</a>
-							</li> 
+							<a href="javascript:openReturnDialog();"><i class="icon-circle-arrow-up icon-large" style="margin-right: 5px;"></i> Return</a>
+							</li>  -->
 							<li>
 								<a href="javascript:testAction();"><i class="icon-list-alt icon-large" style="margin-right: 5px;"></i> Etc</a>
-							</li> 
+							</li>
 							<li>
 								<a href="javascript:openDropDialog();"><i class="icon-trash icon-large" style="margin-right: 5px;"></i> Drop</a>
-							</li> 
+							</li>
 						</ul>
 
 					</div>
 					<div class="col-md-10">
 
 						<div class="tab-content">
-							<div class="tab-pane active" id="gantt">
-							</div>
+							<div class="tab-pane active" id="gantt"></div>
 
 							<div class="tab-pane" id="contribution">
 								<h2>Contribution</h2>
@@ -234,8 +232,7 @@
 		<!-- template for Task -->
 		<script id="tmplTaskList" type="x-jquery-tmpl">
 			<div class="row">
-				
-				
+
 			<div class="form-group">
 			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".ongoing">
 			<i class="icon-reorder" ></i>
@@ -246,9 +243,9 @@
 			<div id="divTaskListContent" class="ongoing box-content">
 			<h4></h4>
 			{{each(index, taskBox) taskBoxes}}
-				{{if finished == 0}}			
-					{{tmpl(taskBox) "#tmplTaskBox"}}
-				{{/if}}
+			{{if finished == 0}}
+			{{tmpl(taskBox) "#tmplTaskBox"}}
+			{{/if}}
 			{{/each}}
 			</div>
 
@@ -262,45 +259,45 @@
 			<div id="divTaskListContent" class="finished box-content">
 			<h4></h4>
 			{{each(index, taskBox) taskBoxes}}
-				{{if finished == 1}}			
-					{{tmpl(taskBox) "#tmplTaskBox"}}
-				{{/if}}
+			{{if finished == 1}}
+			{{tmpl(taskBox) "#tmplTaskBox"}}
+			{{/if}}
 			{{/each}}
 			</div>
-			
+
 			</div>
 		</script>
 
 		<script id="tmplTaskBox" type="x-jquery-tmpl">
 			<h4 id="taskbox_name">${name}</h4>
 			<div class="alert alert-dismissable alert-info">
-				{{tmpl(taskElems) "#tmplTaskElem"}}
+			{{tmpl(taskElems) "#tmplTaskElem"}}
 			</div>
 		</script>
 
 		<script id="tmplTaskElem" type="x-jquery-tmpl">
-			
+
 			{{if task_kind == 'push'}}
 			<div class="btn task-elem btn-success">
 			<i class="icon-envelope icon-large"></i>
 			{{else task_kind == 'toss'}}
 			<i class="icon-circle-arrow-right icon-large"></i>
-			<div class="btn task-elem btn-warning">
+			<div class="btn task-elem btn-warning ">
 			<i class="icon-signin icon-large"></i>
 			{{else task_kind == 'submit'}}
 			<i class="icon-circle-arrow-right icon-large"></i>
 			<div class="btn task-elem btn-danger">
 			<i class="icon-flag icon-large"></i>
 			{{/if}}
-			
+
 			<div class="controls">
-			<select style="width: 100px;" class="taskelem-select">
+			<select style="width: 110px;" class="taskelem-select form-control">
 			{{if users}}
 			{{tmpl(users) "#tmplTaskElemOption"}}
 			{{/if}}
 			</select>
 			</div>
-			<div id="taskelem_duedate">${due_date}</div>
+			<div id="taskelem_duedate" style="margin-top: 5px;">${due_date}</div>
 			</div>
 		</script>
 
@@ -309,7 +306,7 @@
 
 		</script>
 
-        <script id="tmplTaskElemOption_temp" type="x-jquery-tmpl">
+		<script id="tmplTaskElemOption_temp" type="x-jquery-tmpl">
 			<option {{if current_user}}selected{{/if}} value="${co_worker}">${co_worker}</option>
 
 		</script>
