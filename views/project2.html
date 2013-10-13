@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Project Page</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="layout" content="main"/>
+
+		<link href="/stylesheets/customize-template.css" type="text/css" media="screen, projection" rel="stylesheet" />
+		<link href="/stylesheets/project.css" type="text/css" media="screen, projection" rel="stylesheet" />
+		<link href="/stylesheets/font-awesome.min.css" type="text/css" media="screen, projection" rel="stylesheet" />
+		<link href="/stylesheets/style.css" type="text/css" media="screen, projection" rel="stylesheet" />
+
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script src="/javascripts/jquery/jquery-1.10.2.min.js" type="text/javascript"></script>
+		<script src="/javascripts/jquery/jquery.tmpl.min.js" type="text/javascript" ></script>
+		<script src="/javascripts/jquery/jquery-chosen.js" type="text/javascript" ></script>
+		<script src="/javascripts/jquery/jquery-tablesorter.js" type="text/javascript" ></script>
+
+        <script src="/socket.io/socket.io.js"></script>
+
+		<script src="/javascripts/bootstrap/bootstrap-transition.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-alert.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-modal.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-dropdown.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-scrollspy.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-tab.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-tooltip.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-popover.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-button.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-collapse.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-carousel.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-typeahead.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-affix.js" type="text/javascript" ></script>
+		<script src="/javascripts/bootstrap/bootstrap-datepicker.js" type="text/javascript" ></script>
+
+		<!-- for debug lib include -->
+		<script src="/library/blackbird/blackbird.js" type="text/javascript" ></script>
+		<link href="/library/blackbird/blackbird.css" type="text/css" media="screen, projection" rel="stylesheet" />
+		<!-- end debug lib include -->
+
+		<script src="/javascripts/project.js"></script>
+
+		<style>
+			#body-content {
+				padding-top: 40px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button class="btn btn-navbar" data-toggle="collapse" data-target="#app-nav-top-bar">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a href="welcome" class="brand"><i class="icon-leaf">No Bus</i></a>
+					<div id="app-nav-top-bar" class="nav-collapse">
+						<ul class="nav">
+
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">TRY ME! <b class="caret hidden-phone"></b> </a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="dashboard.html">Dashboard</a>
+									</li>
+									<li>
+										<a href="form.html">Form</a>
+									</li>
+									<li>
+										<a href="custom-view.html">Custom View</a>
+									</li>
+									<li>
+										<a href="login.html">Login Page</a>
+									</li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">CHANGE NAV BAR <b class="caret hidden-phone"></b> </a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="demo-horizontal-nav.html">Horizontal</a>
+									</li>
+									<li>
+										<a href="demo-horizontal-fixed-nav.html">Horizontal Fixed</a>
+									</li>
+									<li>
+										<a href="demo-vertical-nav.html">Vertical</a>
+									</li>
+									<li>
+										<a href="demo-vertical-fixed-nav.html">Vertical Fixed</a>
+									</li>
+								</ul>
+							</li>
+
+						</ul>
+						<ul class="nav pull-right">
+							<li class="liUserIdText">
+								<span id="divUserID"></span> Welcome!
+							</li>
+							<li class="liUserIdButton">
+								<button type="submit" id="btnLogout" class="btn btn-primary">
+									Log out
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="body-container">
+			<div id="body-content">
+				<!-- Invite Dialog -->
+				<div id="dialogInviteMember" class="modal hide fade" role="dialog">
+					<div class="modal-header">
+						<h3>Invite New Member</h3>
+					</div>
+
+					<div class="modal-body">
+						<input type="text" id="inputInviteMember" data-provide="typehead" autocomplete="off" />
+					</div>
+
+					<div class="modal-footer">
+						<a id="btnInviteMember" href="#" class="btn btn-success disabled">Invite</a>
+						<a href="#" class="btn" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+
+				<!-- Drop out  Dialog -->
+				<div id="dialogDrop" class="modal hide fade" role="dialog">
+					<div class="modal-header">
+						<h3>Drop out from this project</h3>
+					</div>
+					<div></div>
+					<div class="modal-body">
+						<h4><i class='icon-warning-sign icon-large'></i> Insert 'Drop' for dropping out from this project</h4>
+						<input type="text" id="inputDropout" data-provide="typehead" autocomplete="off" />
+					</div>
+
+					<div class="modal-footer">
+						<a id="btnDropout" href="#" class="btn btn-danger disabled"><i class='icon-trash'></i> Drop Out</a>
+						<a href="#" class="btn" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+
+				<!-- Push Dialog -->
+				<div id="dialogPush" class="modal hide fase" style="width:50%;left:50%" role="dialog">
+					<div class="modal-header">
+						<h3>Push a task</h3>
+					</div>
+
+					<div class="modal-contents">
+						<div class="modal-body" style='background-color:#eeeeee'>
+
+							<h4><i class='icon-tag'></i> Title</h4>
+							<input id='inputPushTitle' class='inputPushTitle' type='text'>
+							<h4><i class='icon-list-alt'></i> Task</h4>
+							<textarea id="pushText" class="contents" style="resize: none"></textarea>
+							<h4><i class='icon-calendar'></i> Due to</h4>
+
+							<span id="datepicker" class="input-prepend date">
+								<div class="add-on">
+									<i class="icon-th"></i>
+								</div>
+								<input id="inputStartDate" class="span2" type="text">
+							</span>
+							&nbsp;<i class="icon-circle-arrow-right icon-large"></i>&nbsp; <span id="datepicker2" class="input-prepend date">
+								<div class="add-on">
+									<i class="icon-th"></i>
+								</div>
+								<input id="inputDueDate" class="span2" type="text">
+							</span>
+							<h4><i class='icon-file-text'></i> File Upload</h4>
+
+							<!-- file upload block temp start -->
+							<!-- file upload block temp end -->
+							<h4><i class='icon-user'></i> User ID</h4>
+							<div class="controls">
+								<div class='span4'>
+									<select id="pushMember" class="chosen span4" data-placeholder="-- Select Member --" onchange="addPushMember(value);">
+
+									</select>
+								</div>
+							</div>
+							<h1>&nbsp;</h1>
+							<div id="placeAddMemberButton"></div>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<a id="btnDropout" href="javascript:pushAction();" class="btn btn-success disabled"><i class='icon-ok'></i> Push</a>
+						<a href="#" class="btn" data-dismiss="modal">Close</a>
+					</div>
+				</div>
+
+				<div class="body-nav body-nav-vertical body-nav-fixed">
+					<div class="container" align="right">
+						<ul>
+							<li>
+								<a href="javascript:getMemberList();"> <i class="icon-sitemap icon-large"></i> Team</a>
+							</li>
+							<li>
+								<a href="javascript:openInviteDialog();"> <i class="icon-user icon-large"></i> Invite</a>
+							</li>
+							<li>
+								<a href="javascript:openPushDialog();"> <i class="icon-circle-arrow-down icon-large"></i> Push </a>
+							</li>
+							<li>
+								<a href="javascript:openTossDialog();"> <i class="icon-circle-arrow-right icon-large"></i> Toss</a>
+							</li>
+							<li>
+								<a href="javascript:openReturnDialog();"> <i class="icon-circle-arrow-up icon-large"></i> Return</a>
+							</li>
+							<li>
+								<a href="javascript:testAction();"> <i class="icon-list-alt icon-large"></i> etc </a>
+							</li>
+							<li>
+								<a href="javascript:openDropDialog()"> <i class="icon-trash icon-large"></i> Drop out</a>
+							</li>
+							<li>
+
+							</li>
+						</ul>
+					</div>
+				</div>
+				<section class="nav nav-page">
+					<div class="container">
+						<div class="row">
+							<div class="span7">
+								<header class="page-header">
+									<h3><div id="projectName"></div><small>Additional Bootstrap Components</small></h3>
+								</header>
+							</div>
+							<div class="page-nav-options">
+								<div class="span9">
+									<div class="tabbable">
+										<ul class="nav nav-pills"></ul>
+										<ul class="nav nav-tabs page-content" style="font-size: 15px;">
+											<!-- <li class="active"> -->
+											<li class="active">
+												<a id="tabGantt" href="#gantt" data-toggle="tab"><i class='icon-calendar'></i> Gantt</a>
+											</li>
+											<li>
+												<a id="tabContribution" href="#contribution" data-toggle="tab"><i class='icon-bar-chart'></i> Contribution</a>
+											</li>
+											<li>
+												<a id="tabComment" href="#comment" data-toggle="tab"><i class='icon-comment'></i> Comment</a>
+											</li>
+										</ul>
+
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section class="page container" id="pageContainer">
+
+				</section>
+
+				<!-- template for Task -->
+				<script id="tmplTaskList" type="x-jquery-tmpl">
+					<div class="row">
+					<div class="span16">
+					<div class="box">
+					<div class="box-content">
+					<legend class="lead">
+					<font class="box-title">${taskList_name}</font>
+					{{if taskList_name == "My Tasks"}}
+					<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-my">
+					{{else taskList_name == "Others"}}
+					<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".tasklist-others">
+					{{/if}}
+					<i class="icon-reorder" ></i>
+					</button>
+					</legend>
+					{{if taskList_name == "My Tasks"}}
+					<div id="divTaskListContent" class="tasklist-my box-content">
+					{{else taskList_name == "Others"}}
+					<div id="divTaskListContent" class="tasklist-others box-content">
+					{{/if}}
+					<h4></h4>
+					{{tmpl(taskBoxes) "#tmplTaskBox"}}
+					</div>
+					</div>
+					</div>
+					</div>
+					</div>
+				</script>
+
+				<script id="tmplTaskBox" type="x-jquery-tmpl">
+					<div class="box">
+					<div class="box-header">
+					<h5 id="taskbox_name">${taskbox_name}</h5>
+					</div>
+					<div class="box-content">
+					{{tmpl(taskElems) "#tmplTaskElem"}}
+					</div>
+					</div>
+				</script>
+
+				<script id="tmplTaskElem" type="x-jquery-tmpl">
+					{{if task_kind == "Push"}}
+					<div class="btn task-elem btn-success">
+					<i class="icon-envelope icon-large"></i>
+					{{else task_kind == "Toss"}}
+					<i class="icon-circle-arrow-right icon-large"></i>
+					<div class="btn task-elem btn-primary">
+					<i class="icon-signin icon-large"></i>
+					{{else task_kind == "Return"}}
+					<i class="icon-circle-arrow-right icon-large"></i>
+					<div class="btn task-elem btn-danger">
+					<i class="icon-flag icon-large"></i>
+					{{/if}}
+					<!-- <div id="taskelem_member">${member}</div> -->
+					<div class="controls">
+					<select style="width: 100px;" class="taskelem-select">
+					{{if taskMembers}}
+					{{tmpl(taskMembers) "#tmplTaskElemOption"}}
+					{{/if}}
+					</select>
+					</div>
+					<div id="taskelem_duedate">${duedate}</div>
+					</div>
+				</script>
+
+				<script id="tmplTaskElemOption" type="x-jquery-tmpl">
+					<option {{if current_user}}selected{{/if}} value="${co_worker}">${co_worker}</option>
+
+				</script>
+				<!-- Template for Task end -->
+
+				<script id="tmplContribution" type="x-jquery-tmpl">
+					<h1>Contiribution Tab</h1>
+				</script>
+
+				<script id="tmplComment" type="x-jquery-tmpl">
+                    <div class='row'>
+                        <h1>comment1</h1>
+					</div>
+                    <div class='row'>
+                        <h1>comment1</h1>
+					</div>
+                    <div class='row'>
+                        <h1>comment1</h1>
+					</div>
+                    <div class='row'>
+                        <h1>comment1</h1>
+					</div>
+
+				</script>
+
+			</div>
+		</div>
+        <div id="footer">
+            <div class="container">
+                <p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>
+            </div>
+        </div>
+
+	</body>
+</html>
+

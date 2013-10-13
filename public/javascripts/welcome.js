@@ -2,7 +2,10 @@ $(function() {
 	getUserID();
 	getTeamList();
 	$('#btnLogout').click(btnLogoutAction);
+	$('#btnNewProject').click(btnNewProjectAction);
 });
+
+
 
 var btnLogoutAction = function() {
 	$.ajax({
@@ -19,7 +22,7 @@ function getUserID() {
 		type : 'get',
 		url : '/welcome/getUserID',
 		success : function(result) {
-			$('#divUserID').text(result.id);
+			$('#textUserId').text(result.id);
 		}
 	});
 };
@@ -29,24 +32,18 @@ function getTeamList() {
 		type : 'get',
 		url : '/welcome/getTeamList',
 		success : function(teams) {
-			console.log("getTeamList");
-			if (teams.length > 0) {
-				var li = [];
-				var i = 0;
-
-				$.each(teams, function(k, v) {
-					li[i++] = '<li><a href="#" id="' + v.id + '"class="projectList">' + v.name + '</a></li>';
-				});
-				$('#ulProjectList').empty();
-				$('#ulProjectList').append(li.join(''));
-				$('.projectList').click(projectSelected);
-			}
+			
+            $('#divProjectList').empty();
+			
+			$('#tmplProjectList').tmpl({ teams : teams }).appendTo('#divProjectList');
+			
+			$('.list-for-project').click(projectSelected);
 		}
 	});
 };
-function openDialog() {
-	$('#dialogCreateTeam').modal({
-		backdrop : false,
+function btnNewProjectAction() {
+	$('#dlgCreateTeam').modal({
+		backdrop : true,
 		keyboard : true
 	});
 };
@@ -67,19 +64,19 @@ function createTeamAction() {
 		data : json,
 		success : function() {
 			getTeamList();
+            $('#dlgCreateTeam').modal('hide');
 		}
 	});
 
-	$('#dialogCreateTeam').modal('hide');
 
 }
 
 function projectSelected() {
 
 	var json = {};
-	json["project_name"] = $(this).text();
+	json["project_name"] = $(this).find('h5').text();
 	json["team_id"] = $(this).attr('id');
-
+	
 	$.ajax({
 		type : "post",
 		url : "/welcome/projectSelected",

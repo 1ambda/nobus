@@ -8,31 +8,26 @@ $(function() {
 	getUserID();
 	$(".chosen").chosen();
 	$('#btnLogout').click(btnLogoutAction);
-	$('#inputInviteMember').keyup(inviteMemberChange);
-	$('#inputDropout').keyup(dropoutChange);
-	$('#inputInviteMember').typeahead({
-		source : inviteMemberTypeahead
-	});
 	var pickerOpts = {
 		format: "yyyy-mm-dd",
 		changeYear: true,
 		defaultDate: new Date()
 	};
-	$('#datepicker').datepicker(pickerOpts);
-	$('#datepicker2').datepicker(pickerOpts);
+	// $('#datepicker').datepicker(pickerOpts);
+	// $('#datepicker2').datepicker(pickerOpts);
 
-	var map = {};
-	map["tabGantt"] = getTaskList;
-	map["tabContribution"] = getContribution;
-	map["tabComment"] = getCommentList;
+	// var map = {};
+	// map["tabGantt"] = getTaskList;
+	// map["tabContribution"] = getContribution;
+	// map["tabComment"] = getCommentList;
 
-	$('#tabGantt, #tabContribution, #tabComment').click(function() {
-		map[this.id]();
-	});
+	// $('#tabGantt, #tabContribution, #tabComment').click(function() {
+		// map[this.id]();
+	// });
 	
 	getTaskList();
 
-    commentSocketInit();
+    // commentSocketInit();
 });
 
 function commentSocketInit() {
@@ -95,11 +90,23 @@ function getCommentList() {
     $("body").addClass('comment')
 };
 
+function openDropDialog() {
+	$.get('/template/dlgDrop', function(template) {
+		
+		$('body').append(template);
+		$('#inputDropout').keyup(dropoutChange);
+		$('#dlgDrop').modal({
+			backdrop : true,
+			keyboard : true
+		});
+	});
+};
+
 function getMemberList() {
 
 	// Query
 
-	$('#dialogTeam table tbody').remove();
+	$('#dlgMemberList table tbody').remove();
 
 	$.ajax({
 		type : 'get',
@@ -110,17 +117,21 @@ function getMemberList() {
 				return;
 			}
 			
-//			result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
+			// result.data[0] = { user_id : "Hoon", task_number : "5", status : "online" };
             for(var i = 0; i < result.data.length; i++) {
                 result.data[i]["task_number"] = i;
                 result.data[i]["status"] = "online";
             }
 
-			$.get('/template/dialogTeam', function(templates) {
+			$.get('/template/dlgMemberList', function(templates) {
+				
+				
+				log.debug(JSON.stringify(result));
+				
 				$('body').append(templates);
-				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dialogTeam table:last');
-				$('#dialogTeam').modal({
-					backdrop : false,
+				$('#tmplDialogTeamContent').tmpl(result.data).appendTo('#dlgMemberList table:last');
+				$('#dlgMemberList').modal({
+					backdrop : true,
 					keyboard : true
 				});
 			});
@@ -130,65 +141,33 @@ function getMemberList() {
 
 function getTaskList() {
     $("body").removeClass('comment')
+    
 
-	var task = [
-		{ taskList_name : "My Tasks", taskBoxes : [
-			{ taskbox_name : "Research" , taskElems : [
-				{ task_kind : "Push", member: "Hoon", duedate: "09.28", taskMembers : [
-					{ co_worker : "Hoon", current_user : "true"}
-				]}
-			]}, 
-			{ taskbox_name : "Presentation" , taskElems : [
-				{ task_kind : "Push", duedate: "09.28", taskMembers : [
-					{ co_worker : "Ho"},
-					{ co_worker : "Hoon", current_user : "true"},
-					{ co_worker : "Eun"}
-				]},
-				{ task_kind : "Return", duedate: "10.28", taskMembers : [
-					{ co_worker : "Lee"},
-					{ co_worker : "Hoon", current_user : "true"}
-				]}
-			]}
-		]},
-		{ taskList_name : "Others", taskBoxes : [
-			{ taskbox_name : "UCC" , taskElems : [
-				{ task_kind : "Push", member: "Lee", duedate : "09.27", taskMembers : [
-					{ co_worker : "Jin" }
-				]},
-				{ task_kind : "Toss", member: "Ho", duedate : "09.28", taskMembers : [
-					{ co_worker : "Mun" }
-				]},
-				{ task_kind : "Return", member: "Mun", duedate : "09.29", taskMembers : [
-					{ co_worker : "Lee" }
-				]}
-			]}
-		]}
-	];
-
-	// $('#tmplTaskList').tmpl(task).appendTo('#pageContainer');
-	$('#pageContainer').html($('#tmplTaskList').tmpl(task));
-	
-	$('.task-elem').click(function(event) {
-		// alert($(this).children('#taskelem_member').text());
-		
-			openTaskDialog();
-		
-	});
-	
-	$('.taskelem-select').click(function(event) {
-		event = event || window.event;
-		if(event.stopPropagation) {
-			event.stopPropagation();
-		} else {
-			event.cancelBubble = false;
-		}
-	});
 
     $.ajax({
         type : 'get',
         url : '/project/getTaskList',
         success : function(result) {
+            console.log('1');
             console.log(result);
+            $('#gantt').html($('#tmplTaskList').tmpl(result));
+            
+
+            $('.task-elem').click(function (event) {
+                // alert($(this).children('#taskelem_member').text());
+
+                openTaskDialog();
+
+            });
+
+            $('.taskelem-select').click(function (event) {
+                event = event || window.event;
+                if (event.stopPropagation) {
+                    event.stopPropagation();
+                } else {
+                    event.cancelBubble = false;
+                }
+            });
         }
     });
 };
@@ -199,7 +178,7 @@ function getUserID() {
 		type : 'get',
 		url : '/welcome/getUserID',
 		success : function(result) {
-			$('#divUserID').text(result.id);
+			$('#textUserId').text(result.id);
 			user_id = result.id;
 		}
 	});
@@ -258,28 +237,6 @@ function dropoutChange() {
 	}
 };
 
-function inviteMemberTypeahead(query, process) {
-
-	$.ajax({
-		type : "get",
-		url : "/project/inviteMemberTypeahead",
-		data : {
-			user_id : query
-		},
-		success : function(data) {
-			return process(data);
-		}
-	});
-};
-function inviteMemberChange() {
-	if ($('#inputInviteMember').val() == "") {
-		$("#btnInviteMember").addClass('disabled');
-		$("#btnInviteMember").attr('href', '#');
-	} else {
-		$("#btnInviteMember").removeClass('disabled');
-		$("#btnInviteMember").attr('href', 'javascript:inviteMemberAction();');
-	}
-};
 
 var btnLogoutAction = function() {
 	$.ajax({
@@ -296,7 +253,11 @@ function getProjectName() {
 		type : 'get',
 		url : '/project/getProjectName',
 		success : function(data) {
-            $('#projectName').text(data.team_name);
+			log.debug(data.team_name);
+			console.log(JSON.stringify(data));
+			
+			
+            $('#divProjectName').text(data.team_name);
             team_id = data.team_id;
             team_name = data.team_name;
             user_id = data.user_id;
@@ -305,10 +266,32 @@ function getProjectName() {
 };
 
 function openInviteDialog() {
-	$('#dialogInviteMember').modal({
-		backdrop : false,
+	
+	$.get('/template/dlgInvite', function(template) {
+		$('body').append(template);
+
+		$('#inputInviteMember').keyup(inviteMemberChange);
+		$('#inputInviteMember').typeahead({
+			remote: '/project/inviteMemberTypeahead?user_id=%QUERY'
+		});
+
+		$('#dlgInvite').modal({
+		backdrop : true,
 		keyboard : true
 	});
+		
+	});
+	
+};
+
+function inviteMemberChange() {
+	if ($('#inputInviteMember').val() == "") {
+		$("#btnInviteMember").addClass('disabled');
+		$("#btnInviteMember").attr('href', '#');
+	} else {
+		$("#btnInviteMember").removeClass('disabled');
+		$("#btnInviteMember").attr('href', 'javascript:inviteMemberAction();');
+	}
 };
 
 function openTaskDialog() {
@@ -398,13 +381,6 @@ function inviteMemberAction() {
 		}
 	});
 };
-
-function openDropDialog() {
-	$('#dialogDrop').modal({
-		backdrop : false,
-		keyboard : true
-	});
-}
 
 function addPushMember(val) {
 	var sep = $.inArray(val, pushMemberId);

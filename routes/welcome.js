@@ -4,8 +4,25 @@ exports.index = function(req, res) {
     if (req.session.user_id) {
         res.render('welcome');
     } else {
-        res.redirect('back');
+        var id = req.body.user_id;
+        var pwd = req.body.user_pwd;
+
+        pool.acquire(function(err, conn) {
+
+            // Query
+            conn.query("SELECT id count FROM user WHERE id=? and pwd=?", [id, pwd], function(err, rows){
+                console.log(rows);
+                pool.release(conn);
+
+                if ( rows.length === 0 ) {
+                    res.redirect('back');
+                } else {
+                    res.render('welcome');
+                }
+            });
+        });
     }
+
 };
 
 exports.logout = function(req, res) {
@@ -98,6 +115,7 @@ exports.projectSelected = function(req, res) {
 	console.log("Route : projectSelected");
 	
 	id = req.session.user_id;
+	console.log(id);
 	
 	if (id) {
 		req.session.team_id = req.body.team_id;

@@ -50,39 +50,63 @@ CREATE TABLE comment(
 
 CREATE TABLE push(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user_id CHAR(20) NOT NULL,
 	task_id INT NOT NULL,
 	txt TEXT,
 	start_date DATE NOT NULL,
 	due_date DATE NOT NULL,
 	checked TINYINT(1) NOT NULL DEFAULT 0,
-	FOREIGN KEY (user_id) REFERENCES user(id),
 	FOREIGN KEY (task_id) REFERENCES task(id)
 	);
 	
 CREATE TABLE toss(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user_id CHAR(20) NOT NULL,
 	task_id INT NOT NULL,
 	txt TEXT,
 	start_date DATE NOT NULL,
 	due_date DATE NOT NULL,
 	checked TINYINT(1) NOT NULL DEFAULT 0,
-	FOREIGN KEY (user_id) REFERENCES user(id),
 	FOREIGN KEY (task_id) REFERENCES task(id)
 	);
 	
 CREATE TABLE submit(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	user_id CHAR(20) NOT NULL,
 	task_id INT NOT NULL,
 	txt TEXT,
 	submit_date DATE NOT NULL,
 	checked TINYINT(1) NOT NULL DEFAULT 0,
-	FOREIGN KEY (user_id) REFERENCES user(id),
 	FOREIGN KEY (task_id) REFERENCES task(id)
 	);
-	
+
+CREATE TABLE push_user(
+
+	push_id INT NOT NULL AUTO_INCREMENT,
+	user_id CHAR(20) NOT NULL,
+
+	PRIMARY KEY(push_id, user_id),
+	FOREIGN KEY(push_id) REFERENCES push(id),
+	FOREIGN KEY(user_id) REFERENCES user(id)
+);
+
+CREATE TABLE toss_user(
+
+	toss_id INT NOT NULL AUTO_INCREMENT,
+	user_id CHAR(20) NOT NULL ,
+
+	PRIMARY KEY(toss_id, user_id),
+	FOREIGN KEY(toss_id) REFERENCES toss(id),
+	FOREIGN KEY(user_id) REFERENCES user(id)
+);
+
+CREATE TABLE submit_user(
+
+	submit_id INT NOT NULL AUTO_INCREMENT,
+	user_id CHAR(20) NOT NULL,
+
+	PRIMARY KEY(submit_id, user_id),
+	FOREIGN KEY(submit_id) REFERENCES submit(id),
+	FOREIGN KEY(user_id) REFERENCES user(id)
+);
+
 CREATE TABLE push_comment(
 	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	push_id INT NOT NULL,

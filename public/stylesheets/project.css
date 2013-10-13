@@ -1,33 +1,29 @@
-.typeahead {
-	z-index: 1100;
-}
-font.title {
-	font-size: 18px;
-	line-height: 20px;
-	font-weight: bold;
+.tab-menu {
+	font-size: 15px;
 }
 
-font.box-title {
-	font-size: 22px;
-	line-height: 40px;
-	font-weight: bold;
-	margin-bottom: 10px;
+
+@media (min-width: 979px) {
+  #sidebar.affix-top {
+    position: static;
+  	margin-top:90px;
+  	width:156px;
+  }
+  
+  #sidebar.affix {
+    position: fixed;
+    top:90px;
+    width:156px;
+  }
 }
 
-textarea.contents{
-	width: 98%;
-	height: 130px;
-	background-color:#FFFFFF;
-}
-div.modal-contents{
-	display:block;
-	clear:both;
-	content: ".";
-	overflow:hidden;
+.affix,.affix-top {
+   position:static;
 }
 
 .task-elem {
-	margin: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .taskelem-select {
@@ -35,12 +31,5 @@ div.modal-contents{
 	margin-top: 10px;
 }
 
-.inputPushTitle {
-	width: 696px;
-}
 
-.comment {
-    background-image: url('../images/bg_comment.jpg');
-    background-repeat: repeat;
-}
 

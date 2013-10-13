@@ -3,7 +3,7 @@
  * GET home page.
  */
 
-var pool = require('../library/mysql-pool'); 
+var pool = require('../library/mysql-pool');
 
 exports.index = function(req, res){
     if (req.session.user_id) {
@@ -35,7 +35,6 @@ exports.register = function(req,res) {
 	    		pool.release(conn);
 	            res.send({ "status": "Already Registered"});
 	        }
-
 	    });
 	});
 };
@@ -55,7 +54,6 @@ exports.login = function(req, res) {
 	    	pool.release(conn);
 	
 	        if ( rows.length === 0 ) {
-	        	
 	            res.send({ "status": "FAIL"});
 	        } else {
 	            req.session.user_id = id;

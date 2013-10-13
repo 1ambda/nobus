@@ -1,4 +1,6 @@
 var pool = require('../library/mysql-pool');
+var async = require('async');
+var util = require('util');
 
 exports.index = function(req, res) {
 	console.log("Route : goProjectPage");
@@ -16,8 +18,8 @@ exports.getProjectName = function(req, res) {
 		if (req.session.project_name) {
 			res.send({
 				team_name : req.session.project_name,
-                team_id : req.session.team_id,
-                user_id : req.session.user_id
+				team_id : req.session.team_id,
+				user_id : req.session.user_id
 			});
 		}
 	} else {
@@ -113,8 +115,8 @@ exports.inviteMemberAction = function(req, res) {
 				conn.query(checkQuery, [team_id, user_id], function(err1, rows1) {
 					console.log(rows1);
 					if (rows1[0].count === 0) {
-						conn.query(inputQuery, [team_id, user_id], function(err2, rows2){
-							if(err1){
+						conn.query(inputQuery, [team_id, user_id], function(err2, rows2) {
+							if (err1) {
 								pool.release(conn);
 								console.log("InviteMemberAction Fail : " + err2);
 								res.send({
@@ -128,10 +130,10 @@ exports.inviteMemberAction = function(req, res) {
 								});
 							}
 						});
-						
+
 					} else {
-						conn.query(updateQuery, [team_id, user_id], function(err2, rows2){
-							if(err1){
+						conn.query(updateQuery, [team_id, user_id], function(err2, rows2) {
+							if (err1) {
 								pool.release(conn);
 								console.log("InviteMemberAction Fail : " + err2);
 								res.send({
@@ -157,14 +159,14 @@ exports.getTeamMembers = function(req, res) {
 	console.log("Route : getTeamMembers");
 
 	team_id = req.session.team_id;
+
 	var query = "SELECT user_id FROM user_team WHERE team_id = ? AND take_on = 1;";
 
 	pool.acquire(function(err, conn) {
 		conn.query(query, [team_id], function(err, rows) {
 			pool.release(conn);
 			if (!err) {
-				console.log(rows);
-				
+
 				res.send({
 					status : "success",
 					data : rows
@@ -180,10 +182,9 @@ exports.getTeamMembers = function(req, res) {
 
 };
 
-
-exports.pushTask = function(req, res){
+exports.pushTask = function(req, res) {
 	console.log("Route : push");
-	
+
 	console.log(req.body.name);
 	team_id = req.session.team_id;
 	name = req.body.name;
@@ -193,151 +194,212 @@ exports.pushTask = function(req, res){
 	var taskQuery = "INSERT INTO task(team_id, name, start_date, due_date) VALUES (?, ?, ?, ?);";
 	var getTaskIdQuery = "SELECT id FROM task WHERE team_id = ? AND name = ?;";
 	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) /VALUES(?, ?);";
-	
-	pool.acquire(function(err, conn){
-		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows){
-			if(err){
+
+	pool.acquire(function(err, conn) {
+		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows) {
+			if (err) {
 				console.log("this");
 				console.log(err);
 				console.log("this");
+				pool.release(conn);
 			} else {
 				console.log("1");
-				conn.query(getTaskIdQuery, [team_id, name], function(err, rows){
+				conn.query(getTaskIdQuery, [team_id, name], function(err, rows) {
 					req.session.task_id = rows[0].id;
-					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows){
+					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows) {
 						pool.release(conn);
-						if(err){
+						if (err) {
 							console.log(err);
 						} else {
 							console.log("success");
 						}
 					});
 				});
-			}	
-		});
-	});
-};
-
-exports.getTaskList = function(req, res){
-	console.log("Route : getTaskList");
-	
-	team_id = req.session.team_id;
-	user_id = req.body.user_id;
-	var mainQuery = "SELECT B.user_id, A.id, A.name FROM task A JOIN user_task B ON A.id = B.task_id WHERE A.team_id = ? AND B.task_on = 1;";
-	var pushQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM push WHERE task_id = ?;";
-	var tossQuery = "SELECT id, DATE_FORMAT(due_date, '%y-%m-%d') due_date FROM toss WHERE task_id = ?;";
-	var returnQuery = "SELECT id, DATE_FORMAT(submit_date, '%y-%m-%d') due_date FROM submit WHERE task_id = ?;";
-	var pushGetMemberQuery = "SELECT user_id FROM push WHERE task_id = ?;";
-	var tossGetMemberQuery = "SELECT user_id FROM toss WHERE task_id = ?;";
-	var returnGetMemberQuery = "SELECT user_id FROM submit WHERE task_id = ?;";
-	var jsonObj = [];
-	var elemsObj = [];
-	var taskObj = [];
-	
-	pool.acquire(function(req, conn){
-		conn.query(mainQuery, [team_id], function(mainErr, mainRows){
-			if(mainErr){
-				console.log(mainErr);
-			} else {
-				var i;
-				var mainId;
-				
-				for(i = 0; i < mainRows.length; i++){
-					mainId = mainRows[i].id;
-
-					conn.query(pushQuery, [mainId], function(pushErr, pushRows){
-						if(pushErr){
-							console.log(pushErr);
-						} else if(pushRows.length > 0){
-							conn.query(pushGetMemberQuery, [mainId], function(memErr, memRows){
-								pool.release(conn);
-								if(memErr){
-									console.log(memErr);
-								} else {
-									elemsObj.push({task_kind: 'push', due_date: pushRows[0].due_date, task_members: memRows});
-								}
-							});
-						}
-					});
-					
-					conn.query(tossQuery, [mainId], function(tossErr, tossRows){
-						if(tossErr){
-							console.log(tossErr);
-						} else if(tossRows.length > 0){
-							var j;
-							
-							for(j = 0; j < tossRows.length; j++){
-								conn.query(tossGetMemberQuery, [mainId], function(memErr, memRows){
-									pool.release(conn);
-									if(memErr){
-										console.log(memErr);
-									} else {
-										elemsObj.push({task_kind: 'toss', due_date: tossRows[j].due_date, task_members: memRows});
-									}
-								});
-							}
-						}
-					});		
-					
-					conn.query(returnQuery, [mainId], function(returnErr, returnRows){
-						if(returnErr){
-							console.log(returnErr);
-						} else if(returnRows.length > 0){
-							conn.query(returnGetMemberQuery, [mainId], function(memErr, memRows){
-								pool.release(conn);
-								if(memErr){
-									console.log(memErr);
-								} else {
-									elemsObj.push({task_kind: 'return', due_date: pushRows[0].due_date, task_members: memRows});
-								}
-							});
-						}
-					});
-					
-					taskObj.push({task_name: mainRows[i].name, task_elems: elemsObj});
-					elemsObj = [];
-					if(mainRows[i].user_id == user_id){
-						jsonObj.push({allocated: 'my', task: taskObj});
-					} else {
-						jsonObj.push({allocated: 'other', task: taskObj});
-					}
-					taskObj = [];
-				}
-				
-				res.send(jsonObj);
-				jsonObj = [];
 			}
 		});
 	});
 };
+exports.getTaskList = function(req, res) {
+
+	user_id = req.session.user_id;
+	team_id = req.session.team_id;
+
+	var queryTask = "select id as task_id, name, finished from task where team_id = ?;";
+
+	var taskList = {
+		taskBoxes : []
+	};
+
+	pool.acquire(function(err, conn) {
+		if (err)
+			errorHandler(res, err, conn);
+		else {
+			conn.query(queryTask, [team_id], function(err, rows) {
+				if (err)
+					errorHandler(res, err, conn);
+				else {
+					pool.release(conn);
+
+					var params = [];
+					var task_kinds = ['push', 'toss', 'submit'];
+
+					for (var i = 0; i < rows.length; i++) {
+						params[i] = {
+							task_id : rows[i].task_id,
+							index : i
+						};
+						taskList.taskBoxes[i] = rows[i];
+						taskList.taskBoxes[i].taskElems = [];
+					}
+					
+					async.each(params, function(param, callback) {
+
+						var task_id = param.task_id;
+						var i = param.index;
+
+						async.eachSeries(task_kinds, function(task_kind, callback) {
+
+							getTaskBox(callback, task_kind, task_id, taskList.taskBoxes[i]);
+						}, function(err) {
+							if(err) console.log(err);
+							return callback();
+						});
+
+					}, function(err) {
+						if(err) console.log(err);
+						console.log(util.inspect(taskList, false, null));
+						res.send(taskList);
+					});
+				}
+			});
+		}
+	});
+};
+
+function getTaskBox(callback, task_kind, task_id, taskBox) {
+
+	var queryMap = [];
+	queryMap['push'] = "SELECT id, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM push WHERE task_id = ?;";
+	queryMap['toss'] = "SELECT id, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM toss WHERE task_id = ?;";
+	queryMap['submit'] = "SELECT id, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM submit WHERE task_id = ?;";
+
+	pool.acquire(function(err, conn) {
+		if (err)
+			errorHandler(null, err, null);
+		else {
+			conn.query(queryMap[task_kind], [task_id], function(err, rows) {
+				if (err)
+					errorHandler(null, err, conn);
+				else {
+					pool.release(conn);
+					
+					taskBox.task_id = task_id;
+					
+					for(var i = 0; i < rows.length; i++) {
+						taskBox.taskElems.push({ task_kind : task_kind, id : rows[i].id, due_date : rows[i].due_date });
+					}
+					
+					
+					async.each(taskBox.taskElems, function(task_elem, callback) {
+						
+						getElemUser(callback, task_elem);
+
+					}, function(err) {
+						if(err) console.log(err);
+						return callback();
+					});
+
+				}
+			});
+		}
+	});
+};
+
+function getElemUser(callback, task_elem) {
+
+	var task_kind = task_elem.task_kind;
+
+	var queryMap = [];
+	queryMap['push'] = "SELECT user_id FROM push_user WHERE push_id = ?";
+	queryMap['toss'] = "SELECT user_id FROM toss_user WHERE toss_id = ?";
+	queryMap['submit'] = "SELECT user_id FROM submit_user WHERE submit_id = ?";
+
+	pool.acquire(function(err, conn) {
+		if (err)
+			errorHandler(null, err, null);
+		else {
+			conn.query(queryMap[task_kind], [task_elem['id']], function(err, rows) {
+				if (err)
+					errorHandler(null, err, conn);
+				else {
+
+					task_elem.users = rows;
+
+					pool.release(conn);
+					return callback();
+				}
+			});
+		}
+	});
+};
+
+function errorHandler(res, err, conn) {
+	console.log(err);
+
+	if (res !== null)
+		res.send({
+			status : "fail"
+		});
+
+	if (conn !== null)
+		pool.release(conn);
+};
 
 // get /project/comments
-exports.getComments = function(req, res)  {
-    var team_id = req.params.team_id;
-    console.log(team_id);
+exports.getComments = function(req, res) {
+	var team_id = req.params.team_id;
+	console.log(team_id);
 
-    // query for get comments list from DB
+	// query for get comments list from DB
 
-    var data = [];
-    data[0] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
-    data[1] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
-    data[2] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
-    data[3] = { team_id : "69", user_id : "Hoon", comment : "Hi, Guys!", time : "2013-10-09 12:25" };
+	var data = [];
+	data[0] = {
+		team_id : "69",
+		user_id : "Hoon",
+		comment : "Hi, Guys!",
+		time : "2013-10-09 12:25"
+	};
+	data[1] = {
+		team_id : "69",
+		user_id : "Hoon",
+		comment : "Hi, Guys!",
+		time : "2013-10-09 12:25"
+	};
+	data[2] = {
+		team_id : "69",
+		user_id : "Hoon",
+		comment : "Hi, Guys!",
+		time : "2013-10-09 12:25"
+	};
+	data[3] = {
+		team_id : "69",
+		user_id : "Hoon",
+		comment : "Hi, Guys!",
+		time : "2013-10-09 12:25"
+	};
 
-
-    res.send(data);
+	res.send(data);
 };
 
 exports.test = function(req, res) {
 
 };
 
-
-exports.upload = function(req, res){
-	fs.readFile(req.files.uploadFile.path, function(error, data){
+exports.upload = function(req, res) {
+	fs.readFile(req.files.uploadFile.path, function(error, data) {
 		var filePath = ___dirname + "\\files\\" + req.files.uploadFile.name;
 		fs.writeFile(filePath, data, function(error) {
-			if(error) {
+			if (error) {
 				throw err;
 			} else {
 				res.redirect(filePath);

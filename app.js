@@ -10,6 +10,7 @@ var routes = require('./routes');
 var welcome = require('./routes/welcome');
 var project = require('./routes/project');
 var template = require('./routes/template');
+var test = require('./routes/test');
 var http = require('http');
 var path = require('path');
 var fs = require('fs');
@@ -67,24 +68,25 @@ app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushTask', project.pushTask);
 app.get('/project/test', project.test);
 app.get('/project/getTaskList', project.getTaskList);
-<<<<<<< HEAD
-=======
-
-
 // RESTFUL API
 app.get('/project/comments/:team_id', project.getComments);
 
->>>>>>> 0e9c851ba3f26695f5d018fef885353bcf0be655
+// for test
 
-
+app.get('/test/testAsync', test.testAsync);
 
 // for socket.io
 var comment = require('./routes/sockets/comment').listen(io);
 
 // for jQuery Template
-app.get('/template/task', template.task);
-app.get('/template/dialogTeam', template.dialogTeam);
+app.get('/template/dlgMemberList', template.dlgMemberList);
 app.get('/template/dialogTask', template.dialogTask);
+
+app.get('/template/dlgRegister', template.dlgRegister);
+app.get('/template/dlgDrop', template.dlgDrop);
+app.get('/template/dlgInvite', template.dlgInvite);
+
+
 //for upload File
 // app.get('/project/test', routes.test);
 app.post('/project/upload', project.upload);
