@@ -4,7 +4,7 @@ exports.dlgMemberList = function(req, res) {
 };
 
 exports.dialogTask = function(req, res) {
-	res.render('template/dialogTask.html');
+	res.render('template/dlgTask.html');
 };
 
 exports.dlgRegister = function(req, res) {
@@ -17,4 +17,10 @@ exports.dlgDrop = function(req, res) {
 
 exports.dlgInvite = function(req, res) {
 	res.render('template/dlgInvite.html');
-}
+};
+
+exports.dlgPush = function(req, res) {
+    res.render('template/dlgPush.html');
+};
+
+

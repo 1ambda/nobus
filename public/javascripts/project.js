@@ -8,23 +8,7 @@ $(function() {
 	getUserID();
 	$(".chosen").chosen();
 	$('#btnLogout').click(btnLogoutAction);
-	var pickerOpts = {
-		format: "yyyy-mm-dd",
-		changeYear: true,
-		defaultDate: new Date()
-	};
-	// $('#datepicker').datepicker(pickerOpts);
-	// $('#datepicker2').datepicker(pickerOpts);
 
-	// var map = {};
-	// map["tabGantt"] = getTaskList;
-	// map["tabContribution"] = getContribution;
-	// map["tabComment"] = getCommentList;
-
-	// $('#tabGantt, #tabContribution, #tabComment').click(function() {
-		// map[this.id]();
-	// });
-	
 	getTaskList();
 
     // commentSocketInit();
@@ -270,7 +254,7 @@ function openInviteDialog() {
 	$.get('/template/dlgInvite', function(template) {
 		$('body').append(template);
 
-		$('#inputInviteMember').keyup(inviteMemberChange);
+        $('#inputInviteMember').keyup(InputMemberChecker);
 		$('#inputInviteMember').typeahead({
 			remote: '/project/inviteMemberTypeahead?user_id=%QUERY'
 		});
@@ -284,14 +268,14 @@ function openInviteDialog() {
 	
 };
 
-function inviteMemberChange() {
-	if ($('#inputInviteMember').val() == "") {
-		$("#btnInviteMember").addClass('disabled');
-		$("#btnInviteMember").attr('href', '#');
-	} else {
-		$("#btnInviteMember").removeClass('disabled');
-		$("#btnInviteMember").attr('href', 'javascript:inviteMemberAction();');
-	}
+function InputMemberChecker() {
+    if ($('#inputInviteMember').val() == "") {
+        $('#btnInviteMember').addClass('disabled');
+        $('#btnInviteMember').attr('href', '#');
+    } else {
+        $('#btnInviteMember').removeClass('disabled');
+        $('#btnInviteMember').attr('href', 'javascript:inviteMemberAction();');
+    }
 };
 
 function openTaskDialog() {
@@ -312,6 +296,8 @@ function openTaskDialog() {
 		$(".taskelem-select").on('click', function(event) {
 			event.preventDefault();
 		});
+
+
 		$('#dialogTask').modal({
 			backdrop : false,
 			keyboard : true
@@ -320,33 +306,34 @@ function openTaskDialog() {
 };
 
 function openPushDialog() {
+    $.ajax({
+        type : 'get',
+        url : '/template/dlgPush',
+        success : function(templates)
+        {
+            $('body').append(templates);
+            $('#dp1').datetimepicker({
+                pickTime: false
+            });
 
-	$('#pushMember option').remove();
-	$('#placeAddMemberButton button').remove();
-	console.log(pushMemberId.length);
-	pushMemberId = [];
-	$.ajax({
-		type : 'get',
-		url : '/project/getTeamMembers',
-		success : function(result) {
-			if (result.status == "fail") {
-				alert("Error : getTeamMembers");
-				return;
-			}
-			$("<option></option>").attr("value", "").appendTo('#pushMember');
-			$.each(result.data, function(k, v) {
-				$("<option></option>").attr("value", v.user_id).text(v.user_id).appendTo("#pushMember");
-			});
-			console.log($('#pushMember').val());
-			$('#pushMember').trigger("liszt:updated");
-			$('#dialogPush').modal({
-				backdrop : false,
-				keyboard : true
-			});
-		}
-	});
-
+            $('#inputPushMember').typeahead({
+                remote: '/project/pushMemberTypeahead?user_id=%QUERY'
+            });
+            $('#dlgPush').modal({
+                backdrop : false,
+                keyboard : true
+            });
+        }
+    });
 };
+
+function pushMemberChecker() {
+
+}
+
+function addPushMember() {
+    alert('function : addPushMember');
+}
 
 function openTossDialog() {
 	alert("dialog not implemented");
@@ -382,22 +369,8 @@ function inviteMemberAction() {
 	});
 };
 
-function addPushMember(val) {
-	var sep = $.inArray(val, pushMemberId);
-	sep=sep+1;
-	if (!sep) {
-		pushMemberId.push(val);
-		var icon = val + " <i class=\"icon-remove-sign\"></i>";
-		var id = val;
-		var onClick = "javascript:deleteButton("+id+");";
-		$("<button></button>").attr("id", id).attr("onClick",onClick).attr("class", "btn btn-primary btnMember").html(icon).appendTo("#placeAddMemberButton");
-	}
-	else{
-		console.log("Member is already added");
-		return;
-	}
 
-}
+
 
 function deleteButton(id){
 	var templ = $.inArray(id.id, pushMemberId);

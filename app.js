@@ -63,6 +63,7 @@ app.get('/project', project.index);
 app.get('/project/dropout', project.dropoutProject);
 app.get('/project/getProjectName', project.getProjectName);
 app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
+app.get('/project/pushMemberTypeahead', project.pushMemberTypeahead);
 app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushTask', project.pushTask);
@@ -85,6 +86,7 @@ app.get('/template/dialogTask', template.dialogTask);
 app.get('/template/dlgRegister', template.dlgRegister);
 app.get('/template/dlgDrop', template.dlgDrop);
 app.get('/template/dlgInvite', template.dlgInvite);
+app.get('/template/dlgPush', template.dlgPush);
 
 
 //for upload File

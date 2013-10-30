@@ -71,6 +71,39 @@ exports.inviteMemberTypeahead = function(req, res) {
 
 };
 
+exports.pushMemberTypeahead = function(req, res) {
+    if (req.session.user_id) {
+
+        pool.acquire(function(err, conn) {
+            if(err)
+                errorHandler(res, err, conn);
+            else {
+                var query = "SELECT id FROM user WHERE UPPER(id) LIKE ? AND id NOT IN " +
+                    "(SELECT user_id FROM user_team WHERE team_id = ?);";
+
+                conn.query(query, [req.query.user_id + '%', req.session.team_id], function(err, rows) {
+                    if(err)
+                        errorHandler(res, err, conn);
+                    else {
+                        pool.release(conn);
+
+                        var list = new Array();
+
+                        for (var i = 0, l = rows.length; i < l; i++) {
+                            list[i] = rows[i].id;
+                        }
+
+                        res.send(list);
+                    }
+                });
+            }
+        });
+
+    } else {
+        res.redirect('/');
+    }
+};
+
 exports.dropoutProject = function(req, res) {
 	console.log("Route : deleteProject");
 
