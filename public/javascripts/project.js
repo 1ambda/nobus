@@ -306,6 +306,9 @@ function openTaskDialog() {
 };
 
 function openPushDialog() {
+
+    $('#alertBoxPushMember').html('');
+
     $.ajax({
         type : 'get',
         url : '/template/dlgPush',
@@ -328,19 +331,64 @@ function openPushDialog() {
 };
 
 function pushMemberChecker() {
-
-}
-
-function addPushMember() {
-    alert('function : addPushMember');
-}
-
-function openTossDialog() {
-	alert("dialog not implemented");
+    // todo
 };
 
-function openReturnDialog() {
-	alert("dialog not implemented");
+function pushAction() {
+
+    var due_date = $('#inputDuedate').val();
+    var title = $('#inputPushTitle').val();
+    var desc = $('#taPushDesc').val();
+    var members = new Array();
+
+    $('#alertBoxPushMember').children().each(function() {
+        members.push($(this).text());
+    });
+
+    $.ajax({
+        url : '/project/pushAction',
+        type: 'post',
+        data: { due_date : due_date, title : title, desc : desc,
+        members : members },
+        success : function(result) {
+            // todo
+        }
+    });
+
+};
+
+function openTaskDialog() {
+    $.ajax({
+        url: '/template/dlgTask',
+        type: 'get',
+        success: function(templates) {
+            $('body').append(templates);
+            $('#dlgTask').modal({
+                backdrop: false,
+                keyboard: true
+            });
+        }
+    });
+};
+
+function taskPassDialog() {
+    $.ajax({
+        url: '/template/dlgPass',
+        type: 'get',
+        success: function(templates) {
+            $('body').append(templates);
+            $('#dlgPass').modal({
+                backdrop: false,
+                keyboard:true
+            });
+        }
+    });
+};
+
+function addPushMember() {
+    var memberId = $('#inputPushMember').val();
+    var alertBox = $('#alertBoxPushMember');
+    alertBox.append('<span class="label label-success margin-10">' + memberId + '</span>\n')
 };
 
 function inviteMemberAction() {
@@ -370,10 +418,3 @@ function inviteMemberAction() {
 };
 
 
-
-
-function deleteButton(id){
-	var templ = $.inArray(id.id, pushMemberId);
-	pushMemberId.splice($.inArray(id.id, pushMemberId),1);
-	$('#'+id.id).remove();
-}

@@ -10,24 +10,24 @@
                 <div class="modal-body">
                         <div class="row center">
                             <div class="col-sm-9">
-                                <h4><i class='icon-tag'></i> Title</h4>
+                                <h4><i class='fa fa-tag'></i> Title</h4>
                                 <input id='inputPushTitle' class='form-control margin-10' type='text'>
                             </div>
                         </div>
 
                         <div class="row center">
                             <div class="col-sm-9">
-                                <h4><i class='icon-list-alt'></i> Task Description</h4>
-                                <textarea id="taDescription" class="form-control margin-10" rows="4" />
+                                <h4><i class='fa fa-list-alt'></i> Task Description</h4>
+                                <textarea id="taPushDesc" class="form-control margin-10" rows="4" />
                             </div>
                         </div>
 
                         <div class="row center">
                             <div class="col-sm-9">
                                 <div class="form-group">
-                                    <h4><i class='icon-calendar'></i> Due to</h4>
+                                    <h4><i class='fa fa-calendar'></i> Due to</h4>
                                     <div class="input-group date margin-10" id="dp1">
-                                        <input type="text" class="form-control" date-format="yyyy/MM/dd" readonly/>
+                                        <input id='inputDuedate' type="text" class="form-control" date-format="yyyy/MM/dd" readonly/>
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar">
                                             </span>
@@ -39,20 +39,19 @@
 
                         <div class="row center">
                             <div class="col-sm-9">
-                                <h4><i class='icon-file-text'></i> File Upload</h4>
+                                <h4><i class='fa fa-file-text'></i> File Upload</h4>
                                 <input class="form-control margin-10" />
                             </div>
                         </div>
 
                         <div class="row center">
                             <div class="col-sm-9">
-                                <h4><i class='icon-user'></i> Member ID</h4>
+                                <h4><i class='fa fa-user'></i> Member ID</h4>
                                 <div class="form-group margin-10">
                                     <input type="text" id="inputPushMember" class="form-control" data-provide="typeahead" autocomplete="off"/>
                                     <a href="javascript:addPushMember();" class="btn btn-success">Add</a>
                                 </div>
-                                <div class="alert alert-success margin-10">
-
+                                <div id="alertBoxPushMember" class="alert alert-success col-sm-12 margin-10">
                                 </div>
                             </div>
 
@@ -61,7 +60,7 @@
             </div>
 
             <div class="modal-footer">
-                <a id="btnDropout" href="javascript:pushAction();" class="btn btn-success disabled"><i class='icon-ok'></i> Push</a>
+                <a id="btnDropout" href="javascript:pushAction();" class="btn btn-success"><i class='fa fa-ok'></i> Push</a>
                 <a href="#" class="btn" data-dismiss="modal">Close</a>
             </div>
         </div>

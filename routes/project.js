@@ -38,37 +38,36 @@ exports.logout = function(req, res) {
 
 exports.inviteMemberTypeahead = function(req, res) {
 
-	console.log("Route : inviteMemberTypeahead ");
+    if (req.session.user_id) {
 
-	if (req.session.user_id) {
-		pool.acquire(function(err, conn) {
+        pool.acquire(function(err, conn) {
+            if(err)
+                errorHandler(res, err, conn);
+            else {
+                var query = "SELECT id FROM user WHERE UPPER(id) LIKE ? AND id NOT IN " +
+                    "(SELECT user_id FROM user_team WHERE team_id = ?);";
 
-			console.log(err);
+                conn.query(query, [req.query.user_id + '%', req.session.team_id], function(err, rows) {
+                    if(err)
+                        errorHandler(res, err, conn);
+                    else {
+                        pool.release(conn);
 
-			if (!err) {
-				var query = "SELECT id FROM user WHERE UPPER(id) like ?;";
+                        var list = new Array();
 
-				conn.query(query, [req.query.user_id + '%'], function(err, rows) {
-					pool.release(conn);
-					console.log(err);
+                        for (var i = 0, l = rows.length; i < l; i++) {
+                            list[i] = rows[i].id;
+                        }
 
-					if (!err) {
+                        res.send(list);
+                    }
+                });
+            }
+        });
 
-						var list = new Array();
-
-						for (var i = 0, l = rows.length; i < l; i++) {
-							list[i] = rows[i].id;
-						}
-
-						res.send(list);
-					}
-				});
-			}
-		});
-	} else {
-		res.redirect('/');
-	}
-
+    } else {
+        res.redirect('/');
+    }
 };
 
 exports.pushMemberTypeahead = function(req, res) {
@@ -78,7 +77,7 @@ exports.pushMemberTypeahead = function(req, res) {
             if(err)
                 errorHandler(res, err, conn);
             else {
-                var query = "SELECT id FROM user WHERE UPPER(id) LIKE ? AND id NOT IN " +
+                var query = "SELECT id FROM user WHERE UPPER(id) LIKE ? AND id IN " +
                     "(SELECT user_id FROM user_team WHERE team_id = ?);";
 
                 conn.query(query, [req.query.user_id + '%', req.session.team_id], function(err, rows) {
@@ -215,47 +214,37 @@ exports.getTeamMembers = function(req, res) {
 
 };
 
-exports.pushTask = function(req, res) {
+exports.pushAction = function(req, res) {
 	console.log("Route : push");
 
-	console.log(req.body.name);
-	team_id = req.session.team_id;
-	name = req.body.name;
-	user_id = req.body.user_id;
-	start_date = req.body.start_date;
-	due_date = req.body.due_date;
-	var taskQuery = "INSERT INTO task(team_id, name, start_date, due_date) VALUES (?, ?, ?, ?);";
-	var getTaskIdQuery = "SELECT id FROM task WHERE team_id = ? AND name = ?;";
-	var userTaskQuery = "INSERT INTO user_task(user_id, task_id) /VALUES(?, ?);";
+    if( req.session.user_id) {
+        var user_id = req.session.user_id;
+        var team_id = req.session.team_id;
+        var due_date = req.body.due_date;
+        var title = req.body.title;
+        var desc = req.body.desc;
+        var members = req.body.members;
 
-	pool.acquire(function(err, conn) {
-		conn.query(taskQuery, [team_id, name, start_date, due_date], function(err, rows) {
-			if (err) {
-				console.log("this");
-				console.log(err);
-				console.log("this");
-				pool.release(conn);
-			} else {
-				console.log("1");
-				conn.query(getTaskIdQuery, [team_id, name], function(err, rows) {
-					req.session.task_id = rows[0].id;
-					conn.query(userTaskQuery, [user_id, req.session.task_id], function(err, rows) {
-						pool.release(conn);
-						if (err) {
-							console.log(err);
-						} else {
-							console.log("success");
-						}
-					});
-				});
-			}
-		});
-	});
+        console.log('due_date : ' + due_date);
+
+        for (var i = 0; i < members.length; i++) {
+            console.log(members[i]);
+        };
+
+
+
+        res.send();
+
+    } else {
+        res.redirect('/');
+    }
+
+
 };
 exports.getTaskList = function(req, res) {
 
-	user_id = req.session.user_id;
-	team_id = req.session.team_id;
+	var user_id = req.session.user_id;
+	var team_id = req.session.team_id;
 
 	var queryTask = "select id as task_id, name, finished from task where team_id = ?;";
 

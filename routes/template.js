@@ -23,4 +23,11 @@ exports.dlgPush = function(req, res) {
     res.render('template/dlgPush.html');
 };
 
+exports.dlgTask = function(req, res) {
+    res.render('template/dlgTask.html');
+};
+
+exports.dlgPass = function(req, res) {
+    res.render('template/dlgPass.html');
+};
 

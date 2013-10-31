@@ -157,3 +157,19 @@ body {
     line-height: 1.428571429;
     border: 1px solid transparent;
 }
+
+.align-center {
+    text-align: center;
+}
+
+.center {
+    margin: 0 auto;
+}
+
+.margin-10 {
+    margin : 10px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
+}

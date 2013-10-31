@@ -157,25 +157,16 @@
 
 						<ul id="sidebar" class="nav nav-stacked affix" style="margin-top: 80px;">
 							<li>
-								<a href="javascript:getMemberList();"><i class="icon-sitemap icon-large" style="margin-right: 5px;"></i> Members</a>
+								<a href="javascript:getMemberList();"><i class="fa fa-sitemap fa-lg" style="margin-right: 5px;"></i> Members</a>
 							</li>
 							<li>
-								<a href="javascript:openInviteDialog();"><i class="icon-user icon-large" style="margin-right: 5px;"></i> Invite</a>
+								<a href="javascript:openInviteDialog();"><i class="fa fa-user fa-lg" style="margin-right: 5px;"></i> Invite</a>
 							</li>
 							<li>
-								<a href="javascript:openPushDialog();"><i class="icon-circle-arrow-down icon-large" style="margin-right: 5px;"></i> Push</a>
-							</li>
-							<!-- <li>
-							<a href="javascript:openTossDialog();"><i class="icon-circle-arrow-right icon-large" style="margin-right: 5px;"></i> Toss</a>
+								<a href="javascript:openPushDialog();"><i class="fa fa-arrow-circle-down fa-lg" style="margin-right: 5px;"></i> Push</a>
 							</li>
 							<li>
-							<a href="javascript:openReturnDialog();"><i class="icon-circle-arrow-up icon-large" style="margin-right: 5px;"></i> Return</a>
-							</li>  -->
-							<li>
-								<a href="javascript:testAction();"><i class="icon-list-alt icon-large" style="margin-right: 5px;"></i> Etc</a>
-							</li>
-							<li>
-								<a href="javascript:openDropDialog();"><i class="icon-trash icon-large" style="margin-right: 5px;"></i> Drop</a>
+								<a href="javascript:openDropDialog();"><i class="fa fa-trash-o fa-lg" style="margin-right: 5px;"></i> Drop</a>
 							</li>
 						</ul>
 
@@ -236,7 +227,7 @@
 
 			<div class="form-group">
 			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".ongoing">
-			<i class="icon-reorder" ></i>
+			<i class="fa fa-reorder" ></i>
 			</button>
 			<h2>Ongoing Tasks</h2>
 			</div>
@@ -252,7 +243,7 @@
 
 			<div class="form-group">
 			<button class="btn btn-fold pull-right" data-toggle="collapse" data-target=".finished">
-			<i class="icon-reorder" ></i>
+			<i class="fa fa-reorder" ></i>
 			</button>
 			<h2>Finished Tasks</h2>
 			</div>
@@ -261,11 +252,10 @@
 			<h4></h4>
 			{{each(index, taskBox) taskBoxes}}
 			{{if finished == 1}}
-			{{tmpl(taskBox) "#tmplTaskBox"}}
+			{{tmpl(taskBox) "#tmplTaskBoxFinished"}}
 			{{/if}}
 			{{/each}}
 			</div>
-
 			</div>
 		</script>
 
@@ -273,22 +263,32 @@
 			<h4 id="taskbox_name">${name}</h4>
 			<div class="alert alert-dismissable alert-info">
 			{{tmpl(taskElems) "#tmplTaskElem"}}
+            <a href="javascript:taskPassDialog();" id="${task_id}" class="btn btn-primary btn-lg margin-left-20">
+			<i class="fa fa-plus"></i>
+            </a>
 			</div>
 		</script>
 
-		<script id="tmplTaskElem" type="x-jquery-tmpl">
+        <script id="tmplTaskBoxFinished" type="x-jquery-tmpl">
+			<h4 id="taskbox_name">${name}</h4>
+			<div class="alert alert-dismissable alert-info">
+			{{tmpl(taskElems) "#tmplTaskElem"}}
+			</div>
+		</script>
+
+		<script id="tmplTaskElem" type="text/html">
 
 			{{if task_kind == 'push'}}
-			<div class="btn task-elem btn-success">
-			<i class="icon-envelope icon-large"></i>
+			<a href="javascript:openTaskDialog();" kind="push" id="${id}" class="btn task-elem btn-success">
+			<i class="fa fa-envelope fa-lg"></i>
 			{{else task_kind == 'toss'}}
-			<i class="icon-circle-arrow-right icon-large"></i>
-			<div class="btn task-elem btn-warning ">
-			<i class="icon-signin icon-large"></i>
+			<i class="fa fa-arrow-circle-right fa-lg"></i>
+            <a href="javascript:openTaskDialog();" kind="toss" id="${id}" class="btn task-elem btn-warning">
+			<i class="fa fa-sign-in fa-lg"></i>
 			{{else task_kind == 'submit'}}
-			<i class="icon-circle-arrow-right icon-large"></i>
-			<div class="btn task-elem btn-danger">
-			<i class="icon-flag icon-large"></i>
+			<i class="fa fa-arrow-circle-right fa-lg"></i>
+            <a href="javascript:openTaskDialog();" kind="submit" id="${id}" class="btn task-elem btn-danger">
+			<i class="fa fa-flag fa-lg"></i>
 			{{/if}}
 
 			<div class="controls">
@@ -299,12 +299,11 @@
 			</select>
 			</div>
 			<div id="taskelem_duedate" style="margin-top: 5px;">${due_date}</div>
-			</div>
+			</a>
 		</script>
 
-		<script id="tmplTaskElemOption" type="x-jquery-tmpl">
+        <script id="tmplTaskElemOption" type="x-jquery-tmpl">
 			<option value="${user_id}">${user_id}</option>
-
 		</script>
 
 		<script id="tmplTaskElemOption_temp" type="x-jquery-tmpl">

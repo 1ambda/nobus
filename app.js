@@ -66,7 +66,7 @@ app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
 app.get('/project/pushMemberTypeahead', project.pushMemberTypeahead);
 app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
-app.post('/project/pushTask', project.pushTask);
+app.post('/project/pushAction', project.pushAction);
 app.get('/project/test', project.test);
 app.get('/project/getTaskList', project.getTaskList);
 // RESTFUL API
@@ -87,6 +87,8 @@ app.get('/template/dlgRegister', template.dlgRegister);
 app.get('/template/dlgDrop', template.dlgDrop);
 app.get('/template/dlgInvite', template.dlgInvite);
 app.get('/template/dlgPush', template.dlgPush);
+app.get('/template/dlgTask', template.dlgTask);
+app.get('/template/dlgPass', template.dlgPass);
 
 
 //for upload File

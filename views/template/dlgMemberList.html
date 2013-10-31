@@ -9,9 +9,9 @@
 	<td>${task_number}</td>
 	<td>
 	{{if status == "online"}}
-	<i class="icon-circle icon-large" style="color: green"></i> ${status}
+	${status}
 	{{else status == "offline"}}
-	<i class="icon-circle icon-large" style="color: red"></i> ${status}
+    ${status}
 	{{/if}}
 	</td>
 	</tr>
@@ -25,7 +25,7 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 					×
 				</button>
-				<h4 class="modal-title"><i class="icon-user icon-large"></i> Team Members</h4>
+				<h4 class="modal-title"><i class="fa fa-user fa-lg"></i> Team Members</h4>
 			</div>
 			<!-- <div class="modal-body"> -->
 			<div class="box-content box-table">

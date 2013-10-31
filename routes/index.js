@@ -16,16 +16,13 @@ exports.index = function(req, res){
 
 exports.register = function(req,res) {
     
-    console.log("register");
-    
     var id = req.body.user_id;
     var pwd = req.body.user_pwd;
 
 	pool.acquire(function(err, conn) {
 	    // Query
 	    conn.query("SELECT id FROM user WHERE id=? and pwd=?", [id, pwd], function(err, rows){
-	    	console.log(rows[0].id);
-	    	
+
 	        if ( rows.length === 0  ) {
 	    		pool.release(conn);
 	            conn.query("INSERT INTO user(id, pwd) VALUES (?,?)", [id, pwd], function(){      	 

@@ -80,7 +80,7 @@
                 <div class="form-group">
                     <input name='user_pwd' id="inputUserPwd" type="password" placeholder="Password" class="form-control">
                 </div>
-                <button id="btnLogin" type='button' class="btn btn-success">Sign in</button>
+                <a href="javascript:btnLoginAction();" type='button' class="btn btn-success">Sign in</a>
             </form>
 
         </div>
@@ -127,14 +127,25 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Modal title</h4>
+                <h3 class="modal-title">Sign up</h3>
             </div>
             <div class="modal-body">
-                Content for the dialog / modal goes here.
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4><i class='fa fa-user'></i> ID</h4>
+                        <input id="inputRegId" class="form-control margin-10" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4><i class='fa fa-key'></i> Password</h4>
+                        <input id="inputRegPw" class="form-control margin-10" type="password">
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
+                <a href="javascript:btnRegisterAction();" class="btn btn-primary">Register</a>
                 <a href="#" data-dismiss="modal" class="btn">Close</a>
-                <a href="#" class="btn btn-primary">Save changes</a>
             </div>
         </div>
     </div>
