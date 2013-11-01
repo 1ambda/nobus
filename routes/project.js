@@ -224,16 +224,48 @@ exports.pushAction = function(req, res) {
         var title = req.body.title;
         var desc = req.body.desc;
         var members = req.body.members;
+        var taskQuery = "INSERT INTO task(team_id, name) VALUES(?,?);";
+        var userQuery = "INSERT INTO push(task_id, title, description, due_date) VALUES (?, ?, ?, ?);";
+        var upQuery = "INSERT INTO push_user(push_id, user_id) VALUES (?, ?);";
+        var idQuery = "SELECT max(id) as max FROM push;";
+        var tidQuery = "SELECT max(id) as max FROM task;";
+        var push_id;
+        var task_id;
 
         console.log('due_date : ' + due_date);
-
-        for (var i = 0; i < members.length; i++) {
-            console.log(members[i]);
-        };
-
-
-
-        res.send();
+        console.log(team_id);
+        
+        pool.acquire(function(err, conn){
+        	conn.query(taskQuery, [team_id, title], function(tErr, tRows){
+        		pool.release(conn);
+        		conn.query(tidQuery, function(tidErr, tidRows){
+        			pool.release(conn);
+        			task_id = tidRows[0].max;
+        			conn.query(userQuery, [task_id, title, desc, due_date], function(err, rows){
+        				console.log(err);
+        				pool.release(conn);
+        				conn.query(idQuery, function(idErr, idRows){
+        					console.log(idErr);
+        					pool.release(conn);
+        					push_id = idRows[0].max;
+        					conn.query(upQuery, [push_id, user_id], function(upErr){
+        						console.log(upErr);
+        						pool.release(conn);
+        						for (var i = 0; i < members.length; i++) {
+        							conn.query(upQuery, [push_id, members[i]], function(upErr2){
+        								console.log(upErr2);
+        								pool.release(conn);
+        							});
+        						}
+        			        	res.send({status: "success"});
+        					});
+        				});
+        			});
+        		});
+        	pool.release(conn);
+        	});
+        	res.send({status:"fail"});
+        });
 
     } else {
         res.redirect('/');
