@@ -35,13 +35,13 @@
                         <div class="form-group">
                             <h4><i class='fa fa-calendar'></i> Due to</h4>
 
-                            <div class="input-group date margin-10" id="dp1">
-                                <input id="inputPassDuedate" type="text" class="form-control" date-format="yyyy/MM/dd"
+                            <div class="input-group date margin-10" id="dpPass">
+                                <input id="inputPassDuedate" type="text" class="form-control" data-format="yyyy-MM-dd"
                                        readonly/>
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar">
-                                            </span>
-                                        </span>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar">
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -68,12 +68,11 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="modal-footer">
                 <a href="#" class="btn" data-dismiss="modal">Close</a>
-                <a id="btnPass" href="javascript:passAction();" class="btn btn-success">Pass</a>
+                <a id="btnPass" href="javascript:passAction(<%= task_id %>);" class="btn btn-success">Pass</a>
             </div>
         </div>
 

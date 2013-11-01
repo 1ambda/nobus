@@ -24,10 +24,11 @@ exports.dlgPush = function(req, res) {
 };
 
 exports.dlgTask = function(req, res) {
-    res.render('template/dlgTask.html');
+    res.render('template/dlgTask.html', { task_id : task_id });
 };
 
 exports.dlgPass = function(req, res) {
-    res.render('template/dlgPass.html');
+    var task_id = req.params.task_id;
+    res.render('template/dlgPass.html', { task_id : task_id });
 };
 
