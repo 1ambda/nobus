@@ -280,15 +280,15 @@
 		<script id="tmplTaskElem" type="text/html">
 
 			{{if task_kind == 'push'}}
-			<a href="javascript:openTaskDialog();" kind="push" id="${id}" class="btn task-elem btn-success">
+			<a href="javascript:openTaskDialog('push', '${id}');" kind="push" id="${id}" class="btn task-elem btn-success">
 			<i class="fa fa-envelope fa-lg"></i>
 			{{else task_kind == 'toss'}}
 			<i class="fa fa-arrow-circle-right fa-lg"></i>
-            <a href="javascript:openTaskDialog();" kind="toss" id="${id}" class="btn task-elem btn-warning">
+            <a href="javascript:openTaskDialog('toss', '${id}');" kind="toss" id="${id}" class="btn task-elem btn-warning">
 			<i class="fa fa-sign-in fa-lg"></i>
 			{{else task_kind == 'submit'}}
 			<i class="fa fa-arrow-circle-right fa-lg"></i>
-            <a href="javascript:openTaskDialog();" kind="submit" id="${id}" class="btn task-elem btn-danger">
+            <a href="javascript:openTaskDialog('submit', '${id}');" kind="submit" id="${id}" class="btn task-elem btn-danger">
 			<i class="fa fa-flag fa-lg"></i>
 			{{/if}}
 
