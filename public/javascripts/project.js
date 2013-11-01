@@ -11,6 +11,7 @@ $(function() {
 
 	getTaskList();
 
+
     // commentSocketInit();
 });
 
@@ -336,7 +337,7 @@ function pushMemberChecker() {
 
 function pushAction() {
 
-    var due_date = $('#inputDuedate').val();
+    var due_date = $('#inputPushDuedate').val();
     var title = $('#inputPushTitle').val();
     var desc = $('#taPushDesc').val();
     var members = new Array();
@@ -358,6 +359,7 @@ function pushAction() {
 };
 
 function openTaskDialog() {
+
     $.ajax({
         url: '/template/dlgTask',
         type: 'get',
@@ -371,12 +373,28 @@ function openTaskDialog() {
     });
 };
 
-function taskPassDialog() {
+function openPassDialog() {
+    $('#alertBoxPassMember').html('');
+
     $.ajax({
         url: '/template/dlgPass',
         type: 'get',
         success: function(templates) {
             $('body').append(templates);
+
+            // default
+            $('#btnToss').attr('class', 'btn btn-warning');
+
+            $('#btnToss').click(function() {
+                $('#btnToss').attr('class', 'btn btn-warning');
+                $('#btnReturn').attr('class', 'btn btn-default');
+            });
+
+            $('#btnReturn').click(function() {
+                $('#btnToss').attr('class', 'btn btn-default');
+                $('#btnReturn').attr('class', 'btn btn-danger');
+            });
+
             $('#dlgPass').modal({
                 backdrop: false,
                 keyboard:true
@@ -385,9 +403,9 @@ function taskPassDialog() {
     });
 };
 
-function addPushMember() {
-    var memberId = $('#inputPushMember').val();
-    var alertBox = $('#alertBoxPushMember');
+function addTaskMember(input, box) {
+    var memberId = $('#' + input).val();
+    var alertBox = $('#' + box);
     alertBox.append('<span class="label label-success margin-10">' + memberId + '</span>\n')
 };
 
@@ -415,6 +433,10 @@ function inviteMemberAction() {
 			}
 		}
 	});
+};
+
+function passAction() {
+
 };
 
 

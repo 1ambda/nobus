@@ -6,57 +6,61 @@
                 <h3>Push a task</h3>
             </div>
 
-            <div class="modal-contents">
-                <div class="modal-body">
-                        <div class="row center">
-                            <div class="col-sm-9">
-                                <h4><i class='fa fa-tag'></i> Title</h4>
-                                <input id='inputPushTitle' class='form-control margin-10' type='text'>
-                            </div>
-                        </div>
+            <div class="modal-body">
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-tag'></i> Title</h4>
+                        <input id='inputPushTitle' class='form-control margin-10' type='text'>
+                    </div>
+                </div>
 
-                        <div class="row center">
-                            <div class="col-sm-9">
-                                <h4><i class='fa fa-list-alt'></i> Task Description</h4>
-                                <textarea id="taPushDesc" class="form-control margin-10" rows="4" />
-                            </div>
-                        </div>
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-list-alt'></i> Task Description</h4>
+                        <textarea id="taPushDesc" class="form-control margin-10" rows="4"/>
+                    </div>
+                </div>
 
-                        <div class="row center">
-                            <div class="col-sm-9">
-                                <div class="form-group">
-                                    <h4><i class='fa fa-calendar'></i> Due to</h4>
-                                    <div class="input-group date margin-10" id="dp1">
-                                        <input id='inputDuedate' type="text" class="form-control" date-format="yyyy/MM/dd" readonly/>
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <h4><i class='fa fa-calendar'></i> Due to</h4>
+
+                            <div class="input-group date margin-10" id="dp1">
+                                <input id="inputPushDuedate" type="text" class="form-control" date-format="yyyy/MM/dd"
+                                       readonly/>
                                         <span class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar">
                                             </span>
                                         </span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="row center">
-                            <div class="col-sm-9">
-                                <h4><i class='fa fa-file-text'></i> File Upload</h4>
-                                <input class="form-control margin-10" />
-                            </div>
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-file-text'></i> File Upload</h4>
+                        <input class="form-control margin-10"/>
+                    </div>
+                </div>
+
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-user'></i> Member ID</h4>
+
+                        <div class="form-group margin-10">
+                            <input type="text" id="inputPushMember" class="form-control" data-provide="typeahead"
+                                   autocomplete="off"/>
                         </div>
+                        <a href="javascript:addTaskMember('inputPushMember', 'alertBoxPushMember');"
+                           class="btn btn-success margin-10">Add</a>
+                        <div id="alertBoxPushMember" class="alert alert-success col-sm-12 margin-10">
+                        </div>
+                    </div>
 
-                        <div class="row center">
-                            <div class="col-sm-9">
-                                <h4><i class='fa fa-user'></i> Member ID</h4>
-                                <div class="form-group margin-10">
-                                    <input type="text" id="inputPushMember" class="form-control" data-provide="typeahead" autocomplete="off"/>
-                                    <a href="javascript:addPushMember();" class="btn btn-success">Add</a>
-                                </div>
-                                <div id="alertBoxPushMember" class="alert alert-success col-sm-12 margin-10">
-                                </div>
-                            </div>
-
-                        </div> <!-- row : last -->
-                </div> <!-- modal-content -->
+                </div>
+                <!-- row : last -->
             </div>
 
             <div class="modal-footer">

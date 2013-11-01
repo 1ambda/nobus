@@ -4,25 +4,78 @@
 
             <div class="modal-header">
                 <h4 class="modal-title">Toss or Return Your Task</h4>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="btn-group margin-10">
-                            <button type="button" class="btn btn-warning">Toss</button>
-                            <button type="button" class="btn btn-danger">Toss</button>
+                            <button id="btnToss" type="button" class="btn btn-default">Toss</button>
+                            <button id="btnReturn" type="button" class="btn btn-default">Return</button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="modal-body">
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-tag'></i> Title</h4>
+                        <input id='inputPassTitle' class='form-control margin-10' type='text'>
+                    </div>
+                </div>
+
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-list-alt'></i> Task Description</h4>
+                        <textarea id="taPassDesc" class="form-control margin-10" rows="4"/>
+                    </div>
+                </div>
+
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <div class="form-group">
+                            <h4><i class='fa fa-calendar'></i> Due to</h4>
+
+                            <div class="input-group date margin-10" id="dp1">
+                                <input id="inputPassDuedate" type="text" class="form-control" date-format="yyyy/MM/dd"
+                                       readonly/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                        </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-file-text'></i> File Upload</h4>
+                        <input class="form-control margin-10"/>
+                    </div>
+                </div>
+
+                <div class="row center">
+                    <div class="col-sm-9">
+                        <h4><i class='fa fa-user'></i> Member ID</h4>
+
+                        <div class="form-group margin-10">
+                            <input type="text" id="inputPassMember" class="form-control" data-provide="typeahead"
+                                   autocomplete="off"/>
+                        </div>
+                        <a href="javascript:addTaskMember('inputPassMember', 'alertBoxPassMember');"
+                           class="btn btn-success margin-10">Add</a>
+                        <div id="alertBoxPassMember" class="alert alert-success col-sm-12 margin-10">
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
             <div class="modal-footer">
+                <a id="btnPass" href="javascript:passAction();" class="btn btn-success">Pass</a>
                 <a href="#" class="btn" data-dismiss="modal">Close</a>
-                <a id="btnPass" href="#" class="btn btn-success">Pass</a>
             </div>
-
         </div>
+
     </div>
 </div>
