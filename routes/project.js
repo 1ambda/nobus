@@ -270,9 +270,31 @@ exports.pushAction = function(req, res) {
     } else {
         res.redirect('/');
     }
-
-
 };
+
+exports.passAction = function(req, res) {
+    console.log("Route : pass");
+
+    if( req.session.user_id) {
+        var user_id = req.session.user_id;
+        var team_id = req.session.team_id;
+        var due_date = req.body.due_date;
+        var title = req.body.title;
+        var desc = req.body.desc;
+        var members = req.body.members;
+
+        console.log('due_date : ' + due_date);
+
+        for (var i = 0; i < members.length; i++) {
+            console.log(members[i]);
+        };
+
+        res.send();
+    } else {
+        res.redirect('/');
+    }
+};
+
 exports.getTaskList = function(req, res) {
 
 	var user_id = req.session.user_id;
@@ -445,20 +467,25 @@ exports.getComments = function(req, res) {
 	res.send(data);
 };
 
+exports.getPush = function(req, res) {
+    var id = req.params.id;
+    console.log(id);
+    res.send();
+};
+
+exports.getToss = function(req, res) {
+    var id = req.params.id;
+    console.log(id);
+    res.send();
+};
+exports.getSubmit= function(req, res) {
+    var id = req.params.id;
+    console.log(id);
+    res.send();
+};
+
 exports.test = function(req, res) {
 
 };
 
-exports.upload = function(req, res) {
-	fs.readFile(req.files.uploadFile.path, function(error, data) {
-		var filePath = ___dirname + "\\files\\" + req.files.uploadFile.name;
-		fs.writeFile(filePath, data, function(error) {
-			if (error) {
-				throw err;
-			} else {
-				res.redirect(filePath);
-			}
-		});
-	});
-};
 

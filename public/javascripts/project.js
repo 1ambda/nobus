@@ -126,8 +126,6 @@ function getMemberList() {
 
 function getTaskList() {
     $("body").removeClass('comment')
-    
-
 
     $.ajax({
         type : 'get',
@@ -136,15 +134,10 @@ function getTaskList() {
             console.log('1');
             console.log(result);
             $('#gantt').html($('#tmplTaskList').tmpl(result));
-            
 
-            $('.task-elem').click(function (event) {
-                // alert($(this).children('#taskelem_member').text());
-
-                openTaskDialog();
-
+            $(".taskelem-select").on('click', function(event) {
+                event.preventDefault();
             });
-
             $('.taskelem-select').click(function (event) {
                 event = event || window.event;
                 if (event.stopPropagation) {
@@ -280,24 +273,13 @@ function InputMemberChecker() {
 };
 
 function openTaskDialog() {
-	
-	var data = {
-		title: "Search Images",
-		description : "we need sexy girls",
-		taskMembers : [
-			{ user_id : "Hoon", status : "online"},
-			{ user_id : "Lee", status : "online"},
-			{ user_id : "Jung", status : "online"}
-		]
-	};
+
+
+//    $.get('/project/push/')
 
 	$.get('/template/dialogTask', function(templates) {
 		$('body').append(templates);
 		$('#tmplDialogTask').tmpl(data).appendTo('body');
-		$(".taskelem-select").on('click', function(event) {
-			event.preventDefault();
-		});
-
 
 		$('#dialogTask').modal({
 			backdrop : false,
@@ -358,19 +340,44 @@ function pushAction() {
 
 };
 
-function openTaskDialog() {
+function passAction() {
+    var due_date = $('#inputPassDuedate').val();
+    var title = $('#inputPassTitle').val();
+    var desc = $('#taPassDesc').val();
+    var members = new Array();
+
+    $('#alertBoxPassMember').children().each(function() {
+        members.push($(this).text());
+    });
 
     $.ajax({
-        url: '/template/dlgTask',
-        type: 'get',
-        success: function(templates) {
-            $('body').append(templates);
-            $('#dlgTask').modal({
-                backdrop: false,
-                keyboard: true
-            });
+        url : '/project/passAction',
+        type: 'post',
+        data: { due_date : due_date, title : title, desc : desc,
+            members : members },
+        success : function(result) {
+            // todo
         }
     });
+
+};
+
+function openTaskDialog(kind, id) {
+
+    $.get('/project/' + kind + '/' + id, function(data) {
+        $.ajax({
+            url: '/template/dlgTask',
+            type: 'get',
+            success: function(templates) {
+                $('body').append(templates);
+                $('#dlgTask').modal({
+                    backdrop: false,
+                    keyboard: true
+                });
+            }
+        });
+    });
+
 };
 
 function openPassDialog() {
@@ -384,6 +391,7 @@ function openPassDialog() {
 
             // default
             $('#btnToss').attr('class', 'btn btn-warning');
+            $('#btnReturn').attr('class', 'btn btn-default');
 
             $('#btnToss').click(function() {
                 $('#btnToss').attr('class', 'btn btn-warning');
@@ -435,8 +443,5 @@ function inviteMemberAction() {
 	});
 };
 
-function passAction() {
-
-};
 
 
