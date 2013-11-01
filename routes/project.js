@@ -469,8 +469,16 @@ exports.getComments = function(req, res) {
 
 exports.getPush = function(req, res) {
     var id = req.params.id;
+    var getQuery = "SELECT title, description, due_date FROM push WHERE id = ?;";
     console.log(id);
-    res.send();
+    
+    pool.acquire(function(err, conn){
+    	conn.query(getQuery, [id], function(err, rows){
+    		pool.release(conn);
+    		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
+    		res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
+    	});
+    });
 };
 
 exports.getToss = function(req, res) {
