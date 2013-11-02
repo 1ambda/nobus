@@ -492,6 +492,20 @@ exports.getSubmit= function(req, res) {
     res.send();
 };
 
+exports.postToss = function(req, res) {
+    var task_id = req.params.task_id ;
+    console.log('postToss');
+    console.log('task_id : ' + task_id);
+    res.send();
+};
+
+exports.postSubmit = function(req, res) {
+    var task_id = req.params.task_id ;
+    console.log('postSubmit');
+    console.log('task_id : ' + task_id);
+    res.send();
+};
+
 exports.test = function(req, res) {
 
 };

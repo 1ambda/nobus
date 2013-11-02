@@ -298,7 +298,7 @@ function openPushDialog() {
         success : function(templates)
         {
             $('body').append(templates);
-            $('#dp1').datetimepicker({
+            $('#dpPush').datetimepicker({
                 pickTime: false
             });
 
@@ -340,7 +340,13 @@ function pushAction() {
 
 };
 
-function passAction() {
+function passAction(task_id) {
+
+    console.log(task_id);
+
+    var classes = $('#btnReturn').attr('class');
+    var task_kind = (classes === 'btn btn-default') ? 'toss' : 'submit';
+
     var due_date = $('#inputPassDuedate').val();
     var title = $('#inputPassTitle').val();
     var desc = $('#taPassDesc').val();
@@ -351,7 +357,7 @@ function passAction() {
     });
 
     $.ajax({
-        url : '/project/passAction',
+        url : '/project/' + task_kind + '/' + task_id,
         type: 'post',
         data: { due_date : due_date, title : title, desc : desc,
             members : members },
@@ -359,7 +365,6 @@ function passAction() {
             // todo
         }
     });
-
 };
 
 function openTaskDialog(kind, id) {
@@ -370,6 +375,10 @@ function openTaskDialog(kind, id) {
             type: 'get',
             success: function(templates) {
                 $('body').append(templates);
+                $('#dpTask').datetimepicker({
+                    pickTime: false
+                });
+
                 $('#dlgTask').modal({
                     backdrop: false,
                     keyboard: true
@@ -380,11 +389,11 @@ function openTaskDialog(kind, id) {
 
 };
 
-function openPassDialog() {
+function openPassDialog(task_id) {
     $('#alertBoxPassMember').html('');
 
     $.ajax({
-        url: '/template/dlgPass',
+        url: '/template/dlgPass/' + task_id,
         type: 'get',
         success: function(templates) {
             $('body').append(templates);
@@ -401,6 +410,10 @@ function openPassDialog() {
             $('#btnReturn').click(function() {
                 $('#btnToss').attr('class', 'btn btn-default');
                 $('#btnReturn').attr('class', 'btn btn-danger');
+            });
+
+            $('#dpPass').datetimepicker({
+                pickTime: false
             });
 
             $('#dlgPass').modal({

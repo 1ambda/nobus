@@ -76,6 +76,9 @@ app.get('/project/push/:id', project.getPush);
 app.get('/project/toss/:id', project.getToss);
 app.get('/project/submit/:id', project.getSubmit);
 
+app.post('/project/toss/:task_id',project.postToss);
+app.post('/project/submit/:task_id',project.postSubmit);
+
 // to convert RESTFUL API
 app.post('/project/passAction', project.passAction);
 
@@ -95,7 +98,7 @@ app.get('/template/dlgDrop', template.dlgDrop);
 app.get('/template/dlgInvite', template.dlgInvite);
 app.get('/template/dlgPush', template.dlgPush);
 app.get('/template/dlgTask', template.dlgTask);
-app.get('/template/dlgPass', template.dlgPass);
+app.get('/template/dlgPass/:task_id', template.dlgPass);
 
 
 //for upload File
