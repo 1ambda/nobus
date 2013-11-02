@@ -24,7 +24,7 @@ exports.dlgPush = function(req, res) {
 };
 
 exports.dlgTask = function(req, res) {
-    res.render('template/dlgTask.html', { task_id : task_id });
+    res.render('template/dlgTask.html');
 };
 
 exports.dlgPass = function(req, res) {
