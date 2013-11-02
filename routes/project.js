@@ -469,7 +469,7 @@ exports.getComments = function(req, res) {
 
 exports.getPush = function(req, res) {
     var id = req.params.id;
-    var getQuery = "SELECT title, description, due_date FROM push WHERE id = ?;";
+    var getQuery = "SELECT title, description, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM push WHERE id = ?;";
     console.log(id);
     
     pool.acquire(function(err, conn){
