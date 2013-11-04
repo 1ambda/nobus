@@ -70,7 +70,7 @@ exports.inviteMemberTypeahead = function(req, res) {
     }
 };
 
-exports.pushMemberTypeahead = function(req, res) {
+exports.taskMemberTypeahead = function(req, res) {
     if (req.session.user_id) {
 
         pool.acquire(function(err, conn) {
