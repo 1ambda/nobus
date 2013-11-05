@@ -306,9 +306,9 @@ function openPushDialog() {
                     });
             });
 
-            $('#inputPushTitle, #taPushDesc').on('keyup', taskDataChecker);
-            $('#alertBoxPushMember').on('change', taskDataChecker);
-            $('#dpPush').on('changeDate', taskDataChecker);
+            $('#inputPushTitle, #taPushDesc').on('keyup', pushDataChecker);
+            $('#alertBoxPushMember').on('change', pushDataChecker);
+            $('#dpPush').on('changeDate', pushDataChecker);
 
             $('#dlgPush').modal({
                 backdrop : false,

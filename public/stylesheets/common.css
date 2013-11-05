@@ -173,3 +173,12 @@ body {
 .margin-top-10 {
     margin-top: 10px;
 }
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.margin-comment {
+    margin-left: 10px;
+    margin-right: 10px;
+}
