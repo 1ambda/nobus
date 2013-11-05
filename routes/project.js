@@ -549,7 +549,7 @@ exports.postToss = function(req, res) {
     var desc = req.body.desc;
     var members = req.body.members;
     var userQuery = "INSERT INTO toss(task_id, title, description, due_date) VALUES (?, ?, ?, ?);";
-    var upQuery = "INSERT INTO toss_user(push_id, user_id) VALUES (?, ?);";
+    var upQuery = "INSERT INTO toss_user(toss_id, user_id) VALUES (?, ?);";
     var idQuery = "SELECT max(id) as max FROM toss;";
     var toss_id;
 
@@ -569,14 +569,13 @@ exports.postToss = function(req, res) {
     					console.log(upErr);
     					pool.release(conn);
     					for (var i = 0; i < members.length; i++) {
-    						conn.query(upQuery, [push_id, members[i]], function(upErr2){
+    						conn.query(upQuery, [toss_id, members[i]], function(upErr2){
     							console.log(upErr2);
     							pool.release(conn);
     						});
     					}
     					res.send({status: "success", task_id: task_id});
     					console.log(task_id);
-    					res.redirect('/');
     				});
     			});
     		});
