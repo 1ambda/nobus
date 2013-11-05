@@ -379,6 +379,17 @@ function openTaskDialog(kind, id) {
                     pickTime: false
                 });
 
+                $('#taComment').on('focus', function() {
+                    $(this).attr('rows', 6)
+                });
+
+                $('#taComment').on('blur', function() {
+                    $(this).attr('rows', 1)
+                });
+
+                $('.comment').flexText();
+
+
                 $('#dlgTask').modal({
                     backdrop: false,
                     keyboard: true
