@@ -249,19 +249,13 @@ exports.pushAction = function(req, res) {
         					console.log(idErr);
         					pool.release(conn);
         					push_id = idRows[0].max;
-        					conn.query(upQuery, [push_id, user_id], function(upErr){
-        						console.log(upErr);
-        						pool.release(conn);
-        						for (var i = 0; i < members.length; i++) {
-        							conn.query(upQuery, [push_id, members[i]], function(upErr2){
-        								console.log(upErr2);
-        								pool.release(conn);
-        							});
-        						}
-        			        	res.send({status: "success", task_id: task_id});
-        			        	console.log(task_id);
-        			        	res.redirect('/');
-        					});
+        					for (var i = 0; i < members.length; i++) {
+    							conn.query(upQuery, [push_id, members[i]], function(upErr2){
+    								console.log(upErr2);
+    								pool.release(conn);
+    							});
+    						}
+    			        	res.send({status: "success", task_id: task_id});
         				});
         			});
         		});
@@ -564,19 +558,14 @@ exports.postToss = function(req, res) {
     			conn.query(idQuery, function(idErr, idRows){
     				console.log(idErr);
     				pool.release(conn);
-    				push_id = idRows[0].max;
-    				conn.query(upQuery, [toss_id, user_id], function(upErr){
-    					console.log(upErr);
-    					pool.release(conn);
-    					for (var i = 0; i < members.length; i++) {
-    						conn.query(upQuery, [toss_id, members[i]], function(upErr2){
-    							console.log(upErr2);
-    							pool.release(conn);
-    						});
-    					}
-    					res.send({status: "success", task_id: task_id});
-    					console.log(task_id);
-    				});
+    				toss_id = idRows[0].max;
+    				for (var i = 0; i < members.length; i++) {
+						conn.query(upQuery, [toss_id, members[i]], function(upErr2){
+							console.log(upErr2);
+							pool.release(conn);
+						});
+					}
+    				res.send({status: "success", task_id: task_id});
     			});
     		});
     		res.send({status:"fail"});
@@ -592,7 +581,50 @@ exports.postSubmit = function(req, res) {
     var task_id = req.params.task_id ;
     console.log('postSubmit');
     console.log('task_id : ' + task_id);
-    res.send();
+    var user_id = req.session.user_id;
+    var team_id = req.session.team_id;
+    var due_date = req.body.due_date;
+    var title = req.body.title;
+    var desc = req.body.desc;
+    var members = req.body.members;
+    var userQuery = "INSERT INTO submit(task_id, title, description, due_date) VALUES (?, ?, ?, ?);";
+    var upQuery = "INSERT INTO submit_user(submit_id, user_id) VALUES (?, ?);";
+    var idQuery = "SELECT max(id) as max FROM submit;";
+    var finishQuery = "UPDATE task set finished = 1 where id = ?;";
+    var submit_id;
+
+    console.log('due_date : ' + due_date);
+    console.log(team_id);
+    console.log(members);
+    if( req.session.user_id) {
+    	pool.acquire(function(err, conn){
+    		conn.query(finishQuery, [task_id], function(fErr){
+    			console.log(fErr);
+    			pool.release(conn);
+    			conn.query(userQuery, [task_id, title, desc, due_date], function(err, rows){
+    				console.log(err);
+    				pool.release(conn);
+    				conn.query(idQuery, function(idErr, idRows){
+    					console.log(idErr);
+    					pool.release(conn);
+    					submit_id = idRows[0].max;
+    					for (var i = 0; i < members.length; i++) {
+    						conn.query(upQuery, [submit_id, members[i]], function(upErr2){
+    							console.log(upErr2);
+    							pool.release(conn);
+    						});
+    					}
+    					res.send({status: "success", task_id: task_id});
+    					console.log(task_id);
+    				});
+    			});
+    			res.send({status:"fail"});
+    		});
+    	});
+   	} else {
+		res.redirect('/');
+	}
+
 };
 
 exports.test = function(req, res) {
