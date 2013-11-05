@@ -11,7 +11,6 @@ $(function() {
 
 	getTaskList();
 
-
     // commentSocketInit();
 });
 
@@ -171,30 +170,6 @@ function testFunction() {
 	});
 };
 
-function pushAction() {
-	$('#dialogPush').modal('hide');
-	var json = {};
-	//send push data in json
-	//pushTitle, pushText, start_date, due_date, user_id
-	json['pushTitle'] = $('#inputPushTitle').val();
-	// json['pushDescription'] = $('#pushText').val();
-	json['name'] = $('#pushText').val();
-	json['start_date'] = $('#inputStartDate').val();
-	json['due_date'] = $('#inputDueDate').val();
-	json['user_id'] = new Array();
-	json['user_id']= pushMemberId;
-	console.log(json);
-	$.ajax({
-		type : 'post',
-		url : '/project/pushTask',
-		data : json,
-		success : console.log(json)
-	});
-	
-	pushMemberId = [];
-	console.log(pushMemberId);
-};
-
 function dropoutAction() {
 	$('#dialogDrop').modal('hide');
 	$.get('/project/dropout', function(data) {
@@ -303,8 +278,38 @@ function openPushDialog() {
             });
 
             $('#inputPushMember').typeahead({
-                remote: '/project/pushMemberTypeahead?user_id=%QUERY'
+                remote: '/project/TaskMemberTypeahead?user_id=%QUERY'
             });
+
+            $('#btnPush').click(function() {
+                var due_date = $('#inputPushDuedate').val();
+                var title = $('#inputPushTitle').val();
+                var desc = $('#taPushDesc').val();
+                var members = new Array();
+
+                $('#alertBoxPushMember').children().each(function() {
+                    members.push($(this).text());
+                });
+
+                    $.ajax({
+                        url : '/project/pushAction',
+                        type: 'post',
+                        data: { due_date : due_date, title : title, desc : desc,
+                            members : members },
+                        success : function(result) {
+                            if(result.status === "success") {
+                                return true;
+                            }
+
+                            return false;
+                        }
+                    });
+            });
+
+            $('#inputPushTitle, #taPushDesc').on('keyup', pushDataChecker);
+            $('#alertBoxPushMember').on('change', pushDataChecker);
+            $('#dpPush').on('changeDate', pushDataChecker);
+
             $('#dlgPush').modal({
                 backdrop : false,
                 keyboard : true
@@ -313,59 +318,36 @@ function openPushDialog() {
     });
 };
 
-function pushMemberChecker() {
-    // todo
+function pushDataChecker(e) {
+    taskDataChecker('Push');
 };
 
-function pushAction() {
+function passDataChecker(e) {
+    taskDataChecker('Pass');
+};
 
-    var due_date = $('#inputPushDuedate').val();
-    var title = $('#inputPushTitle').val();
-    var desc = $('#taPushDesc').val();
+function taskDataChecker(kind) {
+
+    var due_date = $('#input' + kind + 'Duedate').val();
+    var title = $('#input' + kind + 'Title').val();
+    var desc = $('#ta' + kind + 'Desc').val();
     var members = new Array();
 
-    $('#alertBoxPushMember').children().each(function() {
+    $('#alertBox' + kind + 'Member').children().each(function() {
         members.push($(this).text());
     });
 
-    $.ajax({
-        url : '/project/pushAction',
-        type: 'post',
-        data: { due_date : due_date, title : title, desc : desc,
-        members : members },
-        success : function(result) {
-            // todo
-        }
-    });
+    var valid = (title !== "") && (desc !== "") && (due_date !== "") && (members.length !== 0);
 
+    if ( valid ) {
+        $("#btn" + kind).removeClass('disabled');
+        $("#btn" + kind).attr('href', '#');
+    } else {
+        $("#btn" + kind).addClass('disabled');
+        $("#btn" + kind).attr('href', '#');
+    }
 };
 
-function passAction(task_id) {
-
-    console.log(task_id);
-
-    var classes = $('#btnReturn').attr('class');
-    var task_kind = (classes === 'btn btn-default') ? 'toss' : 'submit';
-
-    var due_date = $('#inputPassDuedate').val();
-    var title = $('#inputPassTitle').val();
-    var desc = $('#taPassDesc').val();
-    var members = new Array();
-
-    $('#alertBoxPassMember').children().each(function() {
-        members.push($(this).text());
-    });
-
-    $.ajax({
-        url : '/project/' + task_kind + '/' + task_id,
-        type: 'post',
-        data: { due_date : due_date, title : title, desc : desc,
-            members : members },
-        success : function(result) {
-            // todo
-        }
-    });
-};
 
 function openTaskDialog(kind, id) {
 
@@ -397,8 +379,8 @@ function openTaskDialog(kind, id) {
             }
         });
     });
-
 };
+
 
 function openPassDialog(task_id) {
     $('#alertBoxPassMember').html('');
@@ -416,16 +398,59 @@ function openPassDialog(task_id) {
             $('#btnToss').click(function() {
                 $('#btnToss').attr('class', 'btn btn-warning');
                 $('#btnReturn').attr('class', 'btn btn-default');
+                $('#btnPass').removeClass('btn-danger');
+                $('#btnPass').addClass('btn-warning');
+                $('#btnPass').text('Toss');
             });
 
             $('#btnReturn').click(function() {
                 $('#btnToss').attr('class', 'btn btn-default');
                 $('#btnReturn').attr('class', 'btn btn-danger');
+                $('#btnPass').removeClass('btn-warning');
+                $('#btnPass').addClass('btn-danger');
+                $('#btnPass').text('Return');
             });
 
             $('#dpPass').datetimepicker({
                 pickTime: false
             });
+
+            $('#inputPassMember').typeahead({
+                remote: '/project/taskMemberTypeahead?user_id=%QUERY'
+            });
+
+            $('#btnPass').click(function() {
+                var classes = $('#btnReturn').attr('class');
+                var task_kind = (classes === 'btn btn-default') ? 'toss' : 'submit';
+
+                var due_date = $('#inputPassDuedate').val();
+                var title = $('#inputPassTitle').val();
+                var desc = $('#taPassDesc').val();
+                var members = new Array();
+
+                $('#alertBoxPassMember').children().each(function() {
+                    members.push($(this).text());
+                });
+
+                $.ajax({
+                    url : '/project/' + task_kind + '/' + task_id,
+                    type: 'post',
+                    data: { due_date : due_date, title : title, desc : desc,
+                        members : members },
+                    success : function(result) {
+                        if(result.status === "success") {
+                            return true;
+                        }
+
+                        return false;
+                    }
+                });
+
+            });
+
+            $('#inputPassTitle, #taPassDesc').on('keyup', passDataChecker);
+            $('#alertBoxPassMember').on('change', passDataChecker);
+            $('#dpPass').on('changeDate', passDataChecker);
 
             $('#dlgPass').modal({
                 backdrop: false,
@@ -435,10 +460,12 @@ function openPassDialog(task_id) {
     });
 };
 
+
 function addTaskMember(input, box) {
     var memberId = $('#' + input).val();
     var alertBox = $('#' + box);
     alertBox.append('<span class="label label-success margin-10">' + memberId + '</span>\n')
+    alertBox.change();
 };
 
 function inviteMemberAction() {
