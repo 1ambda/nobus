@@ -63,7 +63,7 @@ app.get('/project', project.index);
 app.get('/project/dropout', project.dropoutProject);
 app.get('/project/getProjectName', project.getProjectName);
 app.get('/project/inviteMemberTypeahead', project.inviteMemberTypeahead);
-app.get('/project/pushMemberTypeahead', project.pushMemberTypeahead);
+app.get('/project/taskMemberTypeahead', project.taskMemberTypeahead);
 app.get('/project/getTeamMembers', project.getTeamMembers);
 app.post('/project/inviteMemberAction', project.inviteMemberAction);
 app.post('/project/pushAction', project.pushAction);
