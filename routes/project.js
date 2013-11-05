@@ -234,6 +234,7 @@ exports.pushAction = function(req, res) {
 
         console.log('due_date : ' + due_date);
         console.log(team_id);
+        console.log(members);
         
         pool.acquire(function(err, conn){
         	conn.query(taskQuery, [team_id, title], function(tErr, tRows){
@@ -257,12 +258,13 @@ exports.pushAction = function(req, res) {
         								pool.release(conn);
         							});
         						}
-        			        	res.send({status: "success"});
+        			        	res.send({status: "success", task_id: task_id});
+        			        	console.log(task_id);
+        			        	res.redirect('/');
         					});
         				});
         			});
         		});
-        	pool.release(conn);
         	});
         	res.send({status:"fail"});
         });
@@ -470,13 +472,22 @@ exports.getComments = function(req, res) {
 exports.getPush = function(req, res) {
     var id = req.params.id;
     var getQuery = "SELECT title, description, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM push WHERE id = ?;";
+    var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM push_comment WHERE push_id = ?;";
+    var i;
+    var comment = [];
     console.log(id);
     
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
-    		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
-    		res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
+    		conn.query(commentQuery, [id], function(cErr, cRows){
+    			pool.release(conn);
+    			for(i = 0; i < cRows.length; i++){
+    				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
+    			}
+        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    		});
     	});
     });
 };
@@ -484,26 +495,44 @@ exports.getPush = function(req, res) {
 exports.getToss = function(req, res) {
     var id = req.params.id;
     var getQuery = "SELECT title, description, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM toss WHERE id = ?;";
+    var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM toss_comment WHERE push_id = ?;";
+    var i;
+    var comment = [];
     console.log(id);
     
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
-    		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
-    		res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
+    		conn.query(commentQuery, [id], function(cErr, cRows){
+    			pool.release(conn);
+    			for(i = 0; i < cRows.length; i++){
+    				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
+    			}
+        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    		});
     	});
     });
 };
 exports.getSubmit= function(req, res) {
     var id = req.params.id;
     var getQuery = "SELECT title, description, DATE_FORMAT(due_date, '%Y-%m-%d') AS due_date FROM submit WHERE id = ?;";
+    var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM submit_comment WHERE push_id = ?;";
+    var i;
+    var comment = [];
     console.log(id);
     
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
-    		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
-    		res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date});
+    		conn.query(commentQuery, [id], function(cErr, cRows){
+    			pool.release(conn);
+    			for(i = 0; i < cRows.length; i++){
+    				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
+    			}
+        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    		});
     	});
     });
 };
@@ -512,7 +541,52 @@ exports.postToss = function(req, res) {
     var task_id = req.params.task_id ;
     console.log('postToss');
     console.log('task_id : ' + task_id);
-    res.send();
+    
+    var user_id = req.session.user_id;
+    var team_id = req.session.team_id;
+    var due_date = req.body.due_date;
+    var title = req.body.title;
+    var desc = req.body.desc;
+    var members = req.body.members;
+    var userQuery = "INSERT INTO toss(task_id, title, description, due_date) VALUES (?, ?, ?, ?);";
+    var upQuery = "INSERT INTO toss_user(push_id, user_id) VALUES (?, ?);";
+    var idQuery = "SELECT max(id) as max FROM toss;";
+    var toss_id;
+
+    console.log('due_date : ' + due_date);
+    console.log(team_id);
+    console.log(members);
+    if( req.session.user_id) {
+    	pool.acquire(function(err, conn){
+    		conn.query(userQuery, [task_id, title, desc, due_date], function(err, rows){
+    			console.log(err);
+    			pool.release(conn);
+    			conn.query(idQuery, function(idErr, idRows){
+    				console.log(idErr);
+    				pool.release(conn);
+    				push_id = idRows[0].max;
+    				conn.query(upQuery, [toss_id, user_id], function(upErr){
+    					console.log(upErr);
+    					pool.release(conn);
+    					for (var i = 0; i < members.length; i++) {
+    						conn.query(upQuery, [push_id, members[i]], function(upErr2){
+    							console.log(upErr2);
+    							pool.release(conn);
+    						});
+    					}
+    					res.send({status: "success", task_id: task_id});
+    					console.log(task_id);
+    					res.redirect('/');
+    				});
+    			});
+    		});
+    		res.send({status:"fail"});
+    	});
+    	
+	} else {
+		res.redirect('/');
+	}
+
 };
 
 exports.postSubmit = function(req, res) {
