@@ -351,30 +351,46 @@ function taskDataChecker(kind) {
 
 function openTaskDialog(kind, id) {
 
+
     $.get('/project/' + kind + '/' + id, function(data) {
         $.ajax({
             url: '/template/dlgTask',
             type: 'get',
             success: function(templates) {
-                $('body').append(templates);
-                $('#dpTask').datetimepicker({
-                    pickTime: false
-                });
+                $.ajax({
+                    url: '/project/' + kind + '/' + id,
+                    type: 'get',
+                    success : function(result) {
 
-                $('#taComment').on('focus', function() {
-                    $(this).attr('rows', 6)
-                });
+                        $('body').append(templates);
+                        $('#dpTask').datetimepicker({
+                            pickTime: false
+                        });
 
-                $('#taComment').on('blur', function() {
-                    $(this).attr('rows', 1)
-                });
+                        $('#taComment').on('focus', function() {
+                            $(this).attr('rows', 6)
+                        });
 
-                $('.comment').flexText();
+                        $('#taComment').on('blur', function() {
+                            $(this).attr('rows', 1)
+                        });
 
+                        $('#btnSaveComment').on('click', function() {
+                            $.ajax({
+                                url: '/project/comment',
+                                type: 'post',
+                                data: { kind : 'push', time : '2013-11-04 02:06',
+                                    name : 'Hoon', text : 'Hello! samelcd', id : '23'}
+                            });
+                        });
 
-                $('#dlgTask').modal({
-                    backdrop: false,
-                    keyboard: true
+                        $('.comment').flexText();
+
+                        $('#dlgTask').modal({
+                            backdrop: false,
+                            keyboard: true
+                        });
+                    }
                 });
             }
         });

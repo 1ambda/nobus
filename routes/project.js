@@ -429,39 +429,34 @@ function errorHandler(res, err, conn) {
 
 // get /project/comments
 exports.getComments = function(req, res) {
-	var team_id = req.params.team_id;
-	console.log(team_id);
+    var id = req.params.id;
+    var kind = req.params.kind;
 
-	// query for get comments list from DB
+    console.log("id : " + id);
+    console.log("kind : " + kind);
 
-	var data = [];
-	data[0] = {
-		team_id : "69",
-		user_id : "Hoon",
-		comment : "Hi, Guys!",
-		time : "2013-10-09 12:25"
-	};
-	data[1] = {
-		team_id : "69",
-		user_id : "Hoon",
-		comment : "Hi, Guys!",
-		time : "2013-10-09 12:25"
-	};
-	data[2] = {
-		team_id : "69",
-		user_id : "Hoon",
-		comment : "Hi, Guys!",
-		time : "2013-10-09 12:25"
-	};
-	data[3] = {
-		team_id : "69",
-		user_id : "Hoon",
-		comment : "Hi, Guys!",
-		time : "2013-10-09 12:25"
-	};
 
-	res.send(data);
+	res.send();
 };
+
+exports.postComment = function(req, res) {
+
+    var time = req.body.time;
+    var name = req.body.name;
+    var text = req.body.text;
+    var kind = req.body.kind;
+    var id = req.body.id;
+
+    console.log('time : ' + time);
+    console.log('name : ' + name);
+    console.log('text : ' + text);
+    console.log('kind : ' + kind);
+    console.log('id : ' + id);
+
+    res.send();
+};
+
+
 
 exports.getPush = function(req, res) {
     var id = req.params.id;
@@ -469,8 +464,7 @@ exports.getPush = function(req, res) {
     var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM push_comment WHERE push_id = ?;";
     var i;
     var comment = [];
-    console.log(id);
-    
+
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
@@ -479,7 +473,6 @@ exports.getPush = function(req, res) {
     			for(i = 0; i < cRows.length; i++){
     				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
     			}
-        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     		});
     	});
@@ -492,8 +485,7 @@ exports.getToss = function(req, res) {
     var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM toss_comment WHERE push_id = ?;";
     var i;
     var comment = [];
-    console.log(id);
-    
+
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
@@ -502,7 +494,6 @@ exports.getToss = function(req, res) {
     			for(i = 0; i < cRows.length; i++){
     				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
     			}
-        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     		});
     	});
@@ -514,8 +505,7 @@ exports.getSubmit= function(req, res) {
     var commentQuery = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM submit_comment WHERE push_id = ?;";
     var i;
     var comment = [];
-    console.log(id);
-    
+
     pool.acquire(function(err, conn){
     	conn.query(getQuery, [id], function(err, rows){
     		pool.release(conn);
@@ -524,7 +514,6 @@ exports.getSubmit= function(req, res) {
     			for(i = 0; i < cRows.length; i++){
     				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
     			}
-        		console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     		});
     	});

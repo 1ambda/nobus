@@ -71,13 +71,14 @@ app.get('/project/test', project.test);
 app.get('/project/getTaskList', project.getTaskList);
 
 // RESTFUL API
-app.get('/project/comments/:team_id', project.getComments);
+app.get('/project/:kind/:id', project.getComments);
 app.get('/project/push/:id', project.getPush);
 app.get('/project/toss/:id', project.getToss);
 app.get('/project/submit/:id', project.getSubmit);
 
 app.post('/project/toss/:task_id',project.postToss);
 app.post('/project/submit/:task_id',project.postSubmit);
+app.post('/project/comment', project.postComment);
 
 // to convert RESTFUL API
 app.post('/project/passAction', project.passAction);
