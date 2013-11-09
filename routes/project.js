@@ -431,12 +431,34 @@ function errorHandler(res, err, conn) {
 exports.getComments = function(req, res) {
     var id = req.params.id;
     var kind = req.params.kind;
+    var querymap = [];
+    querymap['push'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM push_comment WHERE push_id = ?;";
+    querymap['toss'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM toss_comment WHERE toss_id = ?;";
+    querymap['submit'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM submit_comment WHERE submit_id = ?;";
+    var i;
+    var jsonObj = [];
 
     console.log("id : " + id);
     console.log("kind : " + kind);
-
-
-	res.send();
+    
+    pool.acquire(function(err, conn){
+    	if(err){
+    		console.log(err);
+    	} else {
+    		conn.query(querymap[kind], [id], function(err, rows){
+    			pool.release(conn);
+    			if(err){
+    				console.log(err);
+    			} else {
+    				for(i = 0; i < rows.length; i++){
+    					jsonObj.push({user_id: rows[i].user_id, write_time: write_time, desc: txt});
+    				}
+    				console.log(jsonObj);
+    				res.send(jsonObj);
+    			}
+    		});
+    	}	
+    });
 };
 
 exports.postComment = function(req, res) {
@@ -446,14 +468,29 @@ exports.postComment = function(req, res) {
     var text = req.body.text;
     var kind = req.body.kind;
     var id = req.body.id;
+    var querymap = [];
+    querymap['push'] = "INSERT INTO push_comment(push_id, user_id, write_time, txt) VALUES (?,?,?,?);";
+    querymap['toss'] = "INSERT INTO toss_comment(toss_id, user_id, write_time, txt) VALUES (?,?,?,?);";
+    querymap['submit'] = "INSERT INTO submit_comment(submit_id, user_id, write_time, txt) VALUES (?,?,?,?);";
+    var success = [];
 
     console.log('time : ' + time);
     console.log('name : ' + name);
     console.log('text : ' + text);
     console.log('kind : ' + kind);
     console.log('id : ' + id);
-
-    res.send();
+    
+	pool.acquire(function(err, conn){
+		conn.query(querymap[kind], [id, name, time, text], function(err, rows){
+			if(err){
+				console.log(err);
+			} else {
+				success = {push_id: id, user_id: name, write_time: time, desc: text};
+				console.log(success);
+				res.send(success);
+			}
+		});
+	});
 };
 
 
@@ -474,6 +511,7 @@ exports.getPush = function(req, res) {
     				comment.push({user_id: cRows[i].user_id, desc: cRows[i].txt, write_time: cRows[i].write_time});
     			}
     			res.send({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
+    			console.log({title: rows[0].title, desc: rows[0].description, due_date: rows[0].due_date, comment: comment});
     		});
     	});
     });
