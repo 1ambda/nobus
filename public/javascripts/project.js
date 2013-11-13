@@ -247,22 +247,6 @@ function InputMemberChecker() {
     }
 };
 
-function openTaskDialog() {
-
-
-//    $.get('/project/push/')
-
-	$.get('/template/dialogTask', function(templates) {
-		$('body').append(templates);
-		$('#tmplDialogTask').tmpl(data).appendTo('body');
-
-		$('#dialogTask').modal({
-			backdrop : false,
-			keyboard : true
-		});
-	});
-};
-
 function openPushDialog() {
 
     $('#alertBoxPushMember').html('');
@@ -348,7 +332,6 @@ function taskDataChecker(kind) {
     }
 };
 
-
 function openTaskDialog(kind, id) {
 
 
@@ -361,8 +344,9 @@ function openTaskDialog(kind, id) {
                     url: '/project/' + kind + '/' + id,
                     type: 'get',
                     success : function(result) {
-
+                        console.log(result);
                         $('body').append(templates);
+                        $('#tmplDlgTaskBody').tmpl(result).appendTo('#dlgTask .modal-body');
                         $('#dpTask').datetimepicker({
                             pickTime: false
                         });
@@ -384,6 +368,7 @@ function openTaskDialog(kind, id) {
                             });
                         });
 
+//                        {{tmpl(comments) "#tmplDlgTaskCommment"}}
                         $('.comment').flexText();
 
                         $('#dlgTask').modal({
@@ -396,7 +381,6 @@ function openTaskDialog(kind, id) {
         });
     });
 };
-
 
 function openPassDialog(task_id) {
     $('#alertBoxPassMember').html('');

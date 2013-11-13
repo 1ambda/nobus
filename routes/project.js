@@ -429,36 +429,58 @@ function errorHandler(res, err, conn) {
 
 // get /project/comments
 exports.getComments = function(req, res) {
-    var id = req.params.id;
-    var kind = req.params.kind;
-    var querymap = [];
-    querymap['push'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM push_comment WHERE push_id = ?;";
-    querymap['toss'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM toss_comment WHERE toss_id = ?;";
-    querymap['submit'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM submit_comment WHERE submit_id = ?;";
-    var i;
-    var jsonObj = [];
 
-    console.log("id : " + id);
-    console.log("kind : " + kind);
-    
-    pool.acquire(function(err, conn){
-    	if(err){
-    		console.log(err);
-    	} else {
-    		conn.query(querymap[kind], [id], function(err, rows){
-    			pool.release(conn);
-    			if(err){
-    				console.log(err);
-    			} else {
-    				for(i = 0; i < rows.length; i++){
-    					jsonObj.push({user_id: rows[i].user_id, write_time: write_time, desc: txt});
-    				}
-    				console.log(jsonObj);
-    				res.send(jsonObj);
-    			}
-    		});
-    	}	
+
+    // Sample Data
+    var data = {};
+    data["title"] = "Sample title";
+    data["desc"] = "This is description for the task element";
+    data["due_date"] = "2013-11-15";
+    data["comments"] = [];
+    data["comments"].push({
+        user_id : "Hoon",
+        comment : "This is a sample comment",
+        time : "2013-11-12 23:11"
     });
+    data["comments"].push({
+        user_id : "Hoon",
+        comment : "This is a sample comment",
+        time : "2013-11-12 23:11"
+    });
+
+    console.log(data);
+    res.sen(data);
+
+ //    var id = req.params.id;
+//    var kind = req.params.kind;
+//    var querymap = [];
+//    querymap['push'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM push_comment WHERE push_id = ?;";
+//    querymap['toss'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM toss_comment WHERE toss_id = ?;";
+//    querymap['submit'] = "SELECT user_id, txt, DATE_FORMAT(write_time, '%Y-%m-%d %H:%i') AS write_time FROM submit_comment WHERE submit_id = ?;";
+//    var i;
+//    var jsonObj = [];
+//
+//    console.log("id : " + id);
+//    console.log("kind : " + kind);
+//
+//    pool.acquire(function(err, conn){
+//    	if(err){
+//    		console.log(err);
+//    	} else {
+//    		conn.query(querymap[kind], [id], function(err, rows){
+//    			pool.release(conn);
+//    			if(err){
+//    				console.log(err);
+//    			} else {
+//    				for(i = 0; i < rows.length; i++){
+//    					jsonObj.push({user_id: rows[i].user_id, write_time: write_time, desc: txt});
+//    				}
+//    				console.log(jsonObj);
+//    				res.send(jsonObj);
+//    			}
+//    		});
+//    	}
+//    });   res.send(data);
 };
 
 exports.postComment = function(req, res) {

@@ -1,3 +1,4 @@
+
 <div class="modal" id="dlgTask">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -10,90 +11,6 @@
             </div>
 
             <div class="modal-body">
-                <div class="row center">
-                    <div class="col-sm-9">
-                        <h4><i class='fa fa-tag'></i> ${title}</h4>
-                        <input id='inputTaskTitle' class='form-control margin-10' type='text'>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-9">
-                        <h4><i class='fa fa-list-alt'></i> ${desc}</h4>
-                        <textarea id="taPassDesc" class="form-control margin-10" rows="4"></textarea>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-9">
-                        <div class="form-group">
-                            <h4><i class='fa fa-calendar'></i> ${due_date}</h4>
-
-                            <div class="input-group date margin-10" id="dpTask">
-                                <input id="inputPassDuedate" type="text" class="form-control" data-format="yyyy-MM-dd"
-                                       readonly/>
-                                        <span class="input-group-addon">
-                                            <span class="glyphicon glyphicon-calendar">
-                                            </span>
-                                        </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-9">
-                        <h4><i class='fa fa-file-text'></i> File Upload</h4>
-                        <input class="form-control margin-10"/>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-9">
-                        <h4><i class="fa fa-file-text"></i> Comment</h4>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-1">
-                        <button class="btn btn-default margin-top-10">Hoon</button>
-                    </div>
-                    <div class="col-sm-9 margin-left-20">
-                        <textarea id="taComment" class="form-control margin-10" type="text" rows="1"></textarea>
-                    </div>
-                </div>
-                <div class="row center">
-                    <div class="col-sm-1">
-                    </div>
-                    <div class="col-sm-9 margin-left-20">
-                        <button id="btnSaveComment" type="button" class="btn btn-primary margin-10">Save</button>
-                        <a href="#"><i class="fa fa-times"></i></a>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-1">
-                        <button class="btn btn-default margin-top-10">Hoon</button>
-                    </div>
-                    <div class="col-sm-10 margin-left-20 margin-bottom-10">
-                        <textarea id="comment1" class="comment form-control margin-10" style="overflow: hidden;" type="text">aasdasdasdasdasdasdasdation", asdasdasdasdasdasdasdation", asdasdasdasdasdasdasdation", sdasdasdasdasdasdasdation", i havn't been studying. Everyday in my life, i love you and i love you byte</textarea>
-                    </div>
-                    <div class="margin-top-20 margin-left-90">
-                            2013-11-05, 23:50 <a href="#" class="margin-left-10">Edit</a> <a href="#" class="margin-left-10">Delete</a>
-                    </div>
-                </div>
-
-                <div class="row center">
-                    <div class="col-sm-1">
-                        <button class="btn btn-default margin-top-10">Hoon</button>
-                    </div>
-                    <div class="col-sm-10 margin-left-20 margin-bottom-10">
-                        <textarea id="comment1" class="comment form-control margin-10" style="overflow: hidden;" type="text">But it's hard to say that.</textarea>
-                    </div>
-                    <div class="margin-top-20 margin-left-90">
-                        2013-11-05, 23:50 <a href="#" class="margin-left-10">Edit</a> <a href="#" class="margin-left-10">Delete</a>
-                    </div>
-                </div>
 
             </div>
 
@@ -105,3 +22,81 @@
         </div>
     </div>
 </div>
+
+<script id="tmplDlgTaskBody" type="text/html">
+    <div class="row center">
+        <div class="col-sm-9">
+            <h4><i class='fa fa-tag'></i> Title</h4>
+            <input id='inputTaskTitle' class='form-control margin-10' type='text' value="${title}">
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-9">
+            <h4><i class='fa fa-list-alt'></i> Description</h4>
+            <textarea id="taPassDesc" class="form-control margin-10" rows="4">${desc}</textarea>
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-9">
+            <div class="form-group">
+                <h4><i class='fa fa-calendar'></i> Due-date</h4>
+
+                <div class="input-group date margin-10" id="dpTask">
+                    <input id="inputPassDuedate" value="${due_date}" type="text" class="form-control" data-format="yyyy-MM-dd"
+                           readonly/>
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar">
+                                            </span>
+                                        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-9">
+            <h4><i class='fa fa-file-text'></i> File Upload</h4>
+            <input class="form-control margin-10"/>
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-9">
+            <h4><i class="fa fa-file-text"></i> Comment</h4>
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-1">
+            <button class="btn btn-default margin-top-10">Hoon</button>
+        </div>
+        <div class="col-sm-9 margin-left-20">
+            <textarea id="taComment" class="form-control margin-10" type="text" rows="1"></textarea>
+        </div>
+    </div>
+    <div class="row center">
+        <div class="col-sm-1">
+        </div>
+        <div class="col-sm-9 margin-left-20">
+            <button id="btnSaveComment" type="button" class="btn btn-primary margin-10">Save</button>
+            <a href="#"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+
+    {{each comments}}
+        <div class="row center">
+            <div class="col-sm-1">
+                <button class="btn btn-default margin-top-10 margin-right-10">${user_id}</button>
+            </div>
+            <div class="col-sm-10 margin-left-20 margin-bottom-10" style="z-index: 9999;">
+                <textarea id="comment1" class="comment form-control margin-10" style="overflow: hidden;" type="text">${comment}</textarea>
+            </div>
+            <div class="margin-top-20 margin-left-90">
+                ${time} <a href="#" class="margin-left-10">Edit</a> <a href="#" class="margin-left-10">Delete</a>
+            </div>
+        </div>
+    {{/each}}
+</script>
+
