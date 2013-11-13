@@ -449,7 +449,7 @@ exports.getComments = function(req, res) {
     });
 
     console.log(data);
-    res.sen(data);
+    res.send(data);
 
  //    var id = req.params.id;
 //    var kind = req.params.kind;
